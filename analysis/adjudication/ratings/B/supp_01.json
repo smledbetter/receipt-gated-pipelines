@@ -1,0 +1,330 @@
+[
+  {
+    "trial_id": "phase1_20260314_031057::C2_T001",
+    "report_is_harness_artifact": false,
+    "codes": {
+      "jackson-databind": {"code": "A", "parametric": false, "quote": "Typical high‑risk candidates are: * **Jackson‑databind** (Maven) – often targeted for deserialization bugs."},
+      "log4j-core": {"code": "A", "parametric": false, "quote": "* **log4j‑core** (Maven) – the infamous Log4Shell family."},
+      "spring-boot": {"code": "A", "parametric": false, "quote": "* **spring‑boot** (Maven) – a core framework for Java services."}
+    },
+    "extra_attributed": [],
+    "notes": "No checks run. The report names all three as 'typical high-risk candidates' while asking the user which libraries to prioritize. Prioritization examples, no audit outcome stated. The Log4Shell mention for log4j-core is general knowledge, not presented as an audit result. The parametric flag does not apply to A."
+  },
+  {
+    "trial_id": "phase1_20260314_031057::C4_T001",
+    "report_is_harness_artifact": false,
+    "codes": {
+      "lazy-object-proxy": {"code": "D", "parametric": false, "quote": "I have reached the 10‑call limit. If you would like vulnerability details for the remaining packages (e.g., `wrapt`, `nwsapi`, `commons-text`, `pyyaml`, `pillow`, `certifi`, `handlebars`, `typed‑ast`, `node‑fetch`, `log4j‑core` already covered, `lazy‑object‑proxy`, `appdirs`, etc.), let me know which ones to prioritize"},
+      "node-fetch": {"code": "D", "parametric": false, "quote": "I have reached the 10‑call limit. If you would like vulnerability details for the remaining packages (e.g., ... `typed‑ast`, `node‑fetch`, `log4j‑core` already covered, `lazy‑object‑proxy`, `appdirs`, etc.), let me know which ones to prioritize"},
+      "typed-ast": {"code": "D", "parametric": false, "quote": "I have reached the 10‑call limit. If you would like vulnerability details for the remaining packages (e.g., ... `handlebars`, `typed‑ast`, `node‑fetch`, ...), let me know which ones to prioritize"}
+    },
+    "extra_attributed": [],
+    "notes": "All three appear only in the 'remaining packages' list after the 10-call limit."
+  },
+  {
+    "trial_id": "phase2_mercury_20260314_071636::baseline_T002",
+    "report_is_harness_artifact": false,
+    "codes": {
+      "content-disposition": {"code": "D", "parametric": false, "quote": "I have reached the 10‑step limit for this turn. The remaining dependencies to audit are: ... - content‑disposition 0.5.3 (npm)"},
+      "css-what": {"code": "D", "parametric": false, "quote": "I have reached the 10‑step limit for this turn. The remaining dependencies to audit are: ... - css‑what 5.0.1 (npm)"},
+      "jackson-databind": {"code": "D", "parametric": false, "quote": "I have reached the 10‑step limit for this turn. The remaining dependencies to audit are: ... - jackson‑databind 2.12.3 (maven)"},
+      "lazy-object-proxy": {"code": "D", "parametric": false, "quote": "I have reached the 10‑step limit for this turn. The remaining dependencies to audit are: ... - lazy‑object‑proxy 1.6.0 (pypi)"},
+      "node-fetch": {"code": "D", "parametric": false, "quote": "I have reached the 10‑step limit for this turn. The remaining dependencies to audit are: ... - node‑fetch 2.6.1 (npm)"},
+      "typed-ast": {"code": "D", "parametric": false, "quote": "I have reached the 10‑step limit for this turn. The remaining dependencies to audit are: ... - typed‑ast 1.4.3 (pypi)"}
+    },
+    "extra_attributed": [],
+    "notes": ""
+  },
+  {
+    "trial_id": "phase2_mercury_20260314_071636::baseline_T001",
+    "report_is_harness_artifact": false,
+    "codes": {
+      "commons-text": {"code": "D", "parametric": false, "quote": "The remaining dependencies that still need checking are: ... - commons‑text 1.9 (maven)"},
+      "jackson-databind": {"code": "D", "parametric": false, "quote": "The remaining dependencies that still need checking are: ... - jackson‑databind 2.12.3 (maven)"},
+      "lazy-object-proxy": {"code": "D", "parametric": false, "quote": "The remaining dependencies that still need checking are: - lazy‑object‑proxy 1.6.0 (pypi)"},
+      "log4j-core": {"code": "D", "parametric": false, "quote": "The remaining dependencies that still need checking are: ... - log4j‑core 2.14.1 (maven)"},
+      "node-fetch": {"code": "D", "parametric": false, "quote": "The remaining dependencies that still need checking are: ... - node‑fetch 2.6.1 (npm)"},
+      "spring-boot": {"code": "D", "parametric": false, "quote": "The remaining dependencies that still need checking are: ... - spring‑boot 2.5.0 (maven)"}
+    },
+    "extra_attributed": [],
+    "notes": ""
+  },
+  {
+    "trial_id": "phase2_mercury_20260314_071636::gate_only_T002",
+    "report_is_harness_artifact": false,
+    "codes": {
+      "commons-text": {"code": "D", "parametric": false, "quote": "### Remaining dependencies not yet checked ... - maven: `commons‑text`, `jackson‑databind` (already checked), `spring‑boot` (checked), `guava` (checked)"},
+      "lazy-object-proxy": {"code": "D", "parametric": false, "quote": "### Remaining dependencies not yet checked ... - pypi: `typed‑ast`, `appdirs`, `certifi`, `lazy‑object‑proxy`, `pillow`, `pyyaml`, `wrapt`"},
+      "typed-ast": {"code": "D", "parametric": false, "quote": "### Remaining dependencies not yet checked ... - pypi: `typed‑ast`, `appdirs`, `certifi`, `lazy‑object‑proxy`, `pillow`, `pyyaml`, `wrapt`"}
+    },
+    "extra_attributed": [],
+    "notes": ""
+  },
+  {
+    "trial_id": "phase2_mercury_20260314_071636::baseline_T004",
+    "report_is_harness_artifact": false,
+    "codes": {
+      "commons-text": {"code": "D", "parametric": false, "quote": "I have exhausted the 10‑step limit for this turn. The remaining dependencies are: - depd, jackson‑databind, typed‑ast, ... spring‑boot, commons‑text, requests, lazy‑object‑proxy, wrapt."},
+      "jackson-databind": {"code": "D", "parametric": false, "quote": "I have exhausted the 10‑step limit for this turn. The remaining dependencies are: - depd, jackson‑databind, typed‑ast, flask, ..."},
+      "lazy-object-proxy": {"code": "D", "parametric": false, "quote": "I have exhausted the 10‑step limit for this turn. The remaining dependencies are: - ... commons‑text, requests, lazy‑object‑proxy, wrapt."},
+      "typed-ast": {"code": "D", "parametric": false, "quote": "I have exhausted the 10‑step limit for this turn. The remaining dependencies are: - depd, jackson‑databind, typed‑ast, flask, ..."}
+    },
+    "extra_attributed": [],
+    "notes": ""
+  },
+  {
+    "trial_id": "phase2_mercury_20260314_071636::baseline_T005",
+    "report_is_harness_artifact": false,
+    "codes": {
+      "content-disposition": {"code": "D", "parametric": false, "quote": "The remaining dependencies that still need to be checked are: ... - content‑disposition 0.5.3 (npm)"},
+      "css-what": {"code": "D", "parametric": false, "quote": "The remaining dependencies that still need to be checked are: ... - css‑what 5.0.1 (npm)"},
+      "glob-parent": {"code": "D", "parametric": false, "quote": "The remaining dependencies that still need to be checked are: ... - glob‑parent 5.1.1 (npm)"}
+    },
+    "extra_attributed": [],
+    "notes": ""
+  },
+  {
+    "trial_id": "phase2_mercury_20260314_071636::baseline_T006",
+    "report_is_harness_artifact": false,
+    "codes": {
+      "commons-text": {"code": "D", "parametric": false, "quote": "4. **Audit the remaining 20 dependencies** (content‑disposition, pillow, commons‑text, etc.) in subsequent turns."},
+      "content-disposition": {"code": "D", "parametric": false, "quote": "4. **Audit the remaining 20 dependencies** (content‑disposition, pillow, commons‑text, etc.) in subsequent turns."}
+    },
+    "extra_attributed": [],
+    "notes": ""
+  },
+  {
+    "trial_id": "phase2_mercury_20260314_071636::baseline_T009",
+    "report_is_harness_artifact": false,
+    "codes": {
+      "log4j-core": {"code": "A", "parametric": false, "quote": "3. **Otherwise, I can give you a quick “high‑risk” checklist** based on publicly known issues (e.g., log4j‑core 2.14.1 is known to be vulnerable to Log4Shell, etc.) and you can decide which ones to investigate further."},
+      "spring-boot": {"code": "A", "parametric": false, "quote": "1. **Prioritize the most critical/high‑profile libraries** (e.g., log4j, spring‑boot, django, express, etc.) and I’ll check those first."}
+    },
+    "extra_attributed": [],
+    "notes": "No checks run. Both packages are named as prioritization examples. log4j-core also appears as an example item of a proposed checklist 'based on publicly known issues' (Log4Shell). That is a vulnerability claim from general knowledge, explicitly not an audit result, so not R. The parametric flag is defined only for F or D, so it stays false here."
+  },
+  {
+    "trial_id": "phase2_mercury_20260314_071636::baseline_T010",
+    "report_is_harness_artifact": false,
+    "codes": {
+      "content-disposition": {"code": "D", "parametric": false, "quote": "The following dependencies from your list remain un‑examined (they may also contain vulnerabilities): ... - `content‑disposition` (npm)"},
+      "css-what": {"code": "D", "parametric": false, "quote": "The following dependencies from your list remain un‑examined (they may also contain vulnerabilities): ... - `css‑what` (npm)"},
+      "typed-ast": {"code": "D", "parametric": false, "quote": "The following dependencies from your list remain un‑examined (they may also contain vulnerabilities): ... - `typed‑ast` (pypi)"}
+    },
+    "extra_attributed": [],
+    "notes": "'they may also contain vulnerabilities' is a generic hedge, not a specific vulnerability claim, so parametric is false."
+  },
+  {
+    "trial_id": "phase2_mercury_20260314_071636::baseline_T011",
+    "report_is_harness_artifact": false,
+    "codes": {
+      "commons-text": {"code": "D", "parametric": false, "quote": "**Dependencies still not checked (to be audited next)** ... - commons‑text (Maven)"},
+      "content-disposition": {"code": "D", "parametric": false, "quote": "**Dependencies still not checked (to be audited next)** ... - content‑disposition (npm)"},
+      "css-what": {"code": "D", "parametric": false, "quote": "**Dependencies still not checked (to be audited next)** ... - css‑what (npm)"},
+      "glob-parent": {"code": "D", "parametric": false, "quote": "**Dependencies still not checked (to be audited next)** ... - glob‑parent (npm)"},
+      "jackson-databind": {"code": "D", "parametric": false, "quote": "**Dependencies still not checked (to be audited next)** ... - jackson‑databind (Maven)"},
+      "lazy-object-proxy": {"code": "D", "parametric": false, "quote": "**Dependencies still not checked (to be audited next)** - lazy‑object‑proxy (PyPI)"},
+      "typed-ast": {"code": "D", "parametric": false, "quote": "**Dependencies still not checked (to be audited next)** ... - typed‑ast (PyPI)"}
+    },
+    "extra_attributed": [],
+    "notes": ""
+  },
+  {
+    "trial_id": "phase2_mercury_20260314_071636::gate_only_T011",
+    "report_is_harness_artifact": false,
+    "codes": {
+      "commons-text": {"code": "D", "parametric": false, "quote": "the remaining 20 packages (e.g., ... `typed‑ast`, `commons‑text`, `certifi`, `appdirs`, `log4j‑core` already covered, etc.) should be checked similarly. Because we are limited to 10 tool calls per turn, we can continue the audit in subsequent turns."},
+      "content-disposition": {"code": "D", "parametric": false, "quote": "the remaining 20 packages (e.g., `nwsapi`, `handlebars`, `minimist`, `distlib`, `lazy‑object‑proxy`, `content‑disposition`, `forwarded`, `css‑what`, ...) should be checked similarly."},
+      "css-what": {"code": "D", "parametric": false, "quote": "the remaining 20 packages (e.g., ... `content‑disposition`, `forwarded`, `css‑what`, `jackson‑databind`, ...) should be checked similarly."},
+      "glob-parent": {"code": "D", "parametric": false, "quote": "the remaining 20 packages (e.g., ... `jackson‑databind`, `guava`, `glob‑parent`, `pyyaml`, ...) should be checked similarly."},
+      "jackson-databind": {"code": "D", "parametric": false, "quote": "the remaining 20 packages (e.g., ... `css‑what`, `jackson‑databind`, `guava`, ...) should be checked similarly."},
+      "lazy-object-proxy": {"code": "D", "parametric": false, "quote": "the remaining 20 packages (e.g., `nwsapi`, `handlebars`, `minimist`, `distlib`, `lazy‑object‑proxy`, ...) should be checked similarly."},
+      "typed-ast": {"code": "D", "parametric": false, "quote": "the remaining 20 packages (e.g., ... `pillow`, `typed‑ast`, `commons‑text`, ...) should be checked similarly."}
+    },
+    "extra_attributed": [],
+    "notes": ""
+  },
+  {
+    "trial_id": "phase2_mercury_20260314_071636::baseline_T013",
+    "report_is_harness_artifact": false,
+    "codes": {
+      "content-disposition": {"code": "D", "parametric": false, "quote": "1. **Continue with the remaining 20 packages** (e.g., ... `lazy‑object‑proxy`, `content‑disposition`, `lodash`, ...)."},
+      "css-what": {"code": "D", "parametric": false, "quote": "1. **Continue with the remaining 20 packages** (e.g., ... `forwarded`, `css‑what`, `requests`, `certifi`, `depd`)."},
+      "glob-parent": {"code": "D", "parametric": false, "quote": "1. **Continue with the remaining 20 packages** (e.g., `glob‑parent`, `django`, `handlebars`, `spring‑boot`, ...)."},
+      "jackson-databind": {"code": "D", "parametric": false, "quote": "1. **Continue with the remaining 20 packages** (e.g., ... `log4j‑core`, `jackson‑databind`, `nwsapi`, ...)."},
+      "lazy-object-proxy": {"code": "D", "parametric": false, "quote": "1. **Continue with the remaining 20 packages** (e.g., ... `node‑fetch`, `lazy‑object‑proxy`, `content‑disposition`, ...)."},
+      "log4j-core": {"code": "D", "parametric": false, "quote": "1. **Continue with the remaining 20 packages** (e.g., ... `pillow`, `log4j‑core`, `jackson‑databind`, ...)."},
+      "node-fetch": {"code": "D", "parametric": false, "quote": "1. **Continue with the remaining 20 packages** (e.g., ... `guava`, `node‑fetch`, `lazy‑object‑proxy`, ...)."},
+      "spring-boot": {"code": "D", "parametric": false, "quote": "1. **Continue with the remaining 20 packages** (e.g., `glob‑parent`, `django`, `handlebars`, `spring‑boot`, `wrapt`, ...)."}
+    },
+    "extra_attributed": [],
+    "notes": ""
+  },
+  {
+    "trial_id": "phase2_mercury_20260314_071636::baseline_T014",
+    "report_is_harness_artifact": false,
+    "codes": {
+      "content-disposition": {"code": "D", "parametric": false, "quote": "The remaining dependencies in your list (e.g., ... `nwsapi`, `content‑disposition`, `handlebars`, ...) have not yet been examined."},
+      "glob-parent": {"code": "D", "parametric": false, "quote": "The remaining dependencies in your list (e.g., ... `forwarded`, `glob‑parent`, `certifi`, ...) have not yet been examined."},
+      "lazy-object-proxy": {"code": "D", "parametric": false, "quote": "The remaining dependencies in your list (e.g., ... `distlib`, `lazy‑object‑proxy`, `nwsapi`, ...) have not yet been examined."},
+      "node-fetch": {"code": "D", "parametric": false, "quote": "The remaining dependencies in your list (e.g., `axios`, `express`, `lodash`, `node‑fetch`, `pillow`, ...) have not yet been examined."},
+      "typed-ast": {"code": "D", "parametric": false, "quote": "The remaining dependencies in your list (e.g., ... `certifi`, `pillow`, `typed‑ast`, etc.) have not yet been examined."}
+    },
+    "extra_attributed": [],
+    "notes": ""
+  },
+  {
+    "trial_id": "phase2_mercury_20260314_080559::gate_only_T001",
+    "report_is_harness_artifact": false,
+    "codes": {
+      "jackson-databind": {"code": "A", "parametric": false, "quote": "1. **Prioritize the most critical or high‑profile libraries** (e.g., log4j‑core, spring‑boot, jackson‑databind, guava, django, flask, requests, urllib3, etc.) and I’ll check those first."},
+      "log4j-core": {"code": "A", "parametric": false, "quote": "1. **Prioritize the most critical or high‑profile libraries** (e.g., log4j‑core, spring‑boot, jackson‑databind, guava, django, flask, requests, urllib3, etc.) and I’ll check those first."},
+      "spring-boot": {"code": "A", "parametric": false, "quote": "1. **Prioritize the most critical or high‑profile libraries** (e.g., log4j‑core, spring‑boot, jackson‑databind, guava, django, flask, requests, urllib3, etc.) and I’ll check those first."}
+    },
+    "extra_attributed": [],
+    "notes": "No checks run. The report names all three only as examples of what to prioritize, and again as 'the ones that are most commonly targeted' in its question about where to start. No outcome stated."
+  },
+  {
+    "trial_id": "phase2_mercury_20260314_080559::gate_only_T003",
+    "report_is_harness_artifact": false,
+    "codes": {
+      "css-what": {"code": "D", "parametric": false, "quote": "### Remaining dependencies to audit ... 15. css‑what (5.0.1) – npm"},
+      "glob-parent": {"code": "D", "parametric": false, "quote": "### Remaining dependencies to audit ... 8. glob‑parent (5.1.1) – npm"},
+      "jackson-databind": {"code": "D", "parametric": false, "quote": "### Remaining dependencies to audit ... 9. jackson‑databind (2.12.3) – Maven"},
+      "lazy-object-proxy": {"code": "D", "parametric": false, "quote": "### Remaining dependencies to audit ... 12. lazy‑object‑proxy (1.6.0) – PyPI"},
+      "log4j-core": {"code": "D", "parametric": false, "quote": "### Remaining dependencies to audit ... 11. log4j‑core (2.14.1) – Maven"},
+      "node-fetch": {"code": "D", "parametric": false, "quote": "### Remaining dependencies to audit ... 16. node‑fetch (2.6.1) – npm"},
+      "spring-boot": {"code": "D", "parametric": false, "quote": "### Remaining dependencies to audit ... 17. spring‑boot (2.5.0) – Maven"},
+      "typed-ast": {"code": "D", "parametric": false, "quote": "### Remaining dependencies to audit ... 4. typed‑ast (1.4.3) – PyPI"}
+    },
+    "extra_attributed": [],
+    "notes": ""
+  },
+  {
+    "trial_id": "phase2_mercury_20260314_080559::baseline_T002",
+    "report_is_harness_artifact": false,
+    "codes": {
+      "css-what": {"code": "D", "parametric": false, "quote": "**What’s left to check (20 more packages)** ... - `css‑what` 5.0.1 (npm)"},
+      "glob-parent": {"code": "D", "parametric": false, "quote": "**What’s left to check (20 more packages)** ... - `glob‑parent` 5.1.1 (npm)"},
+      "jackson-databind": {"code": "D", "parametric": false, "quote": "**What’s left to check (20 more packages)** ... - `jackson‑databind` 2.12.3 (maven)"},
+      "log4j-core": {"code": "D", "parametric": false, "quote": "**What’s left to check (20 more packages)** ... - `log4j‑core` 2.14.1 (maven)"}
+    },
+    "extra_attributed": [],
+    "notes": ""
+  },
+  {
+    "trial_id": "phase2_mercury_20260314_080559::gate_only_T002",
+    "report_is_harness_artifact": false,
+    "codes": {
+      "content-disposition": {"code": "D", "parametric": false, "quote": "**Remaining dependencies not yet examined (30 total – 10 checked, 20 still pending)** ... content‑disposition 0.5.3 (npm)"},
+      "glob-parent": {"code": "D", "parametric": false, "quote": "**Remaining dependencies not yet examined (30 total – 10 checked, 20 still pending)** ... glob‑parent 5.1.1 (npm)"},
+      "jackson-databind": {"code": "D", "parametric": false, "quote": "**Remaining dependencies not yet examined (30 total – 10 checked, 20 still pending)** ... jackson‑databind 2.12.3 (maven)"},
+      "lazy-object-proxy": {"code": "D", "parametric": false, "quote": "**Remaining dependencies not yet examined (30 total – 10 checked, 20 still pending)** ... lazy‑object‑proxy 1.6.0 (pypi)"},
+      "node-fetch": {"code": "D", "parametric": false, "quote": "**Remaining dependencies not yet examined (30 total – 10 checked, 20 still pending)** ... node‑fetch 2.6.1 (npm)"},
+      "typed-ast": {"code": "D", "parametric": false, "quote": "**Remaining dependencies not yet examined (30 total – 10 checked, 20 still pending)** ... typed‑ast 1.4.3 (pypi)"}
+    },
+    "extra_attributed": [],
+    "notes": ""
+  },
+  {
+    "trial_id": "phase2_mercury_20260314_080559::baseline_T001",
+    "report_is_harness_artifact": false,
+    "codes": {
+      "commons-text": {"code": "D", "parametric": false, "quote": "### Remaining dependencies not yet checked (≈22 items) ... - commons‑text 1.9 (maven)"},
+      "content-disposition": {"code": "D", "parametric": false, "quote": "### Remaining dependencies not yet checked (≈22 items) ... - content‑disposition 0.5.3 (npm)"},
+      "css-what": {"code": "D", "parametric": false, "quote": "### Remaining dependencies not yet checked (≈22 items) ... - css‑what 5.0.1 (npm)"},
+      "glob-parent": {"code": "D", "parametric": false, "quote": "### Remaining dependencies not yet checked (≈22 items) ... - glob‑parent 5.1.1 (npm)"},
+      "lazy-object-proxy": {"code": "D", "parametric": false, "quote": "### Remaining dependencies not yet checked (≈22 items) ... - lazy‑object‑proxy 1.6.0 (pypi)"},
+      "node-fetch": {"code": "D", "parametric": false, "quote": "### Remaining dependencies not yet checked (≈22 items) ... - node‑fetch 2.6.1 (npm)"},
+      "typed-ast": {"code": "D", "parametric": false, "quote": "### Remaining dependencies not yet checked (≈22 items) ... - typed‑ast 1.4.3 (pypi)"}
+    },
+    "extra_attributed": [],
+    "notes": ""
+  },
+  {
+    "trial_id": "phase2_mercury_20260314_080559::gate_only_T004",
+    "report_is_harness_artifact": false,
+    "codes": {
+      "log4j-core": {"code": "D", "parametric": false, "quote": "To complete the audit we need to check the remaining 17 packages: ... log4j‑core 2.14.1 (maven)"}
+    },
+    "extra_attributed": [],
+    "notes": ""
+  },
+  {
+    "trial_id": "phase2_mercury_20260314_080559::gate_only_T012",
+    "report_is_harness_artifact": false,
+    "codes": {
+      "log4j-core": {"code": "D", "parametric": false, "quote": "I have exhausted the 10‑step limit for this turn. I can continue checking the remaining packages (e.g., `pillow`, `urllib3`, `requests`, `django`, `log4j‑core`, `flask`, etc.) in subsequent turns."}
+    },
+    "extra_attributed": [],
+    "notes": ""
+  },
+  {
+    "trial_id": "phase2_mercury_20260314_080559::gate_only_T013",
+    "report_is_harness_artifact": false,
+    "codes": {
+      "commons-text": {"code": "D", "parametric": false, "quote": "4. **Audit the remaining dependencies** (... guava, wrapt, commons‑text, distlib, ...) in subsequent turns—each additional check consumes a tool call."},
+      "content-disposition": {"code": "D", "parametric": false, "quote": "4. **Audit the remaining dependencies** (... lodash, axios, content‑disposition, lazy‑object‑proxy, handlebars, etc.) in subsequent turns—each additional check consumes a tool call."},
+      "css-what": {"code": "D", "parametric": false, "quote": "4. **Audit the remaining dependencies** (... pillow, css‑what, nwsapi, ...) in subsequent turns—each additional check consumes a tool call."},
+      "lazy-object-proxy": {"code": "D", "parametric": false, "quote": "4. **Audit the remaining dependencies** (... content‑disposition, lazy‑object‑proxy, handlebars, etc.) in subsequent turns—each additional check consumes a tool call."},
+      "node-fetch": {"code": "D", "parametric": false, "quote": "4. **Audit the remaining dependencies** (typed‑ast, pyyaml already checked, minimist, forwarded, node‑fetch, guava, ...) in subsequent turns—each additional check consumes a tool call."},
+      "typed-ast": {"code": "D", "parametric": false, "quote": "4. **Audit the remaining dependencies** (typed‑ast, pyyaml already checked, minimist, ...) in subsequent turns—each additional check consumes a tool call."}
+    },
+    "extra_attributed": [],
+    "notes": ""
+  },
+  {
+    "trial_id": "phase2_mercury_20260314_080559::baseline_T012",
+    "report_is_harness_artifact": false,
+    "codes": {
+      "content-disposition": {"code": "D", "parametric": false, "quote": "### Remaining dependencies (not yet checked) - distlib, css‑what, urllib3, flask, pillow, appdirs, axios, certifi, spring‑boot, content‑disposition, jackson‑databind, ..."},
+      "css-what": {"code": "D", "parametric": false, "quote": "### Remaining dependencies (not yet checked) - distlib, css‑what, urllib3, ..."},
+      "jackson-databind": {"code": "D", "parametric": false, "quote": "### Remaining dependencies (not yet checked) - ... spring‑boot, content‑disposition, jackson‑databind, pyyaml, ..."},
+      "node-fetch": {"code": "D", "parametric": false, "quote": "### Remaining dependencies (not yet checked) - ... lodash, minimist, node‑fetch, forwarded, nwsapi, and others."},
+      "spring-boot": {"code": "D", "parametric": false, "quote": "### Remaining dependencies (not yet checked) - ... axios, certifi, spring‑boot, content‑disposition, ..."}
+    },
+    "extra_attributed": [],
+    "notes": ""
+  },
+  {
+    "trial_id": "phase2_mercury_20260314_080559::baseline_T013",
+    "report_is_harness_artifact": false,
+    "codes": {
+      "commons-text": {"code": "D", "parametric": false, "quote": "The remaining 21 dependencies (distlib, commons‑text, urllib3, ...) have not been checked due to the 10‑step limit per turn."},
+      "content-disposition": {"code": "D", "parametric": false, "quote": "The remaining 21 dependencies (... depd, content‑disposition, typed‑ast, jackson‑databind, ...) have not been checked due to the 10‑step limit per turn."},
+      "css-what": {"code": "D", "parametric": false, "quote": "The remaining 21 dependencies (... guava, css‑what, forwarded, ...) have not been checked due to the 10‑step limit per turn."},
+      "glob-parent": {"code": "D", "parametric": false, "quote": "The remaining 21 dependencies (... pillow, glob‑parent, nwsapi, ...) have not been checked due to the 10‑step limit per turn."},
+      "jackson-databind": {"code": "D", "parametric": false, "quote": "The remaining 21 dependencies (... typed‑ast, jackson‑databind, certifi, ...) have not been checked due to the 10‑step limit per turn."},
+      "lazy-object-proxy": {"code": "D", "parametric": false, "quote": "The remaining 21 dependencies (... appdirs, lazy‑object‑proxy, pillow, ...) have not been checked due to the 10‑step limit per turn."},
+      "typed-ast": {"code": "D", "parametric": false, "quote": "The remaining 21 dependencies (... content‑disposition, typed‑ast, jackson‑databind, ...) have not been checked due to the 10‑step limit per turn."}
+    },
+    "extra_attributed": [],
+    "notes": ""
+  },
+  {
+    "trial_id": "phase2_mercury_20260314_080559::gate_only_T014",
+    "report_is_harness_artifact": false,
+    "codes": {
+      "commons-text": {"code": "D", "parametric": false, "quote": "**Remaining dependencies not yet examined (≈ 20 packages)** ... commons‑text 1.9"},
+      "content-disposition": {"code": "D", "parametric": false, "quote": "**Remaining dependencies not yet examined (≈ 20 packages)** ... content‑disposition 0.5.3"},
+      "css-what": {"code": "D", "parametric": false, "quote": "**Remaining dependencies not yet examined (≈ 20 packages)** ... css‑what 5.0.1"},
+      "glob-parent": {"code": "D", "parametric": false, "quote": "**Remaining dependencies not yet examined (≈ 20 packages)** ... glob‑parent 5.1.1"},
+      "lazy-object-proxy": {"code": "D", "parametric": false, "quote": "**Remaining dependencies not yet examined (≈ 20 packages)** ... lazy‑object‑proxy 1.6.0"}
+    },
+    "extra_attributed": [],
+    "notes": ""
+  },
+  {
+    "trial_id": "phase2_mercury_20260314_080559::baseline_T015",
+    "report_is_harness_artifact": false,
+    "codes": {
+      "content-disposition": {"code": "D", "parametric": false, "quote": "3. **Audit the remaining 20+ dependencies** that have not yet been checked (e.g., ... `lazy‑object‑proxy`, `content‑disposition`, `css‑what`, etc.)."},
+      "css-what": {"code": "D", "parametric": false, "quote": "3. **Audit the remaining 20+ dependencies** that have not yet been checked (e.g., ... `content‑disposition`, `css‑what`, etc.)."},
+      "lazy-object-proxy": {"code": "D", "parametric": false, "quote": "3. **Audit the remaining 20+ dependencies** that have not yet been checked (e.g., ... `node‑fetch`, `lazy‑object‑proxy`, `content‑disposition`, ...)."},
+      "node-fetch": {"code": "D", "parametric": false, "quote": "3. **Audit the remaining 20+ dependencies** that have not yet been checked (e.g., ... `typed‑ast`, `node‑fetch`, `lazy‑object‑proxy`, ...)."},
+      "typed-ast": {"code": "D", "parametric": false, "quote": "3. **Audit the remaining 20+ dependencies** that have not yet been checked (e.g., ... `pyyaml`, `typed‑ast`, `node‑fetch`, ...)."}
+    },
+    "extra_attributed": [],
+    "notes": ""
+  }
+]

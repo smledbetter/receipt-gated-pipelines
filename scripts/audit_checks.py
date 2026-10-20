@@ -338,7 +338,7 @@ def check_phase2():
 # ---------------------------------------------------------------- Phase 3
 def check_phase3():
     section("[5.1/5.2] Phase 3 gated input: rebuilt from call log, errors rendered clean")
-    from scripts.phase3 import build_gated_input  # noqa: E402  (creates results/ and logs/ dirs on import)
+    from scripts.phase3 import build_gated_input_v1 as build_gated_input  # noqa: E402  (creates results/ and logs/ dirs on import)
     rig_a = {}
     for r in load("phase2/phase2_20260314_061615.jsonl") + load("phase2/phase2_deepseek-r1_20260314_080559.jsonl"):
         if r["condition_key"] == "baseline":

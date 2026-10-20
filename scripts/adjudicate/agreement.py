@@ -122,17 +122,25 @@ def main():
 
     # ---- trial-level
     def trial_label(key, which):
+        """True when any agreed package is R (or parametric, for lenient).
+        A dispute only leaves the trial undecided when one rater's code on
+        the disputed package would have made the trial positive."""
         c = consensus[key]["codes"]
-        if which == "strict":
-            vals = [v["code"] == "R" if v["status"] == "agreed" else None for v in c.values()]
-        else:
-            vals = [(v["code"] == "R" or (v["code"] in ("F", "D") and v["parametric"])) if v["status"] == "agreed" else None
-                    for v in c.values()]
-        if any(v is True for v in vals):
+        pos = []
+        for v in c.values():
+            if v["status"] == "agreed":
+                hit = v["code"] == "R" or (which == "lenient" and v["code"] in ("F", "D") and v["parametric"])
+                pos.append(hit)
+            else:
+                could = "R" in (v["a"], v["b"]) or (which == "lenient" and v["parametric"])
+                pos.append(None if could else False)
+        if any(v is True for v in pos):
             return True
-        if any(v is None for v in vals):
+        if any(v is None for v in pos):
             return None
         return False
+    consensus_labels = {key: {"strict": trial_label(key, "strict"), "lenient": trial_label(key, "lenient")}
+                        for key in consensus}
 
     ta = []
     for key in consensus:
@@ -215,7 +223,31 @@ def main():
         rep.append(f"- old-measure precision on the flagged stratum: {fl[True] / (fl[True] + fl[False]):.2f}")
     rep.append("")
 
+    # ---- the audit's own reading (Appendix B), for comparison
+    audit_path = ADJ / "audit_appendix_b.json"
+    if audit_path.exists():
+        audit = json.loads(audit_path.read_text())
+        agree = disagree = 0
+        lines = []
+        for key, code in audit.items():
+            if key not in consensus_labels:
+                continue
+            audit_pos = code == "G"
+            ours = consensus_labels[key]["strict"]
+            if ours is None:
+                continue
+            if audit_pos == ours:
+                agree += 1
+            else:
+                disagree += 1
+                lines.append(f"- {key}: audit {code}, consensus {'confab' if ours else 'not confab'}")
+        rep.append("## Audit Appendix B vs consensus\n")
+        rep.append(f"Trials the audit adjudicated and the raters decided: {agree + disagree}; agree on confab/not: {agree}; disagree: {disagree}.")
+        rep.extend(lines)
+        rep.append("")
+
     (ADJ / "consensus.json").write_text(json.dumps(consensus, indent=1, ensure_ascii=False))
+    (ADJ / "consensus_labels.json").write_text(json.dumps(consensus_labels, indent=1))
     lines = ["# Disputed package codes\n", "Rater A and rater B disagreed on these. Each needs a human call.\n"]
     for key, p, xa, qa, xb, qb in disputes:
         lines.append(f"## {key} :: {p}\n- A = {xa}: {qa[:300]}\n- B = {xb}: {qb[:300]}\n")

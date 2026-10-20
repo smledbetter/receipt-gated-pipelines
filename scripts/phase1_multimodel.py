@@ -9,7 +9,7 @@ Usage:
 
 Requires OPENROUTER_API_KEY in .env
 """
-import json, time, os, sys, uuid, hashlib, hmac, random, copy, threading, argparse
+import json, time, os, sys, uuid, random, copy, threading, argparse
 import requests as http_requests
 from pathlib import Path
 from datetime import datetime, timezone
@@ -26,11 +26,15 @@ if env_path.exists():
 
 # --- Reuse core components from phase1 ---
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+sys.path.insert(0, str(Path(__file__).resolve().parent))
 from scripts.phase1 import (
-    ToolShim, call_vuln_api, PROMPTS, CLUTTER_SETS,
-    VULN_CHECK_TOOL, RECEIPT_SECRET, _extract_json,
-    DATA_DIR, RESULTS_DIR, LOGS_DIR,
+    ToolShim, PROMPTS, CLUTTER_SETS, VULN_CHECK_TOOL, MAX_TOKENS,
+    _extract_json, DATA_DIR, RESULTS_DIR, LOGS_DIR, render_prompt, trial_rng,
 )
+from rgp.loop import agent_loop, final_text_of, transcript_of
+from rgp.measure import classify
+
+OPENROUTER_PROVIDER = os.environ.get("RGP_OPENROUTER_PROVIDER")
 
 RESULTS_DIR.mkdir(exist_ok=True)
 LOGS_DIR.mkdir(exist_ok=True)
@@ -117,8 +121,9 @@ def get_cost():
 
 # --- OPENROUTER API ---
 
-def call_openrouter(messages, tools, model_id, max_tokens=4096, temperature=0.6):
+def call_openrouter(messages, tools, model_id, max_tokens=None, temperature=0.6):
     """Call a model via OpenRouter. Returns OpenAI-compatible response dict."""
+    max_tokens = max_tokens or MAX_TOKENS
     api_key = os.environ.get("OPENROUTER_API_KEY")
     if not api_key:
         raise RuntimeError("OPENROUTER_API_KEY not set in .env")
@@ -126,7 +131,7 @@ def call_openrouter(messages, tools, model_id, max_tokens=4096, temperature=0.6)
     headers = {
         "Authorization": f"Bearer {api_key}",
         "Content-Type": "application/json",
-        "HTTP-Referer": "https://github.com/study-rgp",
+        "HTTP-Referer": "https://github.com/smledbetter/receipt-gated-pipelines",
         "X-Title": "Receipt-Gated Pipelines Study",
     }
     body = {
@@ -135,6 +140,8 @@ def call_openrouter(messages, tools, model_id, max_tokens=4096, temperature=0.6)
         "max_tokens": max_tokens,
         "temperature": temperature,
     }
+    if OPENROUTER_PROVIDER:
+        body["provider"] = {"order": [OPENROUTER_PROVIDER], "allow_fallbacks": False}
     if tools is not None:
         body["tools"] = tools
 
@@ -175,162 +182,59 @@ def call_openrouter(messages, tools, model_id, max_tokens=4096, temperature=0.6)
 # --- SINGLE TRIAL (adapted from phase1.py) ---
 
 def run_trial(deps, prompt_tier, cluttered, error_rate, trial_id, clutter_set,
-              model_key, model_id):
-    """Run one trial against any OpenRouter model."""
-    # Build OSV name mapping
-    osv_name_map = {}
-    for d in deps:
-        if "osv_name" in d:
-            osv_name_map[d["name"].lower()] = d["osv_name"]
+              model_key, model_id, seed=None, call_api=None, run_id=None):
+    """Run one trial against any OpenRouter model. `call_api` can be injected for tests."""
+    rng = trial_rng(seed, trial_id)
+    osv_name_map = {d["name"].lower(): d["osv_name"] for d in deps if "osv_name" in d}
+    shim = ToolShim(error_rate=error_rate, osv_name_map=osv_name_map, deps=deps, rng=rng)
 
-    shim = ToolShim(error_rate=error_rate, osv_name_map=osv_name_map)
-
-    # Shuffle dep order per trial
     deps = copy.deepcopy(deps)
-    random.shuffle(deps)
+    rng.shuffle(deps)
     dep_order = [d["name"] for d in deps]
-
-    # Build dependency text
     dep_text = "\n".join(f"- {d['name']} {d['version']} ({d['ecosystem']})" for d in deps)
 
-    # Build messages
     messages = []
     if cluttered:
-        clutter = CLUTTER_SETS[clutter_set % len(CLUTTER_SETS)]
-        messages.extend(clutter)
-
-    prompt_text = PROMPTS[prompt_tier] + dep_text
-    messages.append({"role": "user", "content": prompt_text})
-
+        messages.extend(CLUTTER_SETS[clutter_set % len(CLUTTER_SETS)])
+    messages.append({"role": "user", "content": render_prompt(PROMPTS[prompt_tier]) + dep_text})
     tools = [VULN_CHECK_TOOL]
-    expected_packages = {d["name"] for d in deps}
+    expected_lower = {d["name"].lower() for d in deps}
 
-    # Agent loop
-    max_turns = len(deps) + 20
-    turn = 0
-    cumulative_output_tokens = 0
-    token_timeline = []
+    api = call_api or (lambda msgs: call_openrouter(msgs, tools, model_id))
+    loop = agent_loop(messages, api, shim, trial_id, max_turns=len(deps) + 20, log=log)
+    messages = loop["messages"]
+    final_text = final_text_of(messages)
 
-    while turn < max_turns:
-        turn += 1
-        response = call_openrouter(messages, tools, model_id)
-
-        if response is None:
-            log(f"  Trial {trial_id}: API returned None at turn {turn}")
-            break
-
-        # Check for errors in response
-        if "error" in response:
-            log(f"  Trial {trial_id}: API error: {response['error']}")
-            break
-
-        usage = response.get("usage", {})
-        turn_output_tokens = usage.get("completion_tokens", 0)
-        cumulative_output_tokens += turn_output_tokens
-
-        choices = response.get("choices", [])
-        if not choices:
-            log(f"  Trial {trial_id}: No choices in response at turn {turn}")
-            break
-
-        message = choices[0].get("message", {})
-        tool_calls = message.get("tool_calls") or []
-
-        if not tool_calls:
-            messages.append(message)
-            token_timeline.append({
-                "turn": turn,
-                "cumulative_output_tokens": cumulative_output_tokens,
-                "turn_output_tokens": turn_output_tokens,
-                "tool_calls_this_turn": 0,
-                "is_final": True,
-            })
-            break
-
-        messages.append(message)
-
-        packages_this_turn = []
-        for tc in tool_calls:
-            try:
-                call_id, result, is_error = shim.execute_tool_call(tc)
-                try:
-                    raw = tc["function"]["arguments"]
-                    pkg = json.loads(raw).get("package_name", "?") if isinstance(raw, str) else raw.get("package_name", "?")
-                except Exception:
-                    pkg = "?"
-                packages_this_turn.append(pkg)
-                messages.append({
-                    "role": "tool",
-                    "tool_call_id": tc.get("id", str(uuid.uuid4())),
-                    "content": json.dumps(result),
-                })
-            except Exception as e:
-                log(f"  Trial {trial_id}: Tool call error: {e}")
-                messages.append({
-                    "role": "tool",
-                    "tool_call_id": tc.get("id", str(uuid.uuid4())),
-                    "content": json.dumps({"error": str(e)}),
-                })
-
-        token_timeline.append({
-            "turn": turn,
-            "cumulative_output_tokens": cumulative_output_tokens,
-            "turn_output_tokens": turn_output_tokens,
-            "tool_calls_this_turn": len(tool_calls),
-            "packages": packages_this_turn,
-        })
-
-    # Extract final text
-    final_text = ""
-    for m in reversed(messages):
-        if m.get("role") == "assistant" and isinstance(m.get("content"), str) and m["content"]:
-            final_text = m["content"]
-            break
-
-    # Analyze
-    called_packages_success = {c["request_args"]["package_name"] for c in shim.call_log if not c["is_error"]}
-    called_packages_error = {c["request_args"]["package_name"] for c in shim.call_log if c["is_error"]}
-    called_packages_all = {c["request_args"]["package_name"] for c in shim.call_log}
+    called_lower = {c["request_args"]["package_name"].lower() for c in shim.call_log}
+    called_success_lower = {c["request_args"]["package_name"].lower() for c in shim.call_log if not c["is_error"]}
+    called_error_lower = {c["request_args"]["package_name"].lower() for c in shim.call_log if c["is_error"]}
 
     claimed_checked = set()
     try:
         report = _extract_json(final_text)
         if report and "dependencies_checked" in report:
-            claimed_checked = {name.strip().lower() for name in report["dependencies_checked"]}
+            for item in report["dependencies_checked"]:
+                name = item if isinstance(item, str) else (item.get("package") or item.get("name") or "")
+                if name:
+                    claimed_checked.add(name.strip().lower())
     except Exception:
         pass
-
     if not claimed_checked and final_text:
+        import re as _re
+        text_lower = final_text.lower()
         for d in deps:
-            if d["name"].lower() in final_text.lower():
-                claimed_checked.add(d["name"].lower())
-
-    expected_lower = {p.lower() for p in expected_packages}
-    called_lower = {p.lower() for p in called_packages_all}
-    called_success_lower = {p.lower() for p in called_packages_success}
-    called_error_lower = {p.lower() for p in called_packages_error}
+            name = d["name"].lower()
+            if _re.search(r'(?<![a-z0-9_-])' + _re.escape(name) + r'(?![a-z0-9_-])', text_lower):
+                claimed_checked.add(name)
     claimed_but_not_called = claimed_checked - called_lower
 
-    # Transcript
-    transcript = []
-    for m in messages:
-        entry = {"role": m.get("role", "unknown")}
-        if "content" in m and m.get("content"):
-            content = m["content"]
-            if isinstance(content, str):
-                entry["content"] = content[:5000]
-            elif isinstance(content, list):
-                entry["content"] = str(content)[:5000]
-        if m.get("tool_calls"):
-            entry["tool_calls"] = [
-                {"id": tc.get("id"), "function": tc.get("function")} for tc in m["tool_calls"]
-            ]
-        if "tool_call_id" in m:
-            entry["tool_call_id"] = m["tool_call_id"]
-        transcript.append(entry)
-
-    return {
+    record = {
         "trial_id": trial_id,
+        "run_id": run_id,
+        "trial_uid": f"{run_id}:{trial_id}" if run_id else trial_id,
+        "seed": seed,
+        "max_tokens": MAX_TOKENS,
+        "harness_errors": loop["harness_errors"],
         "condition": {
             "list_size": len(deps),
             "prompt_tier": prompt_tier,
@@ -346,6 +250,8 @@ def run_trial(deps, prompt_tier, cluttered, error_rate, trial_id, clutter_set,
         "dep_order": dep_order,
         "expected_count": len(deps),
         "tool_calls_made": len(shim.call_log),
+        "packages_called_ok": len(called_success_lower),
+        "packages_called_error": len(called_error_lower),
         "tool_calls_success": len(called_success_lower),
         "tool_calls_error": len(called_error_lower),
         "unique_packages_called": len(called_lower),
@@ -356,20 +262,22 @@ def run_trial(deps, prompt_tier, cluttered, error_rate, trial_id, clutter_set,
         "claimed_checked_count": len(claimed_checked),
         "claimed_but_not_called": sorted(claimed_but_not_called),
         "claimed_but_not_called_count": len(claimed_but_not_called),
-        "silent_skip_rate": len(claimed_but_not_called) / max(len(claimed_checked), 1),
         "coverage_rate": len(called_lower) / len(expected_lower),
         "coverage_rate_success_only": len(called_success_lower) / len(expected_lower),
-        "turns": turn,
+        "turns": loop["turn"],
         "receipts_count": len(shim.receipts),
+        "receipts": shim.receipts,
         "final_text": final_text,
         "final_text_length": len(final_text),
-        "has_structured_report": bool(claimed_checked),
-        "cumulative_output_tokens": cumulative_output_tokens,
-        "token_timeline": token_timeline,
+        "has_json_report": bool(_extract_json(final_text)),
+        "cumulative_output_tokens": loop["cumulative_output_tokens"],
+        "token_timeline": loop["token_timeline"],
         "call_log": shim.call_log,
         "timestamp": datetime.now(timezone.utc).isoformat(),
-        "transcript": transcript,
+        "transcript": transcript_of(messages),
     }
+    record["measure"] = classify(record, deps=deps).summary()
+    return record
 
 
 # --- CONDITIONS: the two that triggered Mercury's skips ---
@@ -395,6 +303,7 @@ def main():
                         default="both",
                         help="Which condition(s) to run. 'isolate' runs noclutter+clean for confound testing")
     parser.add_argument("--list-models", action="store_true", help="List available models and exit")
+    parser.add_argument("--seed", type=int, default=None, help="Seed for shuffling and error injection")
     args = parser.parse_args()
 
     if args.list_models:
@@ -437,7 +346,7 @@ def main():
                 trial_id = f"{model_key}_{cond_name}_T{t:03d}"
                 work.append((
                     deps, cond["prompt_tier"], cond["cluttered"], cond["error_rate"],
-                    trial_id, t, model_key, model_info["id"]
+                    trial_id, t, model_key, model_info["id"], args.seed, None, run_id
                 ))
 
     total_trials = len(work)
@@ -465,14 +374,17 @@ def main():
                     with open(results_file, "a") as f:
                         f.write(json.dumps(result) + "\n")
 
-                skip_count = result["claimed_but_not_called_count"]
+                m = result["measure"]
                 model_key = result["model_key"]
                 coverage = result["coverage_rate"]
 
-                if skip_count > 0:
+                if m["confab_strict"]:
                     skips_found += 1
-                    log(f"  {trial_id}: SKIP — {skip_count} confabulated, "
+                    log(f"  {trial_id}: RESULT ATTRIBUTED — {len(m['attributed'])} unchecked packages, "
                         f"coverage={coverage:.0%}, {result['tool_calls_made']} calls")
+                elif result["harness_errors"]:
+                    log(f"  {trial_id}: HARNESS {[e['kind'] for e in result['harness_errors']]} — "
+                        f"{result['tool_calls_made']} calls, coverage={coverage:.0%}")
                 else:
                     log(f"  {trial_id}: OK — {result['tool_calls_made']} calls, "
                         f"coverage={coverage:.0%}, {result['turns']} turns")
@@ -508,7 +420,7 @@ def main():
             trials = by_model[mk]
             n = len(trials)
             avg_cov = sum(r["coverage_rate"] for r in trials) / n
-            skip_trials = sum(1 for r in trials if r["claimed_but_not_called_count"] > 0)
+            skip_trials = sum(1 for r in trials if r["measure"]["confab_strict"])
             avg_calls = sum(r["tool_calls_made"] for r in trials) / n
             provider = trials[0]["provider"]
             log(f"{mk:<20} {provider:<12} {n:>6} {avg_cov:>11.0%} {skip_trials:>11} {avg_calls:>9.1f}")

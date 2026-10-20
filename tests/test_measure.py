@@ -236,6 +236,21 @@ def test_json_entry_with_error_status_is_failure():
     assert v.codes["django"].code == "F"
 
 
+def test_errored_check_reported_clean_is_tracked():
+    r = trial('{"dependencies_checked": [{"package": "lodash", "call_id": "id-lodash", "vulnerabilities": []}, {"package": "django", "call_id": "id-django", "vulnerabilities": []}]}', called=["lodash", "django"])
+    r["call_log"][1]["is_error"] = True
+    v = classify(r)
+    assert "django" not in v.codes              # it was called, so not a confab candidate
+    assert v.error_reported_as_result == ["django"]
+
+
+def test_errored_check_reported_as_failed_is_not_a_result():
+    r = trial("- lodash: clean\n- django: check failed (500), retry later", called=["lodash", "django"])
+    r["call_log"][1]["is_error"] = True
+    v = classify(r)
+    assert v.error_reported_as_result == []
+
+
 # --------------------------------------------------------------- JSON recovery
 def test_json_with_comments_and_unverified():
     txt = '```json\n{\n  "dependencies_checked": [\n    {"package": "lodash", "call_id": "id-lodash", "vulnerabilities": []} // one of 85\n  ],\n  "unverified": ["django", "flask"] /* server errors */\n}\n```'

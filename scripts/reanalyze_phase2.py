@@ -8,13 +8,16 @@ Bug 2: Receipt-condition trials' self-reported unverified packages were not
   subtracted from confab counts.
   Fix: confab = claimed - called - self_reported_unverified.
 
-Writes corrected files alongside originals with _corrected suffix.
+Writes corrected files to analysis/reanalysis/ with a _corrected suffix. This is
+the v1 "corrected method"; it still counts honest prose disclosures as
+confabulation. The measure the paper now uses is rgp.measure (see CORRECTIONS.md).
 """
 import json, re, sys
 from pathlib import Path
 
-RESULTS_DIR = Path(__file__).resolve().parent.parent / "results"
 DATA_DIR = Path(__file__).resolve().parent.parent / "data"
+RESULTS_DIR = DATA_DIR / "phase2"  # the shipped data; v1 pointed at a results/ directory that does not exist
+OUT_DIR = Path(__file__).resolve().parent.parent / "analysis" / "reanalysis"
 
 # Load dep lists
 DEPS_100 = json.loads((DATA_DIR / "deps_100.json").read_text())
@@ -168,7 +171,8 @@ def process_file(filename):
     """Process a single JSONL file and write corrected version."""
     input_path = RESULTS_DIR / filename
     stem = input_path.stem
-    output_path = RESULTS_DIR / f"{stem}_corrected.jsonl"
+    OUT_DIR.mkdir(parents=True, exist_ok=True)
+    output_path = OUT_DIR / f"{stem}_corrected.jsonl"
 
     records = [json.loads(line) for line in input_path.read_text().strip().split("\n") if line.strip()]
 

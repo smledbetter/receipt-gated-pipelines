@@ -110,8 +110,17 @@ def attempted_packages(record, index):
 
 def tool_summaries(record):
     """Advisory summaries the tool returned, keyed by package. Used to spot
-    package names that only appear inside another package's advisory text."""
+    package names that only appear inside another package's advisory text.
+    Reads the full result stored in the call log when present (new records),
+    else the transcript's tool messages (old records, capped at 5,000 chars)."""
     out = {}
+    for c in record.get("call_log", []):
+        res = c.get("result")
+        if isinstance(res, dict) and res.get("package"):
+            texts = [v.get("summary", "") for v in res.get("vulnerabilities", []) if isinstance(v, dict)]
+            out.setdefault(res["package"].lower(), []).extend(t for t in texts if t)
+    if out:
+        return out
     for m in record.get("transcript", []):
         if m.get("role") != "tool":
             continue

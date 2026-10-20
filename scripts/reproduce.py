@@ -30,6 +30,20 @@ FIGS = OUT / "figures"
 NUMBERS = {}
 LOW_MODE = 30
 
+# Adjudicated labels: every production trial that names an unchecked package
+# was coded by two blind raters (docs/adjudication/CODEBOOK.md). A trial with
+# no such mention has nothing to adjudicate and counts as not confabulating.
+_LABELS_PATH = OUT / "adjudication" / "consensus_labels.json"
+LABELS = json.loads(_LABELS_PATH.read_text()) if _LABELS_PATH.exists() else {}
+
+
+def adjudicated(r, which="strict"):
+    key = f"{r['_file'].replace('.jsonl', '')}::{r['trial_id']}"
+    lab = LABELS.get(key)
+    if lab is None:
+        return False
+    return lab[which]
+
 
 def md_table(headers, rows):
     out = ["| " + " | ".join(headers) + " |", "|" + "---|" * len(headers)]
@@ -54,6 +68,8 @@ def per_trial(r):
         "old_raw": r["claimed_but_not_called_count"] > 0,
         "old_corrected": recompute_confab(r)[0] > 0,
         "strict": v.confab_strict, "lenient": v.confab_lenient,
+        "adj_strict": adjudicated(r, "strict"), "adj_lenient": adjudicated(r, "lenient"),
+        "adj_undecided": adjudicated(r, "strict") is None,
         "attributed": v.attributed, "parametric": v.parametric,
         "invented_failure": v.invented_failure, "accurate_failure": v.accurate_failure,
         "disclosed": v.disclosed, "censored": v.censored, "truncated": v.truncated,
@@ -71,6 +87,10 @@ def summarise(rows):
         "old_corrected": sum(x["old_corrected"] for x in rows),
         "strict": sum(x["strict"] for x in rows),
         "lenient": sum(x["lenient"] for x in rows),
+        "adj_strict": sum(1 for x in rows if x["adj_strict"] is True),
+        "adj_lenient": sum(1 for x in rows if x["adj_lenient"] is True),
+        "adj_undecided": sum(1 for x in rows if x["adj_strict"] is None),
+        "adj_strict_ci": wilson(sum(1 for x in rows if x["adj_strict"] is True), n),
         "invented_failure": sum(bool(x["invented_failure"]) for x in rows),
         "disclosed": sum(bool(x["disclosed"]) for x in rows),
         "censored": sum(x["censored"] for x in rows),
@@ -229,7 +249,7 @@ def phase2():
 # ----------------------------------------------------------------- Phase 3
 def _rig_a_lookup():
     """Match each Phase 3 input index to its Rig A record by rebuilding the gated input."""
-    from scripts.phase3 import build_gated_input  # noqa: E402
+    from scripts.phase3 import build_gated_input_v1 as build_gated_input  # noqa: E402
     rig_a = [r for r in load_phase(2) if r["_model"] == "deepseek-r1" and r["condition_key"] == "baseline"]
     p3 = load_phase(3, corrected=True)
     by_idx = {}
@@ -282,7 +302,8 @@ def phase3():
             hit = set()
             for p in pkgs:
                 e = entries.get(p)
-                if e and (str(e.get("priority", "")).upper() in ("CRITICAL", "HIGH", "MEDIUM", "LOW", "SAFE") or e.get("cves")):
+                real_ids = [c for c in (e.get("cves") or []) if re.match(r"(?:CVE|GHSA|PYSEC)-", str(c), re.I)] if e else []
+                if e and (str(e.get("priority", "")).upper() in ("CRITICAL", "HIGH", "MEDIUM", "LOW", "SAFE") or real_ids):
                     hit.add(p)
                 elif not entries and dep_idx.mentioned(t["rig_b_output"], p):
                     hit.add(p)
@@ -335,7 +356,7 @@ def phase3():
                 "lenient adds the parametric-claim cases. The gated condition never shows Rig B the package names, so 0 is by construction. "
                 "Paired exact McNemar tests are in numbers.json.")
     # gated-input defect
-    from scripts.phase3 import build_gated_input  # noqa: E402
+    from scripts.phase3 import build_gated_input_v1 as build_gated_input  # noqa: E402
     err_lines = inputs_hit = log4j = 0
     safe_calls = []
     for t in p3:
