@@ -190,6 +190,14 @@ def test_gate_flags_content_mismatch_even_with_right_call_id():
     assert v["lodash"]["verdict"] == "CONTENT_MISMATCH"
 
 
+def test_gate_treats_placeholder_array_as_omitted_not_clean():
+    shim = gated_shim(["lodash"])
+    cid = shim.receipts[0]["call_id"]
+    report = '{"dependencies_checked": [{"package": "lodash", "call_id": "' + cid + '", "vulnerabilities": [...]}]}'
+    v = p2.verify_report(report, shim, DEPS)
+    assert v["lodash"]["verdict"] == "VERIFIED"   # not CONTENT_MISMATCH: "[...]" says nothing about clean
+
+
 def test_gate_never_verifies_an_errored_check():
     shim = gated_shim(["lodash"], errors=["django"])
     cid_django = next(r["call_id"] for r in shim.receipts if r["package_name"] == "django")

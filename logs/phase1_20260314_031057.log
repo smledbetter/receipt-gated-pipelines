@@ -1,0 +1,35 @@
+[03:10:57] Phase 1 — run 20260314_031057
+[03:10:57] Results: /home/dev/study-rgp/results/phase1_20260314_031057.jsonl
+[03:10:57] Trials per condition: 2
+[03:10:57] Workers: 14, Mercury concurrency: 10
+[03:10:57] Warming up Mercury with 3 calls...
+[03:10:58]   Warmup 1/3: 0.3s
+[03:10:58]   Warmup 2/3: 0.3s
+[03:10:58]   Warmup 3/3: 0.3s
+[03:10:58] Warmup complete.
+[03:10:58] Conditions: [1, 2, 3, 4, 5, 6, 7] — 14 total trials
+[03:10:59]   C2_T001: SKIP DETECTED — 13 claimed but not called: ['axios', 'django', 'express', 'flask', 'ini']...
+[03:11:00]   C6_T001: OK — 0 calls, 0% coverage, 1 turns, 140 out_tok
+[03:11:00]   C3_T002: SKIP DETECTED — 1 claimed but not called: ['ini']
+[03:11:00]   C4_T002: OK — 0 calls, 0% coverage, 1 turns, 142 out_tok
+[03:11:04]   C7_T002: SKIP DETECTED — 30 claimed but not called: ['appdirs', 'axios', 'certifi', 'commons-text', 'content-disposition']...
+[03:11:04]   ── Progress: 5/14 (36%) — $0.0301 — 3 skips — ETA 0.2min
+[03:11:04]   C7_T001: OK — 0 calls, 0% coverage, 1 turns, 0 out_tok
+[03:11:10]   C1_T001: SKIP DETECTED — 3 claimed but not called: ['express', 'ini', 'webpack']
+[03:11:10]   C6_T002: OK — 10 calls, 33% coverage, 11 turns, 1020 out_tok
+[03:11:11]   C3_T001: OK — 11 calls, 10% coverage, 12 turns, 887 out_tok
+[03:11:12]   C5_T001: SKIP DETECTED — 2 claimed but not called: ['ini', 'ms']
+[03:11:12]   ── Progress: 10/14 (71%) — $0.0968 — 5 skips — ETA 0.1min
+[03:11:13]   C4_T001: SKIP DETECTED — 8 claimed but not called: ['appdirs', 'certifi', 'commons-text', 'handlebars', 'nwsapi']...
+[03:11:18]   C2_T002: SKIP DETECTED — 3 claimed but not called: ['ini', 'ms', 'requests']
+[03:11:18]   C5_T002: SKIP DETECTED — 1 claimed but not called: ['ini']
+[03:11:19]   C1_T002: SKIP DETECTED — 1 claimed but not called: ['ini']
+[03:11:19] 
+============================================================
+[03:11:19] Done. 14/14 trials in 0.3 min
+[03:11:19] Total cost: $0.1549
+[03:11:19] Silent skips: 9/14
+[03:11:19] Errors: 0
+[03:11:19] Throughput: 41.1 trials/min
+[03:11:19] Results: /home/dev/study-rgp/results/phase1_20260314_031057.jsonl
+[03:11:19] ============================================================

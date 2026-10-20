@@ -1,0 +1,40 @@
+[03:23:38] Phase 1 — run 20260314_032338
+[03:23:38] Model: claude-haiku-4-5-20251001
+[03:23:38] Results: /home/dev/study-rgp/results/phase1_haiku_20260314_032338.jsonl
+[03:23:38] Trials per condition: 3
+[03:23:38] Workers: 10
+[03:23:38] Warming up Anthropic API...
+[03:23:40]   Warmup: 1.9s — OK
+[03:23:40] Conditions: [1, 2, 3, 4, 5, 6, 7] — 21 total trials
+[03:24:05]   C7_T001: SKIP DETECTED — 30 claimed but not called: ['appdirs 1.4.4', 'axios 0.21.1', 'certifi 2021.5.30', 'commons-text 1.9', 'content-disposition 0.5.3']...
+[03:24:12]   C1_T001: ERROR — 'ecosystem'
+[03:24:13]   C4_T001: OK — 30 calls, 100% coverage, 2 turns, 3456 out_tok
+[03:24:14]   C3_T001: ERROR — 'ecosystem'
+[03:24:18]   C2_T001: ERROR — 'ecosystem'
+[03:24:20]   C5_T001: ERROR — 'ecosystem'
+[03:24:21]   C7_T002: SKIP DETECTED — 30 claimed but not called: ['appdirs 1.4.4', 'axios 0.21.1', 'certifi 2021.5.30', 'commons-text 1.9', 'content-disposition 0.5.3']...
+[03:24:31]   C2_T002: ERROR — 'ecosystem'
+[03:24:32]   C3_T002: ERROR — 'ecosystem'
+[03:24:34]   C1_T002: ERROR — 'ecosystem'
+[03:24:38]   C4_T002: OK — 30 calls, 100% coverage, 2 turns, 3816 out_tok
+[03:24:45]   C6_T001: OK — 30 calls, 100% coverage, 2 turns, 6477 out_tok
+[03:24:45]   ── Progress: 5/21 (24%) — $0.0994 — 2 skips — ETA 3.4min
+[03:24:47]   C5_T002: ERROR — 'package_name'
+[03:24:51]   C3_T003: ERROR — 'ecosystem'
+[03:24:53]   C7_T003: SKIP DETECTED — 30 claimed but not called: ['appdirs 1.4.4', 'axios 0.21.1', 'certifi 2021.5.30', 'commons-text 1.9', 'content-disposition 0.5.3']...
+[03:24:53]   C2_T003: ERROR — 'ecosystem'
+[03:24:58]   C1_T003: SKIP DETECTED — 1 claimed but not called: ['ini']
+[03:25:06]   C4_T003: OK — 30 calls, 100% coverage, 2 turns, 4083 out_tok
+[03:25:12]   C5_T003: ERROR — 'ecosystem'
+[03:25:13]   C6_T002: OK — 30 calls, 100% coverage, 2 turns, 6477 out_tok
+[03:25:31]   C6_T003: OK — 30 calls, 100% coverage, 2 turns, 6477 out_tok
+[03:25:31]   ── Progress: 10/21 (48%) — $0.1406 — 4 skips — ETA 2.0min
+[03:25:31] 
+============================================================
+[03:25:31] Done. 10/21 trials in 1.9 min
+[03:25:31] Total cost: $0.1406
+[03:25:31] Silent skips: 4/10
+[03:25:31] Errors: 11
+[03:25:31] Throughput: 5.4 trials/min
+[03:25:31] Results: /home/dev/study-rgp/results/phase1_haiku_20260314_032338.jsonl
+[03:25:31] ============================================================

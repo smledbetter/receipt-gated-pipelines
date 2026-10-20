@@ -1,0 +1,23 @@
+[03:20:17] Phase 1 — run 20260314_032017
+[03:20:17] Model: claude-sonnet-4-6
+[03:20:17] Results: /home/dev/study-rgp/results/phase1_sonnet_20260314_032017.jsonl
+[03:20:17] Trials per condition: 5
+[03:20:17] Workers: 5
+[03:20:17] Warming up Anthropic API...
+[03:20:19]   Warmup: 1.6s — OK
+[03:20:19] Conditions: [6] — 5 total trials
+[03:21:51]   C6_T003: OK — 30 calls, 100% coverage, 2 turns, 6478 out_tok
+[03:21:53]   C6_T005: OK — 30 calls, 100% coverage, 2 turns, 6478 out_tok
+[03:21:53]   C6_T002: OK — 30 calls, 100% coverage, 2 turns, 6468 out_tok
+[03:21:56]   C6_T004: OK — 30 calls, 100% coverage, 2 turns, 6468 out_tok
+[03:21:56]   C6_T001: OK — 30 calls, 100% coverage, 2 turns, 6468 out_tok
+[03:21:56]   ── Progress: 5/5 (100%) — $0.6763 — 0 skips — ETA 0.0min
+[03:21:56] 
+============================================================
+[03:21:56] Done. 5/5 trials in 1.6 min
+[03:21:56] Total cost: $0.6763
+[03:21:56] Silent skips: 0/5
+[03:21:56] Errors: 0
+[03:21:56] Throughput: 3.1 trials/min
+[03:21:56] Results: /home/dev/study-rgp/results/phase1_sonnet_20260314_032017.jsonl
+[03:21:56] ============================================================

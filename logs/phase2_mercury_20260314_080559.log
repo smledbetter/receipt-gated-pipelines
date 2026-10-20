@@ -1,0 +1,122 @@
+[08:05:59] Phase 2: Receipt-Gated Verification — run 20260314_080559
+[08:05:59] Results: /home/dev/study-rgp/results/phase2_mercury_20260314_080559.jsonl
+[08:05:59] Model: Mercury 2 (mercury-2)
+[08:05:59] List size: 30, Error rate: 0.0
+[08:05:59] Conditions: ['baseline', 'receipt_prompt', 'gate_only', 'receipt_gate']
+[08:05:59] Trials per condition: 15
+[08:05:59] Total trials: 60
+[08:05:59] Workers: 12
+[08:06:01]   gate_only_T001: cov=0% | calls=0 | SKIP=6 | gate:V=0/C=6
+[08:06:01]   receipt_gate_T001: cov=0% | calls=0 | gate:V=0/C=0
+[08:06:15]   gate_only_T003: cov=33% | calls=10 | SKIP=12 | gate:V=0/C=12
+[08:06:16]   baseline_T004: cov=33% | calls=10 | SKIP=10
+[08:06:16]   baseline_T002: cov=33% | calls=10 | SKIP=16
+[08:06:16]   ── Progress: 5/60 (8%) — $0.1388 — 4 skips — ETA 3.1min
+[08:06:17]   receipt_prompt_T002: cov=33% | calls=10 | echoes=10
+[08:06:17]   baseline_T003: cov=33% | calls=10
+[08:06:18]   receipt_prompt_T001: cov=33% | calls=10 | SKIP=20 | echoes=9
+[08:06:18]   gate_only_T002: cov=33% | calls=10 | SKIP=14 | gate:V=0/C=14
+[08:06:18]   receipt_prompt_T003: cov=33% | calls=10 | echoes=10
+[08:06:18]   ── Progress: 10/60 (17%) — $0.1665 — 6 skips — ETA 1.6min
+[08:06:18]   receipt_prompt_T004: cov=33% | calls=10 | echoes=10
+[08:06:19]   receipt_gate_T003: cov=37% | calls=11 | gate:V=10/C=0 | echoes=10
+[08:06:20]   baseline_T001: cov=33% | calls=10 | SKIP=13
+[08:06:21]   receipt_gate_T002: cov=37% | calls=11 | gate:V=10/C=0 | echoes=10
+[08:06:30]   gate_only_T004: cov=33% | calls=10 | SKIP=19 | gate:V=0/C=19
+[08:06:30]   ── Progress: 15/60 (25%) — $0.3070 — 8 skips — ETA 1.6min
+[08:06:32]   gate_only_T006: cov=33% | calls=10 | SKIP=5 | gate:V=0/C=5
+[08:06:32]   baseline_T005: cov=33% | calls=10
+[08:06:33]   receipt_gate_T005: cov=33% | calls=10 | gate:V=10/C=0 | echoes=10
+[08:06:33]   receipt_gate_T004: cov=33% | calls=10 | gate:V=10/C=0 | echoes=10
+[08:06:34]   gate_only_T005: cov=33% | calls=10 | SKIP=19 | gate:V=0/C=19
+[08:06:34]   ── Progress: 20/60 (33%) — $0.3554 — 10 skips — ETA 1.2min
+[08:06:34]   receipt_gate_T006: cov=33% | calls=10 | gate:V=10/C=0 | echoes=10
+[08:06:35]   gate_only_T008: cov=0% | calls=0 | SKIP=10 | gate:V=0/C=10
+[08:06:36]   baseline_T006: cov=33% | calls=10
+[08:06:36]   receipt_prompt_T007: cov=33% | calls=10 | echoes=10
+[08:06:36]   receipt_prompt_T005: cov=33% | calls=10 | echoes=8
+[08:06:36]   ── Progress: 25/60 (42%) — $0.3832 — 11 skips — ETA 0.9min
+[08:06:37]   baseline_T007: cov=33% | calls=10 | SKIP=16
+[08:06:39]   receipt_prompt_T006: cov=33% | calls=10 | echoes=10
+[08:06:47]   receipt_gate_T007: cov=33% | calls=10 | SKIP=10 | gate:V=0/C=0
+[08:06:47]   gate_only_T007: cov=33% | calls=10 | gate:V=0/C=0
+[08:06:50]   gate_only_T009: cov=33% | calls=10 | gate:V=0/C=0
+[08:06:50]   ── Progress: 30/60 (50%) — $0.5247 — 13 skips — ETA 0.8min
+[08:06:50]   receipt_prompt_T009: cov=33% | calls=10 | SKIP=10
+[08:06:51]   receipt_gate_T009: cov=33% | calls=10 | gate:V=10/C=0 | echoes=10
+[08:06:51]   baseline_T008: cov=33% | calls=10 | SKIP=4
+[08:06:51]   receipt_prompt_T008: cov=33% | calls=10 | echoes=10
+[08:06:52]   baseline_T009: cov=33% | calls=10
+[08:06:52]   ── Progress: 35/60 (58%) — $0.5525 — 15 skips — ETA 0.6min
+[08:06:53]   baseline_T010: cov=37% | calls=11 | SKIP=6
+[08:06:53]   Mercury 429 — waiting 10s
+[08:06:53]   Mercury 429 — waiting 10s
+[08:06:53]   Mercury 429 — waiting 10s
+[08:06:53]   Mercury 429 — waiting 10s
+[08:06:53]   Mercury 429 — waiting 10s
+[08:06:53]   Mercury 429 — waiting 10s
+[08:06:53]   Mercury 429 — waiting 10s
+[08:06:53]   Mercury 429 — waiting 10s
+[08:06:53]   Mercury 429 — waiting 10s
+[08:06:53]   receipt_gate_T008: cov=33% | calls=10 | gate:V=10/C=0 | echoes=10
+[08:06:54]   Mercury 429 — waiting 10s
+[08:06:54]   Mercury 429 — waiting 10s
+[08:06:54]   receipt_prompt_T010: cov=33% | calls=10 | SKIP=3
+[08:06:55]   Mercury 429 — waiting 10s
+[08:07:03]   Mercury 429 — waiting 10s
+[08:07:03]   Mercury 429 — waiting 10s
+[08:07:03]   Mercury 429 — waiting 10s
+[08:07:03]   Mercury 429 — waiting 10s
+[08:07:03]   Mercury 429 — waiting 10s
+[08:07:03]   Mercury 429 — waiting 10s
+[08:07:03]   Mercury 429 — waiting 10s
+[08:07:04]   Mercury 429 — waiting 10s
+[08:07:04]   Mercury 429 — waiting 10s
+[08:07:04]   Mercury 429 — waiting 10s
+[08:07:12]   baseline_T011: cov=33% | calls=10
+[08:07:15]   gate_only_T010: cov=33% | calls=10 | SKIP=1 | gate:V=0/C=1
+[08:07:15]   ── Progress: 40/60 (67%) — $0.6032 — 18 skips — ETA 0.6min
+[08:07:19]   receipt_prompt_T013: cov=33% | calls=10 | echoes=10
+[08:07:24]   receipt_prompt_T011: cov=33% | calls=10 | echoes=10
+[08:07:25]   gate_only_T012: cov=33% | calls=10 | SKIP=5 | gate:V=0/C=5
+[08:07:25]   receipt_gate_T010: cov=33% | calls=10 | gate:V=10/C=0 | echoes=10
+[08:07:27]   gate_only_T013: cov=33% | calls=10 | SKIP=12 | gate:V=0/C=12
+[08:07:27]   ── Progress: 45/60 (75%) — $0.7364 — 20 skips — ETA 0.5min
+[08:07:27]   baseline_T012: cov=33% | calls=10 | SKIP=15
+[08:07:28]   gate_only_T011: cov=33% | calls=10 | gate:V=0/C=0
+[08:07:28]   receipt_prompt_T012: cov=33% | calls=10 | SKIP=10
+[08:07:29]   receipt_gate_T013: cov=33% | calls=10 | gate:V=10/C=0 | echoes=10
+[08:07:29]   baseline_T013: cov=30% | calls=9 | SKIP=13
+[08:07:29]   ── Progress: 50/60 (83%) — $0.7613 — 23 skips — ETA 0.3min
+[08:07:30]   receipt_gate_T012: cov=33% | calls=10 | gate:V=10/C=0 | echoes=10
+[08:07:30]   receipt_gate_T011: cov=33% | calls=10 | SKIP=10 | gate:V=0/C=0
+[08:07:34]   baseline_T014: cov=33% | calls=10
+[08:07:38]   receipt_prompt_T015: cov=33% | calls=10 | echoes=10
+[08:07:39]   receipt_gate_T015: cov=33% | calls=10 | gate:V=10/C=0 | echoes=10
+[08:07:39]   ── Progress: 55/60 (92%) — $0.8553 — 24 skips — ETA 0.2min
+[08:07:40]   receipt_gate_T014: cov=33% | calls=10 | gate:V=10/C=0 | echoes=10
+[08:07:40]   gate_only_T014: cov=33% | calls=10 | SKIP=15 | gate:V=0/C=15
+[08:07:41]   receipt_prompt_T014: cov=33% | calls=10 | echoes=10
+[08:07:42]   baseline_T015: cov=33% | calls=10 | SKIP=14
+[08:07:43]   gate_only_T015: cov=33% | calls=10 | gate:V=0/C=0
+[08:07:43]   ── Progress: 60/60 (100%) — $0.8729 — 26 skips — ETA 0.0min
+[08:07:43] 
+===========================================================================
+[08:07:43] PHASE 2 RESULTS SUMMARY
+[08:07:43] ===========================================================================
+[08:07:43] 
+Condition            N   AvgCov  SkipTrials  ConfabRate  GateVerified  GateCaught  EchoRate
+[08:07:43] ------------------------------------------------------------------------------------------------
+[08:07:43] baseline            15     33%           9        60%             0           0       0%
+[08:07:43] receipt_prompt      15     33%           4        27%             0           0      78%
+[08:07:43] gate_only           15     29%          11        73%             0         118       0%
+[08:07:43] receipt_gate        15     32%           2        13%           120           0      79%
+[08:07:43] 
+===========================================================================
+[08:07:43] Done. 60/60 trials in 1.7 min
+[08:07:43] Total cost: $0.8729
+[08:07:43] Silent skips: 26/60
+[08:07:43] Gate catches: 11
+[08:07:43] Errors: 0
+[08:07:43] Results: /home/dev/study-rgp/results/phase2_mercury_20260314_080559.jsonl
+[08:07:43] ===========================================================================

@@ -1,0 +1,27 @@
+[11:24:51] Phase 4: Prompt Component Disentanglement - run 20260314_112451
+[11:24:51] Results: /home/dev/study-rgp/results/phase4_mercury_20260314_112451.jsonl
+[11:24:51] Model: Mercury 2 (mercury-2)
+[11:24:51] List size: 30, Error rate: 0.0
+[11:24:51] Conditions: ['echo_only', 'disclosure_only']
+[11:24:51] Trials per condition: 1
+[11:24:51] Total trials: 2
+[11:24:51] Workers: 8
+[11:24:53]   disclosure_only_T001: cov=0% | calls=0
+[11:25:03]   echo_only_T001: cov=33% | calls=10 | echoes=10
+[11:25:03] 
+================================================================================
+[11:25:03] PHASE 4 RESULTS SUMMARY
+[11:25:03] ================================================================================
+[11:25:03] 
+Condition            N   AvgCov ConfabTrials ConfabRate  LowMode  EchoRate  SelfUnverif
+[11:25:03] ----------------------------------------------------------------------------------------------------
+[11:25:03] echo_only            1     33%            0        0%        1     100%         0.0
+[11:25:03] disclosure_only      1      0%            0        0%        1       0%         0.0
+[11:25:03] 
+================================================================================
+[11:25:03] Done. 2/2 trials in 0.2 min
+[11:25:03] Total cost: $0.0144
+[11:25:03] Silent skips: 0/2
+[11:25:03] Errors: 0
+[11:25:03] Results: /home/dev/study-rgp/results/phase4_mercury_20260314_112451.jsonl
+[11:25:03] ================================================================================

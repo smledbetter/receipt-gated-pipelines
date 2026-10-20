@@ -27,7 +27,7 @@
   "phase2_20260314_061615::baseline_T016": "G",
   "phase2_20260314_061615::baseline_T017": "A",
   "phase2_20260314_061615::baseline_T022": "G",
-  "phase2_20260314_061615::receipt_prompt_T001": "G",
+  "phase2_deepseek-r1_20260314_080559::receipt_prompt_T001": "G",
   "phase4_deepseek-r1_20260314_112512::echo_only_T002": "W",
   "phase4_deepseek-r1_20260314_112512::echo_only_T005": "G",
   "phase4_deepseek-r1_20260314_112512::disclosure_only_T002": "G",

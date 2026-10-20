@@ -9,9 +9,19 @@ import json
 import re
 
 _FENCE = re.compile(r"```(?:json|JSON)?\s*(.*?)```", re.S)
+# A bare placeholder array, "[...]" or "[…]", means "contents omitted". It is
+# kept as a sentinel so that a report which writes "vulnerabilities": [...]
+# is never read as "vulnerabilities": [] (an empty list is a claim of clean).
+ELLIPSIS = "__ELLIPSIS__"
+_PLACEHOLDER_ARRAY = re.compile(r"\[\s*(?:\.\.\.|…)\s*\]")
 _ELLIPSIS_ITEM = re.compile(
     r",?\s*(?:\.\.\.|…)[^\]\}\n,]*(?=[,\]\}\n])"  # ... or … followed by optional note
 )
+
+
+def is_placeholder(value):
+    """True for a list that stood for omitted contents in the original text."""
+    return isinstance(value, list) and ELLIPSIS in value
 _LINE_COMMENT = re.compile(r"(?<![:\"'\w])//[^\n]*")
 _BLOCK_COMMENT = re.compile(r"/\*.*?\*/", re.S)
 _TRAILING_COMMA = re.compile(r",\s*([\]\}])")
@@ -38,9 +48,17 @@ def candidates(text):
             yield body
 
 
+_ARRAY_LEADING_COMMENT = re.compile(r"\[(\s*)(?:/\*.*?\*/|//[^\n]*)", re.S)
+
+
 def clean(s):
+    # A comment that opens an array ("[ /* 47 vulnerabilities */ ]",
+    # "[ // truncated for brevity") stands for omitted items. Keep the
+    # sentinel so the array is never read as empty.
+    s = _ARRAY_LEADING_COMMENT.sub(lambda m: "[" + m.group(1) + '"' + ELLIPSIS + '",', s)
     s = _BLOCK_COMMENT.sub("", s)
     s = _LINE_COMMENT.sub("", s)
+    s = _PLACEHOLDER_ARRAY.sub('["' + ELLIPSIS + '"]', s)
     s = _ELLIPSIS_ITEM.sub("", s)
     s = _TRAILING_COMMA.sub(r"\1", s)
     return s
@@ -48,12 +66,17 @@ def clean(s):
 
 def close_open(s):
     """Append whatever closes the open strings, arrays and objects in s.
-    Drops a dangling partial key/value first so the result parses."""
-    # Cut back to the last complete value boundary: a comma, '{' or '['.
+    Drops a dangling partial key/value first so the result parses.
+
+    The cut must land after a complete value. Cutting right after an opening
+    bracket would turn `"vulnerabilities": [` into `"vulnerabilities": []`,
+    which reads as a claim of no vulnerabilities. So the head steps back to
+    the last boundary that is not an opening bracket or a key's colon, and a
+    container that was opened but never filled is dropped with its key."""
     stack = []
     in_str = False
     esc = False
-    last_boundary = 0
+    boundaries = [0]
     for i, ch in enumerate(s):
         if in_str:
             if esc:
@@ -67,14 +90,24 @@ def close_open(s):
             in_str = True
         elif ch in "{[":
             stack.append(ch)
-            last_boundary = i + 1
+            boundaries.append(i + 1)
         elif ch in "}]":
             if stack:
                 stack.pop()
-            last_boundary = i + 1
+            boundaries.append(i + 1)
         elif ch == ",":
-            last_boundary = i + 1
-    head = s[:last_boundary].rstrip().rstrip(",")
+            boundaries.append(i + 1)
+    head = ""
+    for b in reversed(boundaries):
+        cand = s[:b].rstrip().rstrip(",").rstrip()
+        if cand.endswith(("[", "{", ":")):
+            # an opened, unfilled container or a key with no value: drop it
+            # together with its key by stepping back to the previous boundary
+            continue
+        head = cand
+        break
+    # remove a dangling `"key":` left at the end of the head
+    head = re.sub(r',?\s*"[^"]*"\s*:\s*$', "", head).rstrip().rstrip(",")
     # Recompute the stack for the head.
     stack = []
     in_str = False

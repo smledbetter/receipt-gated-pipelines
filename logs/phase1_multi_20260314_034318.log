@@ -1,0 +1,143 @@
+[03:43:18] Phase 1 Multi-Model — run 20260314_034318
+[03:43:18] Results: /home/dev/study-rgp/results/phase1_multi_20260314_034318.jsonl
+[03:43:18] Models: ['gemini-flash', 'gpt4o-mini', 'llama-70b', 'mistral-small', 'deepseek-v3', 'deepseek-r1']
+[03:43:18] Conditions: ['hard', 'mod']
+[03:43:18] Trials per model per condition: 5
+[03:43:18] Total trials: 60
+[03:43:18] Workers: 12
+[03:43:19]   OpenRouter error (attempt 1): 400 Client Error: Bad Request for url: https://openrouter.ai/api/v1/chat/completions
+[03:43:19]   OpenRouter error (attempt 1): 400 Client Error: Bad Request for url: https://openrouter.ai/api/v1/chat/completions
+[03:43:39]   OpenRouter error (attempt 2): 400 Client Error: Bad Request for url: https://openrouter.ai/api/v1/chat/completions
+[03:43:39]   OpenRouter error (attempt 2): 400 Client Error: Bad Request for url: https://openrouter.ai/api/v1/chat/completions
+[03:43:43]   OpenRouter error (attempt 3): 400 Client Error: Bad Request for url: https://openrouter.ai/api/v1/chat/completions
+[03:43:43]   OpenRouter error (attempt 3): 400 Client Error: Bad Request for url: https://openrouter.ai/api/v1/chat/completions
+[03:43:46]   gemini-flash_mod_T001: OK — 30 calls, coverage=100%, 2 turns
+[03:43:51]   Trial mistral-small_mod_T001: API returned None at turn 1
+[03:43:51]   mistral-small_mod_T001: OK — 0 calls, coverage=0%, 1 turns
+[03:43:51]   Trial mistral-small_hard_T001: API returned None at turn 1
+[03:43:52]   mistral-small_hard_T001: SKIP — 1 confabulated, coverage=0%, 0 calls
+[03:43:59]   llama-70b_hard_T001: OK — 21 calls, coverage=21%, 2 turns
+[03:44:00]   deepseek-v3_mod_T001: OK — 0 calls, coverage=0%, 1 turns
+[03:44:00]   ── Progress: 5/60 (8%) — $0.0326 — 1 skips — ETA 7.6min
+[03:44:12]   gpt4o-mini_mod_T001: OK — 30 calls, coverage=100%, 2 turns
+[03:44:26]   gemini-flash_hard_T001: OK — 100 calls, coverage=100%, 2 turns
+[03:44:26]   OpenRouter error (attempt 1): 400 Client Error: Bad Request for url: https://openrouter.ai/api/v1/chat/completions
+[03:44:28]   OpenRouter error (attempt 2): 400 Client Error: Bad Request for url: https://openrouter.ai/api/v1/chat/completions
+[03:44:30]   llama-70b_mod_T001: OK — 30 calls, coverage=100%, 2 turns
+[03:44:30]   gemini-flash_mod_T002: OK — 30 calls, coverage=100%, 2 turns
+[03:44:30]   OpenRouter error (attempt 1): 400 Client Error: Bad Request for url: https://openrouter.ai/api/v1/chat/completions
+[03:44:32]   OpenRouter error (attempt 2): 400 Client Error: Bad Request for url: https://openrouter.ai/api/v1/chat/completions
+[03:44:33]   OpenRouter error (attempt 3): 400 Client Error: Bad Request for url: https://openrouter.ai/api/v1/chat/completions
+[03:44:41]   Trial mistral-small_hard_T002: API returned None at turn 1
+[03:44:41]   mistral-small_hard_T002: OK — 0 calls, coverage=0%, 1 turns
+[03:44:41]   ── Progress: 10/60 (17%) — $0.1076 — 1 skips — ETA 6.9min
+[03:44:56]   OpenRouter error (attempt 3): 400 Client Error: Bad Request for url: https://openrouter.ai/api/v1/chat/completions
+[03:44:57]   deepseek-v3_hard_T001: SKIP — 1 confabulated, coverage=0%, 0 calls
+[03:45:02]   gemini-flash_hard_T002: OK — 100 calls, coverage=100%, 2 turns
+[03:45:04]   Trial mistral-small_mod_T002: API returned None at turn 1
+[03:45:04]   deepseek-r1_hard_T001: OK — 12 calls, coverage=12%, 2 turns
+[03:45:04]   mistral-small_mod_T002: OK — 0 calls, coverage=0%, 1 turns
+[03:45:16]   gpt4o-mini_mod_T002: OK — 30 calls, coverage=100%, 2 turns
+[03:45:16]   ── Progress: 15/60 (25%) — $0.1813 — 2 skips — ETA 5.9min
+[03:45:27]   deepseek-r1_mod_T001: OK — 8 calls, coverage=27%, 2 turns
+[03:45:32]   gpt4o-mini_hard_T001: OK — 100 calls, coverage=100%, 2 turns
+[03:45:35]   llama-70b_mod_T002: OK — 30 calls, coverage=100%, 2 turns
+[03:45:47]   gemini-flash_mod_T003: OK — 30 calls, coverage=100%, 2 turns
+[03:45:48]   OpenRouter error (attempt 1): 400 Client Error: Bad Request for url: https://openrouter.ai/api/v1/chat/completions
+[03:45:56]   OpenRouter error (attempt 2): 400 Client Error: Bad Request for url: https://openrouter.ai/api/v1/chat/completions
+[03:46:02]   OpenRouter error (attempt 3): 400 Client Error: Bad Request for url: https://openrouter.ai/api/v1/chat/completions
+[03:46:10]   Trial mistral-small_hard_T003: API returned None at turn 1
+[03:46:10]   mistral-small_hard_T003: SKIP — 1 confabulated, coverage=0%, 0 calls
+[03:46:10]   ── Progress: 20/60 (33%) — $0.2819 — 3 skips — ETA 5.7min
+[03:46:11]   deepseek-r1_hard_T002: SKIP — 4 confabulated, coverage=7%, 7 calls
+[03:46:11]   OpenRouter error (attempt 1): 400 Client Error: Bad Request for url: https://openrouter.ai/api/v1/chat/completions
+[03:46:15]   OpenRouter error (attempt 2): 400 Client Error: Bad Request for url: https://openrouter.ai/api/v1/chat/completions
+[03:46:24]   gemini-flash_hard_T003: OK — 100 calls, coverage=100%, 2 turns
+[03:46:24]   OpenRouter error (attempt 3): 400 Client Error: Bad Request for url: https://openrouter.ai/api/v1/chat/completions
+[03:46:29]   deepseek-v3_mod_T002: OK — 30 calls, coverage=100%, 2 turns
+[03:46:30]   Trial deepseek-v3_hard_T002: Tool call error: Unterminated string starting at: line 1 column 64 (char 63)
+[03:46:32]   Trial mistral-small_mod_T003: API returned None at turn 1
+[03:46:32]   mistral-small_mod_T003: OK — 0 calls, coverage=0%, 1 turns
+[03:46:32]   gpt4o-mini_mod_T003: OK — 30 calls, coverage=100%, 2 turns
+[03:46:32]   ── Progress: 25/60 (42%) — $0.3425 — 4 skips — ETA 4.5min
+[03:47:06]   deepseek-v3_mod_T003: OK — 0 calls, coverage=0%, 1 turns
+[03:47:14]   gpt4o-mini_hard_T003: OK — 44 calls, coverage=43%, 2 turns
+[03:47:24]   llama-70b_hard_T002: OK — 100 calls, coverage=100%, 2 turns
+[03:47:30]   deepseek-v3_hard_T002: OK — 75 calls, coverage=75%, 3 turns
+[03:47:35]   gemini-flash_mod_T004: OK — 30 calls, coverage=100%, 2 turns
+[03:47:35]   ── Progress: 30/60 (50%) — $0.4651 — 4 skips — ETA 4.3min
+[03:47:36]   llama-70b_mod_T003: OK — 30 calls, coverage=100%, 2 turns
+[03:47:36]   OpenRouter error (attempt 1): 400 Client Error: Bad Request for url: https://openrouter.ai/api/v1/chat/completions
+[03:47:41]   gemini-flash_hard_T004: OK — 100 calls, coverage=100%, 2 turns
+[03:47:41]   OpenRouter error (attempt 1): 400 Client Error: Bad Request for url: https://openrouter.ai/api/v1/chat/completions
+[03:47:53]   OpenRouter error (attempt 2): 400 Client Error: Bad Request for url: https://openrouter.ai/api/v1/chat/completions
+[03:47:59]   OpenRouter error (attempt 2): 400 Client Error: Bad Request for url: https://openrouter.ai/api/v1/chat/completions
+[03:48:05]   OpenRouter error (attempt 3): 400 Client Error: Bad Request for url: https://openrouter.ai/api/v1/chat/completions
+[03:48:05]   OpenRouter error (attempt 3): 400 Client Error: Bad Request for url: https://openrouter.ai/api/v1/chat/completions
+[03:48:11]   deepseek-r1_hard_T003: SKIP — 2 confabulated, coverage=21%, 21 calls
+[03:48:13]   Trial mistral-small_hard_T004: API returned None at turn 1
+[03:48:13]   mistral-small_hard_T004: SKIP — 1 confabulated, coverage=0%, 0 calls
+[03:48:13]   Trial mistral-small_mod_T004: API returned None at turn 1
+[03:48:13]   mistral-small_mod_T004: OK — 0 calls, coverage=0%, 1 turns
+[03:48:13]   ── Progress: 35/60 (58%) — $0.5389 — 6 skips — ETA 3.5min
+[03:48:19]   Trial deepseek-v3_hard_T003: Tool call error: Expecting value: line 1 column 60 (char 59)
+[03:48:36]   deepseek-r1_mod_T002: OK — 30 calls, coverage=100%, 2 turns
+[03:48:41]   llama-70b_hard_T004: OK — 20 calls, coverage=20%, 2 turns
+[03:48:48]   deepseek-r1_mod_T003: SKIP — 5 confabulated, coverage=27%, 8 calls
+[03:48:49]   gpt4o-mini_hard_T002: OK — 99 calls, coverage=99%, 2 turns
+[03:49:00]   deepseek-v3_mod_T004: OK — 0 calls, coverage=0%, 1 turns
+[03:49:00]   ── Progress: 40/60 (67%) — $0.6257 — 7 skips — ETA 2.9min
+[03:49:16]   llama-70b_mod_T004: OK — 30 calls, coverage=100%, 2 turns
+[03:49:21]   deepseek-v3_hard_T003: OK — 73 calls, coverage=73%, 2 turns
+[03:49:28]   gemini-flash_mod_T005: OK — 30 calls, coverage=100%, 2 turns
+[03:49:28]   OpenRouter error (attempt 1): 400 Client Error: Bad Request for url: https://openrouter.ai/api/v1/chat/completions
+[03:49:32]   llama-70b_hard_T003: SKIP — 3 confabulated, coverage=6%, 6 calls
+[03:49:32]   gpt4o-mini_mod_T004: OK — 30 calls, coverage=100%, 2 turns
+[03:49:32]   ── Progress: 45/60 (75%) — $0.7117 — 8 skips — ETA 2.1min
+[03:49:45]   OpenRouter error (attempt 2): 400 Client Error: Bad Request for url: https://openrouter.ai/api/v1/chat/completions
+[03:49:45]   OpenRouter error (attempt 1): 400 Client Error: Bad Request for url: https://openrouter.ai/api/v1/chat/completions
+[03:49:47]   OpenRouter error (attempt 2): 400 Client Error: Bad Request for url: https://openrouter.ai/api/v1/chat/completions
+[03:49:49]   OpenRouter error (attempt 3): 400 Client Error: Bad Request for url: https://openrouter.ai/api/v1/chat/completions
+[03:49:51]   OpenRouter error (attempt 3): 400 Client Error: Bad Request for url: https://openrouter.ai/api/v1/chat/completions
+[03:49:54]   gpt4o-mini_hard_T004: OK — 100 calls, coverage=100%, 2 turns
+[03:49:57]   Trial mistral-small_hard_T005: API returned None at turn 1
+[03:49:57]   mistral-small_hard_T005: OK — 0 calls, coverage=0%, 1 turns
+[03:49:59]   Trial mistral-small_mod_T005: API returned None at turn 1
+[03:49:59]   mistral-small_mod_T005: OK — 0 calls, coverage=0%, 1 turns
+[03:50:09]   Trial deepseek-v3_hard_T004: Tool call error: Unterminated string starting at: line 1 column 38 (char 37)
+[03:50:36]   deepseek-v3_mod_T005: OK — 0 calls, coverage=0%, 1 turns
+[03:51:00]   deepseek-v3_hard_T004: OK — 75 calls, coverage=75%, 2 turns
+[03:51:00]   ── Progress: 50/60 (83%) — $0.8011 — 8 skips — ETA 1.5min
+[03:51:01]   gpt4o-mini_mod_T005: OK — 30 calls, coverage=100%, 2 turns
+[03:51:17]   llama-70b_mod_T005: OK — 30 calls, coverage=100%, 2 turns
+[03:51:23]   deepseek-v3_hard_T005: SKIP — 1 confabulated, coverage=0%, 0 calls
+[03:51:30]   gpt4o-mini_hard_T005: OK — 81 calls, coverage=81%, 2 turns
+[03:51:37]   deepseek-r1_mod_T004: OK — 30 calls, coverage=100%, 2 turns
+[03:51:37]   ── Progress: 55/60 (92%) — $0.8820 — 9 skips — ETA 0.8min
+[03:51:41]   deepseek-r1_mod_T005: OK — 15 calls, coverage=50%, 2 turns
+[03:52:12]   deepseek-r1_hard_T004: OK — 76 calls, coverage=76%, 2 turns
+[03:52:39]   deepseek-r1_hard_T005: SKIP — 1 confabulated, coverage=27%, 27 calls
+[03:53:10]   llama-70b_hard_T005: OK — 95 calls, coverage=95%, 2 turns
+[03:54:55]   OpenRouter error (attempt 1): HTTPSConnectionPool(host='openrouter.ai', port=443): Read timed out. (read timeout=300)
+[03:55:08]   gemini-flash_hard_T005: OK — 100 calls, coverage=100%, 2 turns
+[03:55:08]   ── Progress: 60/60 (100%) — $1.0143 — 10 skips — ETA 0.0min
+[03:55:08] 
+======================================================================
+[03:55:08] RESULTS SUMMARY
+[03:55:08] ======================================================================
+[03:55:09] Model                Provider     Trials  AvgCoverage  SkipTrials  AvgCalls
+[03:55:09] ------------------------------------------------------------------------
+[03:55:09] deepseek-r1          DeepSeek         10         45%           4      23.4
+[03:55:09] deepseek-v3          DeepSeek         10         32%           2      25.3
+[03:55:09] gemini-flash         Google           10        100%           0      65.0
+[03:55:09] gpt4o-mini           OpenAI           10         92%           0      57.4
+[03:55:09] llama-70b            Meta (open)      10         74%           1      39.2
+[03:55:09] mistral-small        Mistral          10          0%           3       0.0
+[03:55:09] 
+======================================================================
+[03:55:09] Done. 60/60 trials in 11.8 min
+[03:55:09] Total cost: $1.0143
+[03:55:09] Silent skips: 10/60
+[03:55:09] Errors: 0
+[03:55:09] Results: /home/dev/study-rgp/results/phase1_multi_20260314_034318.jsonl
+[03:55:09] ======================================================================

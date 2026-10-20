@@ -1,0 +1,98 @@
+[11:25:12] Phase 4: Prompt Component Disentanglement - run 20260314_112512
+[11:25:12] Results: /home/dev/study-rgp/results/phase4_deepseek-r1_20260314_112512.jsonl
+[11:25:12] Model: DeepSeek R1 (deepseek/deepseek-r1)
+[11:25:12] List size: 100, Error rate: 0.1
+[11:25:12] Conditions: ['echo_only', 'disclosure_only']
+[11:25:12] Trials per condition: 25
+[11:25:12] Total trials: 50
+[11:25:12] Workers: 8
+[11:27:42]   echo_only_T001: Tool call error: Unterminated string starting at: line 1 column 2 (char 1)
+[11:28:44]   disclosure_only_T002: cov=76% | calls=76 | SKIP=6
+[11:29:46]   disclosure_only_T004: cov=77% | calls=77
+[11:29:54]   echo_only_T003: cov=76% | calls=76 | echoes=25
+[11:29:55]   echo_only_T004: cov=76% | calls=76 | echoes=14
+[11:30:01]   disclosure_only_T001: cov=77% | calls=77
+[11:30:01]   -- Progress: 5/50 (10%) - $0.2626 - 1 skips - ETA 43.4min
+[11:30:20]   echo_only_T001: cov=100% | calls=101 | echoes=10
+[11:30:27]   disclosure_only_T003: cov=76% | calls=76 | unverif=18
+[11:30:54]   echo_only_T002: cov=82% | calls=83 | SKIP=1 | echoes=24
+[11:31:02]   echo_only_T005: Tool call error: Expecting property name enclosed in double quotes: line 1 column 32 (char 31)
+[11:31:58]   echo_only_T005: cov=71% | calls=73 | SKIP=1 | echoes=4
+[11:32:31]   echo_only_T007: Tool call error: Unterminated string starting at: line 1 column 2 (char 1)
+[11:33:20]   echo_only_T007: cov=76% | calls=76 | echoes=10
+[11:33:20]   -- Progress: 10/50 (20%) - $0.4731 - 3 skips - ETA 32.6min
+[11:33:35]   disclosure_only_T007: cov=76% | calls=76 | unverif=6
+[11:33:48]   disclosure_only_T008: cov=76% | calls=76 | unverif=3
+[11:34:03]   echo_only_T009: Tool call error: Unterminated string starting at: line 1 column 2 (char 1)
+[11:34:10]   echo_only_T006: cov=76% | calls=76 | echoes=56
+[11:34:47]   disclosure_only_T006: cov=76% | calls=76 | SKIP=5
+[11:34:55]   echo_only_T008: cov=76% | calls=76 | echoes=28
+[11:34:55]   -- Progress: 15/50 (30%) - $0.6153 - 4 skips - ETA 22.7min
+[11:36:09]   echo_only_T010: cov=39% | calls=39 | echoes=35
+[11:36:09]   disclosure_only_T009: cov=76% | calls=76 | unverif=19
+[11:37:40]   disclosure_only_T011: cov=76% | calls=76 | SKIP=2 | unverif=2
+[11:37:49]   echo_only_T009: cov=82% | calls=82 | echoes=60
+[11:37:55]   OpenRouter error (attempt 1): HTTPSConnectionPool(host='openrouter.ai', port=443): Read timed out. (read timeout=300)
+[11:38:19]   disclosure_only_T010: cov=84% | calls=84 | unverif=12
+[11:38:19]   -- Progress: 20/50 (40%) - $0.8000 - 5 skips - ETA 19.7min
+[11:38:31]   echo_only_T011: cov=76% | calls=76 | echoes=18
+[11:38:31]   echo_only_T013: Tool call error: Unterminated string starting at: line 1 column 2 (char 1)
+[11:38:48]   disclosure_only_T005: cov=76% | calls=76 | unverif=6
+[11:39:41]   echo_only_T012: cov=76% | calls=76 | echoes=24
+[11:39:49]   disclosure_only_T013: Tool call error: Unterminated string starting at: line 1 column 2 (char 1)
+[11:40:15]   disclosure_only_T013: cov=76% | calls=76 | unverif=6
+[11:40:15]   echo_only_T014: Tool call error: Unterminated string starting at: line 1 column 18 (char 17)
+[11:40:46]   echo_only_T015: Tool call error: Unterminated string starting at: line 1 column 2 (char 1)
+[11:40:53]   disclosure_only_T012: cov=76% | calls=76 | unverif=4
+[11:40:53]   -- Progress: 25/50 (50%) - $0.9921 - 5 skips - ETA 15.7min
+[11:40:58]   disclosure_only_T014: Tool call error: Unterminated string starting at: line 1 column 2 (char 1)
+[11:41:27]   disclosure_only_T014: cov=76% | calls=76 | SKIP=24
+[11:42:39]   echo_only_T015: cov=79% | calls=85 | echoes=7
+[11:42:58]   echo_only_T013: cov=100% | calls=100 | echoes=39
+[11:43:42]   disclosure_only_T015: cov=76% | calls=76
+[11:43:48]   echo_only_T014: cov=76% | calls=76 | echoes=19
+[11:43:48]   -- Progress: 30/50 (60%) - $1.2079 - 6 skips - ETA 12.4min
+[11:43:49]   echo_only_T016: cov=77% | calls=77 | echoes=65
+[11:44:19]   echo_only_T017: cov=76% | calls=76 | echoes=19
+[11:44:42]   disclosure_only_T016: cov=76% | calls=76 | SKIP=21
+[11:45:37]   disclosure_only_T017: cov=76% | calls=76 | SKIP=20
+[11:45:54]   echo_only_T018: cov=76% | calls=76 | echoes=15
+[11:45:54]   -- Progress: 35/50 (70%) - $1.3603 - 8 skips - ETA 8.9min
+[11:46:06]   echo_only_T019: Tool call error: Unterminated string starting at: line 1 column 18 (char 17)
+[11:48:05]   disclosure_only_T021: cov=17% | calls=17 | unverif=83
+[11:48:16]   echo_only_T021: cov=60% | calls=60 | echoes=10
+[11:48:21]   disclosure_only_T019: cov=76% | calls=76
+[11:48:23]   echo_only_T019: cov=90% | calls=91 | echoes=19
+[11:48:28]   echo_only_T022: Tool call error: Unterminated string starting at: line 1 column 2 (char 1)
+[11:48:33]   echo_only_T020: cov=76% | calls=76 | echoes=41
+[11:48:33]   -- Progress: 40/50 (80%) - $1.5342 - 8 skips - ETA 5.8min
+[11:49:09]   disclosure_only_T018: cov=76% | calls=76 | SKIP=1
+[11:49:38]   disclosure_only_T020: cov=70% | calls=70
+[11:50:40]   echo_only_T022: cov=76% | calls=76 | echoes=32
+[11:52:34]   disclosure_only_T024: cov=76% | calls=76 | unverif=40
+[11:52:44]   disclosure_only_T023: cov=76% | calls=76
+[11:52:44]   -- Progress: 45/50 (90%) - $1.7630 - 9 skips - ETA 3.1min
+[11:53:38]   echo_only_T023: cov=88% | calls=88 | echoes=49
+[11:53:57]   echo_only_T025: cov=76% | calls=76 | echoes=19
+[11:54:10]   disclosure_only_T025: cov=101% | calls=104
+[11:55:08]   disclosure_only_T022: cov=77% | calls=77
+[11:56:08]   OpenRouter error (attempt 1): HTTPSConnectionPool(host='openrouter.ai', port=443): Read timed out. (read timeout=300)
+[11:58:17]   echo_only_T024: cov=76% | calls=76 | echoes=43
+[11:58:17]   -- Progress: 50/50 (100%) - $1.9550 - 9 skips - ETA 0.0min
+[11:58:17] 
+================================================================================
+[11:58:17] PHASE 4 RESULTS SUMMARY
+[11:58:17] ================================================================================
+[11:58:17] 
+Condition            N   AvgCov ConfabTrials ConfabRate  LowMode  EchoRate  SelfUnverif
+[11:58:17] ----------------------------------------------------------------------------------------------------
+[11:58:17] echo_only           25     77%            2        8%        0      36%         0.0
+[11:58:17] disclosure_only     25     75%            7       28%        1       0%         8.0
+[11:58:17] 
+================================================================================
+[11:58:17] Done. 50/50 trials in 33.1 min
+[11:58:17] Total cost: $1.9550
+[11:58:17] Silent skips: 9/50
+[11:58:17] Errors: 0
+[11:58:17] Results: /home/dev/study-rgp/results/phase4_deepseek-r1_20260314_112512.jsonl
+[11:58:17] ================================================================================

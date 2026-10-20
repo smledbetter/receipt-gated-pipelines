@@ -1,0 +1,23 @@
+[03:42:51] Phase 1 Multi-Model — run 20260314_034251
+[03:42:51] Results: /home/dev/study-rgp/results/phase1_multi_20260314_034251.jsonl
+[03:42:51] Models: ['gemini-flash']
+[03:42:51] Conditions: ['mod']
+[03:42:51] Trials per model per condition: 1
+[03:42:51] Total trials: 1
+[03:42:51] Workers: 1
+[03:43:13]   gemini-flash_mod_T001: OK — 30 calls, coverage=100%, 2 turns
+[03:43:13] 
+======================================================================
+[03:43:13] RESULTS SUMMARY
+[03:43:13] ======================================================================
+[03:43:13] Model                Provider     Trials  AvgCoverage  SkipTrials  AvgCalls
+[03:43:13] ------------------------------------------------------------------------
+[03:43:13] gemini-flash         Google            1        100%           0      30.0
+[03:43:13] 
+======================================================================
+[03:43:13] Done. 1/1 trials in 0.4 min
+[03:43:13] Total cost: $0.0097
+[03:43:13] Silent skips: 0/1
+[03:43:13] Errors: 0
+[03:43:13] Results: /home/dev/study-rgp/results/phase1_multi_20260314_034251.jsonl
+[03:43:13] ======================================================================

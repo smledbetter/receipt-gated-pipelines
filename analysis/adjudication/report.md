@@ -44,6 +44,5 @@ The old measure flags every trial in the flagged stratum and none in the recall 
 
 ## Audit Appendix B vs consensus
 
-Trials the audit adjudicated and the raters decided: 39; agree on confab/not: 37; disagree: 2.
+Trials the audit adjudicated and the raters decided: 39; agree on confab/not: 38; disagree: 1.
 - phase1_multi_20260314_034318::deepseek-r1_hard_T002: audit B, consensus confab
-- phase2_20260314_061615::receipt_prompt_T001: audit G, consensus not confab

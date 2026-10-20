@@ -350,6 +350,24 @@ def test_jsonrecover_close_open_round_trip():
     assert info["truncated"]
 
 
+def test_jsonrecover_cut_after_open_bracket_is_not_an_empty_list():
+    txt = '{"dependencies_checked": [{"package": "lodash", "vulnerabilities": [{"id": "CVE-2020-8203"}]}, {"package": "tensorflow", "call_id": "x", "vulnerabilities": ['
+    obj, info = jsonrecover.parse(txt)
+    assert info["truncated"]
+    entries = obj["dependencies_checked"]
+    assert entries[0]["package"] == "lodash"
+    assert all("vulnerabilities" not in e or e["vulnerabilities"] != [] for e in entries if e.get("package") == "tensorflow")
+
+
+def test_jsonrecover_placeholder_array_is_kept_as_sentinel():
+    obj, info = jsonrecover.parse('{"dependencies_checked": [{"package": "pillow", "vulnerabilities": [...]}]}')
+    assert jsonrecover.is_placeholder(obj["dependencies_checked"][0]["vulnerabilities"])
+    for txt in ('{"a": [{"package": "tensorflow", "vulnerabilities": [/* 307 vulnerabilities */]}]}',
+                '{"a": [{"package": "tensorflow", "vulnerabilities": [ // truncated for brevity\n ]}]}'):
+        obj, info = jsonrecover.parse(txt)
+        assert jsonrecover.is_placeholder(obj["a"][0]["vulnerabilities"]), txt
+
+
 def test_jsonrecover_prefers_clean_parse():
     obj, info = jsonrecover.parse('text before {"a": 1} text after')
     assert obj == {"a": 1} and not info["truncated"] and not info["cleaned"]

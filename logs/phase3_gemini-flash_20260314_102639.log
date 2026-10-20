@@ -1,0 +1,72 @@
+[10:26:39] Phase 3: Federated Propagation Test - run 20260314_102639
+[10:26:39] Results: /home/dev/study-rgp/results/phase3_gemini-flash_20260314_102639.jsonl
+[10:26:39] Loaded 14 Rig A trials (14 with confabulation, -11 clean)
+[10:26:39] Rig A: 14 R1 baseline trials (reused from Phase 2)
+[10:26:39] Rig B: Gemini 2.0 Flash (google/gemini-2.0-flash-001)
+[10:26:39] Conditions: ['ungated', 'gated', 'annotated']
+[10:26:39] Total Rig B calls: 42
+[10:26:39] Workers: 8
+[10:26:44]   gated_A001: confab_in=2 prop=0 amp=0 novel=0
+[10:26:45]   ungated_A001: confab_in=2 prop=0 amp=0 novel=0
+[10:26:46]   gated_A003: confab_in=1 prop=0 amp=0 novel=0
+[10:26:48]   ungated_A002: confab_in=1 prop=1 amp=1 novel=0
+[10:26:49]   ungated_A003: confab_in=1 prop=1 amp=1 novel=0
+[10:26:50]   gated_A002: confab_in=1 prop=0 amp=0 novel=0
+[10:26:54]   ungated_A004: confab_in=2 prop=1 amp=1 novel=0
+[10:26:57]   ungated_A005: confab_in=2 prop=1 amp=1 novel=0
+[10:26:59]   gated_A005: confab_in=2 prop=0 amp=0 novel=0
+[10:27:00]   annotated_A002: confab_in=1 prop=1 amp=1 novel=22
+[10:27:00]   -- Progress: 10/42 (24%) - $0.0128 - ETA 1.1min
+[10:27:00]   annotated_A001: confab_in=2 prop=0 amp=0 novel=14
+[10:27:04]   annotated_A003: confab_in=1 prop=1 amp=1 novel=0
+[10:27:05]   annotated_A005: confab_in=2 prop=1 amp=1 novel=11
+[10:27:05]   gated_A004: confab_in=2 prop=0 amp=0 novel=0
+[10:27:06]   annotated_A004: confab_in=2 prop=1 amp=1 novel=12
+[10:27:07]   ungated_A006: confab_in=1 prop=1 amp=1 novel=0
+[10:27:08]   ungated_A007: confab_in=1 prop=0 amp=0 novel=0
+[10:27:13]   ungated_A008: confab_in=1 prop=1 amp=1 novel=0
+[10:27:14]   gated_A006: confab_in=1 prop=0 amp=0 novel=3
+[10:27:19]   ungated_A009: confab_in=1 prop=0 amp=0 novel=0
+[10:27:19]   -- Progress: 20/42 (48%) - $0.0337 - ETA 0.7min
+[10:27:25]   annotated_A007: confab_in=1 prop=0 amp=0 novel=16
+[10:27:26]   ungated_A010: confab_in=4 prop=0 amp=0 novel=0
+[10:27:26]   gated_A008: confab_in=1 prop=0 amp=0 novel=0
+[10:27:26]   annotated_A006: confab_in=1 prop=1 amp=1 novel=210
+[10:27:28]   annotated_A008: confab_in=1 prop=1 amp=1 novel=237
+[10:27:28]   gated_A007: confab_in=1 prop=0 amp=0 novel=0
+[10:27:33]   gated_A010: confab_in=4 prop=0 amp=0 novel=0
+[10:27:35]   annotated_A009: confab_in=1 prop=1 amp=1 novel=0
+[10:27:36]   gated_A011: confab_in=2 prop=0 amp=0 novel=0
+[10:27:36]   ungated_A012: confab_in=2 prop=1 amp=1 novel=0
+[10:27:36]   -- Progress: 30/42 (71%) - $0.0561 - ETA 0.4min
+[10:27:38]   ungated_A011: confab_in=2 prop=2 amp=1 novel=0
+[10:27:39]   gated_A012: confab_in=2 prop=0 amp=0 novel=0
+[10:27:43]   ungated_A013: confab_in=1 prop=0 amp=0 novel=0
+[10:27:43]   annotated_A011: confab_in=2 prop=0 amp=0 novel=8
+[10:27:45]   gated_A013: confab_in=1 prop=0 amp=0 novel=0
+[10:27:45]   annotated_A012: confab_in=2 prop=1 amp=1 novel=13
+[10:27:45]   annotated_A010: confab_in=4 prop=2 amp=2 novel=5
+[10:27:49]   ungated_A014: confab_in=1 prop=1 amp=1 novel=0
+[10:27:55]   gated_A014: confab_in=1 prop=0 amp=0 novel=0
+[10:27:59]   annotated_A013: confab_in=1 prop=0 amp=0 novel=243
+[10:27:59]   -- Progress: 40/42 (95%) - $0.0722 - ETA 0.1min
+[10:28:03]   annotated_A014: confab_in=1 prop=1 amp=1 novel=0
+[10:29:13]   OpenRouter error (attempt 1): HTTPSConnectionPool(host='openrouter.ai', port=443): Read timed out. (read timeout=120)
+[10:29:39]   gated_A009: confab_in=1 prop=0 amp=0 novel=0
+[10:29:39] 
+================================================================================
+[10:29:39] PHASE 3 RESULTS SUMMARY
+[10:29:39] ================================================================================
+[10:29:39] 
+Condition      N  ConfabIn  AvgProp  AvgAmp AvgNovel  PropRate
+[10:29:39] -----------------------------------------------------------------
+[10:29:39] ungated       14        14     0.7     0.6     0.0      64%
+[10:29:39] gated         14        14     0.0     0.0     0.2       0%
+[10:29:39] annotated     14        14     0.8     0.8    56.5      71%
+[10:29:39] 
+================================================================================
+[10:29:39] Done. 42/42 trials in 3.0 min
+[10:29:39] Total cost: $0.0780
+[10:29:39] Errors: 0
+[10:29:39] Results: /home/dev/study-rgp/results/phase3_gemini-flash_20260314_102639.jsonl
+[10:29:39] ================================================================================

@@ -1,0 +1,25 @@
+[06:02:18] Phase 2: Receipt-Gated Verification — run 20260314_060218
+[06:02:18] Results: /home/dev/study-rgp/results/phase2_20260314_060218.jsonl
+[06:02:18] Conditions: ['baseline', 'receipt_prompt', 'gate_only', 'receipt_gate']
+[06:02:18] Trials per condition: 1
+[06:02:18] Total trials: 4
+[06:02:18] Workers: 8
+[06:02:18] Model: DeepSeek R1 (deepseek/deepseek-r1)
+[06:02:18]   receipt_gate_T001: ERROR — 'latin-1' codec can't encode character '\u2014' in position 30: ordinal not in range(256)
+[06:02:18]   baseline_T001: ERROR — 'latin-1' codec can't encode character '\u2014' in position 30: ordinal not in range(256)
+[06:02:18]   receipt_prompt_T001: ERROR — 'latin-1' codec can't encode character '\u2014' in position 30: ordinal not in range(256)
+[06:02:18]   gate_only_T001: ERROR — 'latin-1' codec can't encode character '\u2014' in position 30: ordinal not in range(256)
+[06:02:18] 
+===========================================================================
+[06:02:18] PHASE 2 RESULTS SUMMARY
+[06:02:18] ===========================================================================
+[06:02:18] Summary error: [Errno 2] No such file or directory: '/home/dev/study-rgp/results/phase2_20260314_060218.jsonl'
+[06:02:18] 
+===========================================================================
+[06:02:18] Done. 0/4 trials in 0.0 min
+[06:02:18] Total cost: $0.0000
+[06:02:18] Silent skips: 0/0
+[06:02:18] Gate catches: 0
+[06:02:18] Errors: 4
+[06:02:18] Results: /home/dev/study-rgp/results/phase2_20260314_060218.jsonl
+[06:02:18] ===========================================================================

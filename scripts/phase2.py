@@ -420,8 +420,10 @@ def verify_report(final_text, shim, deps, key=None):
                 verdict = "NOT_MENTIONED"
             else:
                 mismatch = False
-                if entry is not None and isinstance(entry.get("vulnerabilities"), list) and pkg in tool_has_vulns:
-                    mismatch = (len(entry["vulnerabilities"]) > 0) != tool_has_vulns[pkg]
+                vulns = entry.get("vulnerabilities") if entry is not None else None
+                if isinstance(vulns, list) and not jsonrecover.is_placeholder(vulns) and pkg in tool_has_vulns:
+                    # "[...]" in the original text is omitted content, not a clean claim
+                    mismatch = (len(vulns) > 0) != tool_has_vulns[pkg]
                 if mismatch:
                     verdict = "CONTENT_MISMATCH"
                 elif info["claimed_call_id"] and hmac.compare_digest(info["claimed_call_id"], info["actual_call_id"]):

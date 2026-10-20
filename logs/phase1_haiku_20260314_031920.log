@@ -1,0 +1,18 @@
+[03:19:20] Phase 1 — run 20260314_031920
+[03:19:20] Model: claude-haiku-4-5-20251001
+[03:19:20] Results: /home/dev/study-rgp/results/phase1_haiku_20260314_031920.jsonl
+[03:19:20] Trials per condition: 1
+[03:19:20] Workers: 1
+[03:19:20] Warming up Anthropic API...
+[03:19:20]   Warmup: 0.9s — OK
+[03:19:20] Conditions: [6] — 1 total trials
+[03:20:11]   C6_T001: OK — 30 calls, 100% coverage, 2 turns, 6477 out_tok
+[03:20:11] 
+============================================================
+[03:20:11] Done. 1/1 trials in 0.8 min
+[03:20:11] Total cost: $0.0113
+[03:20:11] Silent skips: 0/1
+[03:20:11] Errors: 0
+[03:20:11] Throughput: 1.2 trials/min
+[03:20:11] Results: /home/dev/study-rgp/results/phase1_haiku_20260314_031920.jsonl
+[03:20:11] ============================================================

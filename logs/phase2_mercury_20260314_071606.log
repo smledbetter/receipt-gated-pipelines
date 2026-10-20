@@ -1,0 +1,32 @@
+[07:16:06] Phase 2: Receipt-Gated Verification — run 20260314_071606
+[07:16:06] Results: /home/dev/study-rgp/results/phase2_mercury_20260314_071606.jsonl
+[07:16:06] Model: Mercury 2 (mercury-2)
+[07:16:06] List size: 30, Error rate: 0.0
+[07:16:06] Conditions: ['baseline', 'receipt_prompt', 'gate_only', 'receipt_gate']
+[07:16:06] Trials per condition: 1
+[07:16:06] Total trials: 4
+[07:16:06] Workers: 8
+[07:16:23]   receipt_prompt_T001: cov=33% | calls=10 | echoes=10
+[07:16:25]   gate_only_T001: cov=33% | calls=10 | SKIP=20 | gate:V=0/C=20
+[07:16:26]   receipt_gate_T001: cov=33% | calls=10 | SKIP=2 | gate:V=4/C=2 | echoes=4
+[07:16:27]   baseline_T001: cov=33% | calls=10 | SKIP=19
+[07:16:27] 
+===========================================================================
+[07:16:27] PHASE 2 RESULTS SUMMARY
+[07:16:27] ===========================================================================
+[07:16:27] 
+Condition            N   AvgCov  SkipTrials  ConfabRate  GateVerified  GateCaught  EchoRate
+[07:16:27] ------------------------------------------------------------------------------------------------
+[07:16:27] baseline             1     33%           1       100%             0           0       0%
+[07:16:27] receipt_prompt       1     33%           0         0%             0           0     100%
+[07:16:27] gate_only            1     33%           1       100%             0          20       0%
+[07:16:27] receipt_gate         1     33%           1       100%             4           2      40%
+[07:16:27] 
+===========================================================================
+[07:16:27] Done. 4/4 trials in 0.4 min
+[07:16:27] Total cost: $0.0756
+[07:16:27] Silent skips: 3/4
+[07:16:27] Gate catches: 2
+[07:16:27] Errors: 0
+[07:16:27] Results: /home/dev/study-rgp/results/phase2_mercury_20260314_071606.jsonl
+[07:16:27] ===========================================================================
