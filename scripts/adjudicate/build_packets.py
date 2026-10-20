@@ -91,11 +91,62 @@ def main():
     ap.add_argument("--seed", type=int, default=7)
     ap.add_argument("--recall-sample", type=int, default=40,
                     help="unflagged trials with candidates to include, sampled at random")
+    ap.add_argument("--supplement", default="",
+                    help="name of a supplementary packet holding only candidates missing from the existing packets")
+    ap.add_argument("--recall-rest", default="",
+                    help="name of a packet holding every unflagged trial with candidates that no packet has yet")
     args = ap.parse_args()
 
     described = [describe(r) for r in trials()]
     for d in described:
         d["key"] = f"{d['file'].replace('.jsonl', '')}::{d['trial_id']}"
+
+    if args.recall_rest:
+        out = ROOT / args.out
+        have = set()
+        for f in sorted(out.glob("*.json")):
+            if f.name in ("manifest.json", "strata.json"):
+                continue
+            for d in json.loads(f.read_text()):
+                have.add(d["key"])
+        rest = [d for d in described if not d["corrected_flag"] and d["candidates"] and d["key"] not in have]
+        (out / f"{args.recall_rest}.md").write_text(packet_md(rest))
+        (out / f"{args.recall_rest}.json").write_text(json.dumps(
+            [{k: v for k, v in d.items() if k not in ("final_text", "summaries")} for d in rest], indent=1))
+        manifest = json.loads((out / "manifest.json").read_text())
+        manifest = [m for m in manifest if m["batch"] != args.recall_rest]
+        manifest.append({"batch": args.recall_rest, "n": len(rest), "keys": [d["key"] for d in rest]})
+        (out / "manifest.json").write_text(json.dumps(manifest, indent=1))
+        strata = json.loads((out / "strata.json").read_text())
+        for d in rest:
+            strata[d["key"]] = "recall"
+        (out / "strata.json").write_text(json.dumps(strata, indent=1))
+        print(f"wrote {args.recall_rest}: {len(rest)} trials, {sum(len(d['candidates']) for d in rest)} candidates")
+        return
+
+    if args.supplement:
+        out = ROOT / args.out
+        existing = {}
+        for f in sorted(out.glob("batch_*.json")):
+            for d in json.loads(f.read_text()):
+                existing[d["key"]] = set(d["candidates"])
+        supp = []
+        for d in described:
+            if d["key"] not in existing:
+                continue
+            extra = sorted(set(d["candidates"]) - existing[d["key"]])
+            if extra:
+                s = dict(d, candidates=extra)
+                supp.append(s)
+        (out / f"{args.supplement}.md").write_text(packet_md(supp))
+        (out / f"{args.supplement}.json").write_text(json.dumps(
+            [{k: v for k, v in d.items() if k not in ("final_text", "summaries")} for d in supp], indent=1))
+        manifest = json.loads((out / "manifest.json").read_text())
+        manifest = [m for m in manifest if m["batch"] != args.supplement]
+        manifest.append({"batch": args.supplement, "n": len(supp), "keys": [d["key"] for d in supp], "supplement": True})
+        (out / "manifest.json").write_text(json.dumps(manifest, indent=1))
+        print(f"wrote {args.supplement}: {len(supp)} trials, {sum(len(d['candidates']) for d in supp)} extra candidates")
+        return
 
     flagged = [d for d in described if d["corrected_flag"]]
     unflagged_with = [d for d in described if not d["corrected_flag"] and d["candidates"]]

@@ -106,20 +106,22 @@ def parse(text):
     comments, ellipses or trailing commas had to be removed first.
     """
     for cand in candidates(text):
+        start = text.find(cand)
+        span = (start, start + len(cand)) if start != -1 else None
         for cleaned_flag, body in ((False, cand), (True, clean(cand))):
             try:
                 obj = json.loads(body)
                 if isinstance(obj, (dict, list)):
-                    return obj, {"truncated": False, "cleaned": cleaned_flag}
+                    return obj, {"truncated": False, "cleaned": cleaned_flag, "span": span}
             except json.JSONDecodeError:
                 pass
         try:
             obj = json.loads(close_open(clean(cand)))
             if isinstance(obj, (dict, list)) and obj:
-                return obj, {"truncated": True, "cleaned": True}
+                return obj, {"truncated": True, "cleaned": True, "span": span}
         except json.JSONDecodeError:
             continue
-    return None, {"truncated": False, "cleaned": False}
+    return None, {"truncated": False, "cleaned": False, "span": None}
 
 
 def is_cut_off(text):

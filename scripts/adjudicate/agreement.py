@@ -23,10 +23,18 @@ CODES = "RFDAWHUB"
 
 
 def load_ratings(rater):
+    """Merge every rating file of one rater. A supplementary packet adds
+    codes for extra candidates of a trial already rated in a batch."""
     out = {}
-    for f in sorted((ADJ / "ratings" / rater).glob("batch_*.json")):
+    for f in sorted((ADJ / "ratings" / rater).glob("*.json")):
         for t in json.loads(f.read_text()):
-            out[t["trial_id"]] = t
+            key = t["trial_id"]
+            if key in out:
+                out[key].setdefault("codes", {}).update(t.get("codes") or {})
+                out[key].setdefault("extra_attributed", []).extend(t.get("extra_attributed") or [])
+                out[key]["report_is_harness_artifact"] = out[key].get("report_is_harness_artifact") or t.get("report_is_harness_artifact")
+            else:
+                out[key] = t
     return out
 
 
@@ -55,14 +63,17 @@ def main():
     A, B = load_ratings("A"), load_ratings("B")
     strata = json.loads((ADJ / "packets" / "strata.json").read_text())
     manifest = json.loads((ADJ / "packets" / "manifest.json").read_text())
-    expected = [k for b in manifest for k in b["keys"]]
+    expected = list(dict.fromkeys(k for b in manifest for k in b["keys"]))
     missing = [k for k in expected if k not in A or k not in B]
     print(f"trials expected={len(expected)} rated by A={len(A)} by B={len(B)} missing from a rater={len(missing)}")
 
     packets = {}
     for b in manifest:
         for d in json.loads((ADJ / "packets" / f"{b['batch']}.json").read_text()):
-            packets[d["key"]] = d
+            if d["key"] in packets:
+                packets[d["key"]]["candidates"] = sorted(set(packets[d["key"]]["candidates"]) | set(d["candidates"]))
+            else:
+                packets[d["key"]] = d
 
     # ---- package-level agreement
     pairs_full, pairs_bin, pairs_lenient = [], [], []

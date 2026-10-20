@@ -4,6 +4,15 @@ import re
 
 _VERSION_TAIL = re.compile(r"[@ ]v?\d[\w.\-+]*.*$")
 _PAREN_TAIL = re.compile(r"\s*\(.*\)\s*$")
+_ODD_HYPHENS = re.compile("[‐‑‒–−]")
+
+
+def normalize_text(text):
+    """Map typographic hyphens and non-breaking spaces to ASCII so that
+    'node‑fetch' (U+2011) matches 'node-fetch'. Mercury writes these often."""
+    if not text:
+        return text or ""
+    return _ODD_HYPHENS.sub("-", text).replace(" ", " ").replace("：", ":")
 
 
 def normalize(raw):
@@ -43,13 +52,13 @@ class DepIndex:
         }
 
     def canonical(self, raw):
-        n = normalize(raw)
+        n = normalize(normalize_text(raw))
         return self.alias.get(n)
 
     def mentions(self, text):
         """Return {name: [line_index, ...]} for every dependency named in text."""
         out = {}
-        lines = text.split("\n")
+        lines = normalize_text(text).split("\n")
         for n, pat in self._patterns.items():
             hits = [i for i, line in enumerate(lines) if pat.search(line)]
             if hits:
@@ -57,7 +66,15 @@ class DepIndex:
         return out
 
     def mentioned(self, text, name):
-        return bool(self._patterns[name].search(text))
+        return bool(self._patterns[name].search(normalize_text(text)))
+
+    def mask(self, text):
+        """Replace every dependency name with PKG so cue words inside names
+        ('safe-buffer', 'secure-random') do not read as outcomes."""
+        t = normalize_text(text)
+        for n in sorted(self.names, key=len, reverse=True):
+            t = self._patterns[n].sub("PKG", t)
+        return t
 
 
 def called_packages(record):

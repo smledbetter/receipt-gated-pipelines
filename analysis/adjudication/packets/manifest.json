@@ -228,5 +228,82 @@
    "phase2_deepseek-r1_20260314_080559::baseline_T016",
    "phase2_mercury_20260314_080559::receipt_gate_T004"
   ]
+ },
+ {
+  "batch": "supp_01",
+  "n": 26,
+  "keys": [
+   "phase1_20260314_031057::C2_T001",
+   "phase1_20260314_031057::C4_T001",
+   "phase2_mercury_20260314_071636::baseline_T002",
+   "phase2_mercury_20260314_071636::baseline_T001",
+   "phase2_mercury_20260314_071636::gate_only_T002",
+   "phase2_mercury_20260314_071636::baseline_T004",
+   "phase2_mercury_20260314_071636::baseline_T005",
+   "phase2_mercury_20260314_071636::baseline_T006",
+   "phase2_mercury_20260314_071636::baseline_T009",
+   "phase2_mercury_20260314_071636::baseline_T010",
+   "phase2_mercury_20260314_071636::baseline_T011",
+   "phase2_mercury_20260314_071636::gate_only_T011",
+   "phase2_mercury_20260314_071636::baseline_T013",
+   "phase2_mercury_20260314_071636::baseline_T014",
+   "phase2_mercury_20260314_080559::gate_only_T001",
+   "phase2_mercury_20260314_080559::gate_only_T003",
+   "phase2_mercury_20260314_080559::baseline_T002",
+   "phase2_mercury_20260314_080559::gate_only_T002",
+   "phase2_mercury_20260314_080559::baseline_T001",
+   "phase2_mercury_20260314_080559::gate_only_T004",
+   "phase2_mercury_20260314_080559::gate_only_T012",
+   "phase2_mercury_20260314_080559::gate_only_T013",
+   "phase2_mercury_20260314_080559::baseline_T012",
+   "phase2_mercury_20260314_080559::baseline_T013",
+   "phase2_mercury_20260314_080559::gate_only_T014",
+   "phase2_mercury_20260314_080559::baseline_T015"
+  ],
+  "supplement": true
+ },
+ {
+  "batch": "recall_02a",
+  "n": 16,
+  "keys": [
+   "phase1_mercury2_20260314_043201::C6_T006",
+   "phase2_20260314_061615::receipt_prompt_T002",
+   "phase2_deepseek-r1_20260314_080559::receipt_gate_T018",
+   "phase2_deepseek-r1_20260314_080559::receipt_prompt_T023",
+   "phase2_mercury_20260314_071636::receipt_gate_T001",
+   "phase2_mercury_20260314_071636::receipt_prompt_T005",
+   "phase2_mercury_20260314_071636::receipt_gate_T004",
+   "phase2_mercury_20260314_071636::receipt_gate_T006",
+   "phase2_mercury_20260314_071636::receipt_prompt_T007",
+   "phase2_mercury_20260314_071636::receipt_prompt_T008",
+   "phase2_mercury_20260314_071636::receipt_prompt_T010",
+   "phase2_mercury_20260314_071636::receipt_gate_T010",
+   "phase2_mercury_20260314_071636::receipt_gate_T013",
+   "phase2_mercury_20260314_071636::receipt_gate_T014",
+   "phase2_mercury_20260314_071636::receipt_gate_T015",
+   "phase2_mercury_20260314_080559::receipt_prompt_T002"
+  ]
+ },
+ {
+  "batch": "recall_02b",
+  "n": 16,
+  "keys": [
+   "phase2_mercury_20260314_080559::receipt_prompt_T003",
+   "phase2_mercury_20260314_080559::receipt_prompt_T004",
+   "phase2_mercury_20260314_080559::receipt_gate_T003",
+   "phase2_mercury_20260314_080559::receipt_gate_T006",
+   "phase2_mercury_20260314_080559::receipt_prompt_T007",
+   "phase2_mercury_20260314_080559::receipt_prompt_T009",
+   "phase2_mercury_20260314_080559::receipt_gate_T009",
+   "phase2_mercury_20260314_080559::receipt_prompt_T008",
+   "phase2_mercury_20260314_080559::receipt_prompt_T011",
+   "phase2_mercury_20260314_080559::receipt_gate_T015",
+   "phase2_mercury_20260314_080559::receipt_prompt_T014",
+   "phase4_deepseek-r1_20260314_112512::disclosure_only_T003",
+   "phase4_deepseek-r1_20260314_112512::disclosure_only_T013",
+   "phase4_mercury_20260314_113517::disclosure_only_T009",
+   "phase4_mercury_20260314_113517::disclosure_only_T011",
+   "phase4_mercury_20260314_113517::disclosure_only_T014"
+  ]
  }
 ]
