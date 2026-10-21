@@ -28,7 +28,7 @@ if env_path.exists():
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from scripts.phase1 import (
-    ToolShim, PROMPTS, CLUTTER_SETS, VULN_CHECK_TOOL, MAX_TOKENS,
+    ToolShim, PROMPTS, CLUTTER_SETS, VULN_CHECK_TOOL, MAX_TOKENS, RECEIPT_KEY_IS_EPHEMERAL, require_receipt_key,
     _extract_json, DATA_DIR, RESULTS_DIR, LOGS_DIR, render_prompt, trial_rng,
 )
 from rgp.loop import agent_loop, final_text_of, transcript_of
@@ -186,7 +186,8 @@ def run_trial(deps, prompt_tier, cluttered, error_rate, trial_id, clutter_set,
     """Run one trial against any OpenRouter model. `call_api` can be injected for tests."""
     rng = trial_rng(seed, trial_id)
     osv_name_map = {d["name"].lower(): d["osv_name"] for d in deps if "osv_name" in d}
-    shim = ToolShim(error_rate=error_rate, osv_name_map=osv_name_map, deps=deps, rng=rng)
+    shim = ToolShim(error_rate=error_rate, osv_name_map=osv_name_map, deps=deps, rng=rng,
+                    run_id=run_id, trial_uid=(f"{run_id}:{trial_id}" if run_id else trial_id))
 
     deps = copy.deepcopy(deps)
     rng.shuffle(deps)
@@ -234,6 +235,8 @@ def run_trial(deps, prompt_tier, cluttered, error_rate, trial_id, clutter_set,
         "trial_uid": f"{run_id}:{trial_id}" if run_id else trial_id,
         "seed": seed,
         "max_tokens": MAX_TOKENS,
+        "receipt_key_id": shim.key_id,
+        "receipt_key_ephemeral": RECEIPT_KEY_IS_EPHEMERAL,
         "harness_errors": loop["harness_errors"],
         "condition": {
             "list_size": len(deps),
@@ -304,7 +307,10 @@ def main():
                         help="Which condition(s) to run. 'isolate' runs noclutter+clean for confound testing")
     parser.add_argument("--list-models", action="store_true", help="List available models and exit")
     parser.add_argument("--seed", type=int, default=None, help="Seed for shuffling and error injection")
+    parser.add_argument("--allow-ephemeral-key", action="store_true",
+                        help="Run without RGP_RECEIPT_KEY (receipts will not be verifiable after the run)")
     args = parser.parse_args()
+    require_receipt_key(args.allow_ephemeral_key)
 
     if args.list_models:
         for key, info in MODELS.items():

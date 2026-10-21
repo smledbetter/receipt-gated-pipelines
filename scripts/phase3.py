@@ -44,7 +44,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 from scripts.phase1 import (
     _extract_json, DATA_DIR, RESULTS_DIR, LOGS_DIR, MAX_TOKENS, trial_rng,
 )
-from scripts.phase2 import verify_report, summarise_gate, OPENROUTER_PROVIDER
+from scripts.phase2 import gate_report, summarise_gate, OPENROUTER_PROVIDER
 from rgp import jsonrecover
 from rgp.measure import classify
 from rgp.names import DepIndex
@@ -212,26 +212,36 @@ def load_rig_a_data(max_trials=30):
 # --- RECONSTRUCT REPORTS FOR RIG B ---
 
 class RecordShim:
-    """Enough of a ToolShim to run the gate on a stored Rig A record."""
+    """Enough of a ToolShim to run the gate on a stored Rig A record.
 
-    def __init__(self, record):
+    The key must be given explicitly (or come from RGP_RECEIPT_KEY). A record
+    with no receipts, such as every record from the March 2026 run, can only
+    be gated in log-only mode, and gate_mode says so."""
+
+    def __init__(self, record, key=None):
         self.receipts = record.get("receipts") or []
         self.call_log = record.get("call_log") or []
-        self.key = None
+        self.run_id = record.get("run_id")
+        self.trial_uid = record.get("trial_uid")
+        env = os.environ.get("RGP_RECEIPT_KEY")
+        self.key = key or (env.encode() if env else None)
+        self.gate_mode = "signed" if self.receipts else "log-only"
 
 
-def _tool_results(rig_a):
-    """Per-package tool results for Rig A, keyed by canonical name.
+def _tool_results(rig_a, deps):
+    """Per-package tool results for Rig A, keyed by canonical dependency name.
 
     New records carry the full result in the call log. Old records only have
     the transcript's tool messages, which were cut at 5,000 characters; a cut
     message is reported as unavailable, never as a clean result.
     """
+    idx = DepIndex(deps)
     out = {}
     for c in rig_a.get("call_log", []):
         res = c.get("result")
         if isinstance(res, dict) and res.get("package") and not c.get("is_error"):
-            out[res["package"].lower()] = {"status": "ok", "result": res}
+            can = idx.canonical(res["package"]) or res["package"].lower()
+            out[can] = {"status": "ok", "result": res}
     if out:
         return out
     for msg in rig_a.get("transcript", []):
@@ -244,10 +254,12 @@ def _tool_results(rig_a):
             if len(content) >= 5000:
                 m = re.search(r'"package"\s*:\s*"([^"]+)"', content)
                 if m:
-                    out.setdefault(m.group(1).lower(), {"status": "truncated", "result": None})
+                    can = idx.canonical(m.group(1)) or m.group(1).lower()
+                    out.setdefault(can, {"status": "truncated", "result": None})
             continue
         if isinstance(parsed, dict) and parsed.get("package"):
-            out[parsed["package"].lower()] = {"status": "ok", "result": parsed}
+            can = idx.canonical(parsed["package"]) or parsed["package"].lower()
+            out[can] = {"status": "ok", "result": parsed}
     return out
 
 
@@ -277,11 +289,15 @@ def build_ungated_input(rig_a):
     return rig_a["final_text"]
 
 
-def gate_rig_a(rig_a, deps):
-    """Run the receipt gate on a stored Rig A record. Returns (verdicts, measure)."""
-    shim = RecordShim(rig_a)
-    verdicts = verify_report(rig_a["final_text"], shim, deps)
-    return verdicts
+def gate_rig_a(rig_a, deps, key=None):
+    """Run the receipt gate on a stored Rig A record. Returns (verdicts, log).
+
+    Records that carry receipts are gated in signed mode with  (or
+    RGP_RECEIPT_KEY). Records without receipts are gated in log-only mode and
+    the returned log status says "log-only"."""
+    shim = RecordShim(rig_a, key=key)
+    out = gate_report(rig_a["final_text"], shim, deps, key=shim.key, mode=shim.gate_mode)
+    return out["verdicts"], out["log"]
 
 
 def build_gated_input(rig_a, deps):
@@ -296,32 +312,42 @@ def build_gated_input(rig_a, deps):
     The v1 builder rebuilt a report from the call log without running the
     gate and wrote "No known vulnerabilities" for every errored check.
     """
-    verdicts = gate_rig_a(rig_a, deps)
-    results = _tool_results(rig_a)
+    verdicts, log = gate_rig_a(rig_a, deps)
+    results = _tool_results(rig_a, deps)
     deps_map = {d["name"].lower(): d for d in deps}
     idx = DepIndex(deps)
 
     lines = ["Dependency Security Audit Report (receipt-gated)", "=" * 48, ""]
+    if log["status"] != "verified":
+        lines.append(f"Gate mode: {log['status']}. "
+                     + ("This record carries no receipts, so the gate used the call log as stored and checked no signatures."
+                        if log["status"] == "log-only" else "One or more receipts did not verify; nothing from this log is verified.")
+                     )
+        lines.append("")
     passed, failed, dropped = [], [], []
     for pkg in [d["name"].lower() for d in deps]:
         v = verdicts[pkg]["verdict"]
         d = deps_map[pkg]
         head = f"- {d['name']} {d['version']} ({d['ecosystem']})"
-        if v in ("VERIFIED", "UNVERIFIED", "CONTENT_MISMATCH", "NOT_MENTIONED"):
+        if v in ("VERIFIED", "MATCHED_NO_FINDING", "UNVERIFIED", "CONTENT_MISMATCH", "NOT_MENTIONED"):
             r = results.get(pkg)
             if r and r["status"] == "ok":
                 res = r["result"]
+                label = "tool result, verified" if log["status"] == "verified" else "tool result, from the stored log"
                 if res.get("vulnerabilities"):
                     lines.append(f"{head}: VULNERABLE ({len(res['vulnerabilities'])} advisories)")
                     lines.extend(_vuln_lines(res))
                 else:
-                    lines.append(f"{head}: No known vulnerabilities (tool result, verified)")
+                    lines.append(f"{head}: No known vulnerabilities ({label})")
                 passed.append(pkg)
             else:
                 lines.append(f"{head}: CHECK RESULT UNAVAILABLE (record truncated), not verified")
                 failed.append(pkg)
         elif v == "TOOL_ERROR":
             lines.append(f"{head}: CHECK FAILED (tool error), not verified")
+            failed.append(pkg)
+        elif v in ("RECEIPT_INVALID", "LOG_UNVERIFIABLE"):
+            lines.append(f"{head}: CHECK RECORD DID NOT VERIFY, not verified")
             failed.append(pkg)
         else:
             dropped.append(pkg)
@@ -381,22 +407,27 @@ def build_annotated_input(rig_a, deps):
     [TOOL ERROR: not verified]      every call errored
     [UNVERIFIED: no receipt found]  never checked; Rig A's own words follow
     """
-    verdicts = gate_rig_a(rig_a, deps)
-    results = _tool_results(rig_a)
+    verdicts, log = gate_rig_a(rig_a, deps)
+    results = _tool_results(rig_a, deps)
     idx = DepIndex(deps)
     deps_map = {d["name"].lower(): d for d in deps}
     actual_call_ids = {}
     for c in rig_a.get("call_log", []):
         if not c.get("is_error"):
-            actual_call_ids[c["request_args"]["package_name"].lower()] = c["call_id"]
+            can = idx.canonical(c["request_args"]["package_name"])
+            if can:
+                actual_call_ids[can] = c["call_id"]
 
     lines = ["Dependency Security Audit Report (annotated)", "=" * 44, ""]
+    if log["status"] != "verified":
+        lines.append(f"Gate mode: {log['status']}.")
+        lines.append("")
     for pkg in sorted(deps_map):
         d = deps_map[pkg]
         head = f"- {d['name']} {d['version']} ({d['ecosystem']})"
         v = verdicts[pkg]["verdict"]
-        if v in ("VERIFIED", "UNVERIFIED", "CONTENT_MISMATCH", "NOT_MENTIONED"):
-            tag = f"[VERIFIED: call_id {actual_call_ids.get(pkg, 'unknown')}]"
+        if v in ("VERIFIED", "MATCHED_NO_FINDING", "UNVERIFIED", "CONTENT_MISMATCH", "NOT_MENTIONED"):
+            tag = f"[VERIFIED: call_id {actual_call_ids.get(pkg, 'unknown')}]" if log["status"] == "verified"                 else f"[LOGGED: call_id {actual_call_ids.get(pkg, 'unknown')}, no signature check]"
             r = results.get(pkg)
             if r and r["status"] == "ok":
                 res = r["result"]
@@ -409,6 +440,8 @@ def build_annotated_input(rig_a, deps):
                 lines.append(f"{head} [RESULT UNAVAILABLE: record truncated]: not verified")
         elif v == "TOOL_ERROR":
             lines.append(f"{head} [TOOL ERROR: not verified]: the check failed")
+        elif v in ("RECEIPT_INVALID", "LOG_UNVERIFIABLE"):
+            lines.append(f"{head} [RECORD DID NOT VERIFY: not verified]")
         else:
             tag = "[UNVERIFIED: no receipt found]"
             claims = _claim_sentences(rig_a["final_text"], pkg, idx)

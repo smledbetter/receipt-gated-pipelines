@@ -167,10 +167,11 @@ reported rates near 50\% for three models because its detector counted
 honest disclosure as fabrication. The measurement lesson is the main
 result: a detector that reads for names rather than claims will find
 confabulation wherever a model is candid. The receipt gate is a
-deterministic name match against the tool log with a content check. It
-needs no cryptography to do that. The signature makes the log
-attributable to a party, which is what a federated boundary needs, and
-that is all it does.
+deterministic comparison of the report against the tool log, with a
+content check. It needs no cryptography to do that. A signature makes a
+receipt attributable to whoever holds the key, which is what a federated
+boundary would need, and it is all a signature does. No signature has
+yet been checked on real data, because the March records carry none.
 
 \begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
 
@@ -267,11 +268,11 @@ Outputs}\label{cryptographic-verification-of-ai-outputs}
 Balan et al.~(2025) and Kao (2025) describe cryptographic attestation
 across an AI pipeline. C2PA (2024) signs media provenance. Kirchenbauer
 et al.~(2023) watermark model output. The receipt in this study is a
-lightweight inference-time attestation of one tool call. The first
-version claimed it made fabrication detectable. It does not. Detection
-is a comparison of the report against the log. A signature makes the log
-attributable to the party that holds the key. Section 5.1 draws the
-line.
+per-call log entry with a keyed checksum that only the key holder can
+check. The first version claimed it made fabrication detectable. It does
+not. Detection is a comparison of the report against the log. A
+signature makes the log attributable to the party that holds the key.
+Section 5.1 draws the line.
 
 \subsubsection{2.5 Prompt Structure and Model
 Effort}\label{prompt-structure-and-model-effort}
@@ -310,18 +311,27 @@ with an error message, with no log entry. A missing ecosystem defaulted
 to npm, which sent three Maven packages to OSV as npm packages. Errored
 calls received receipts and the gate treated them as checks.
 
-As corrected, the shim signs \texttt{call\_id:input\_hash:output\_hash}
-with a key read from the environment or generated per process, stores
-the signature and both hashes in the call log with the full tool result,
-and \texttt{verify\_receipt} checks a receipt in constant time. Every
-attempted call gets a receipt, including calls whose arguments do not
-parse or lack a package name or ecosystem, which become errored
-receipts. A missing ecosystem is filled from the dependency list. The
-output cap is 16,384 tokens. Each turn records the provider's
-\texttt{finish\_reason}, and a batch or a report cut off by the cap is
-recorded as a harness error on the trial. The shuffle and the error
-injection take a seed. None of the corrected harness has been run
-against a model yet.
+As corrected, the shim signs a message that binds each call to its run,
+its trial, its tool and its position in the log:
+\texttt{rgp-receipt-v2\textbar{}run\_id\textbar{}trial\_uid\textbar{}tool\_name\textbar{}seq\textbar{}call\_id\textbar{}input\_hash\textbar{}output\_hash}.
+The call log stores the request, the full tool result without the
+\texttt{\_call\_id} tag, both hashes, the signature and a key
+identifier. A verifier recomputes both hashes from the stored request
+and result before it checks the signature, so a tampered log entry under
+an intact receipt fails, and a receipt copied into another trial's
+record fails. Verification of a log fails closed: every entry needs
+exactly one verifying receipt, and an entry without one is not a call
+the gate may use. The key comes from the environment, and the runners
+refuse to start with a per-process key unless told to, because receipts
+signed that way are unverifiable afterwards. Every attempted call gets a
+receipt, including calls whose arguments do not parse or lack a package
+name or ecosystem, which become errored receipts. A missing ecosystem is
+filled from the dependency list. The output cap is 16,384 tokens. Each
+turn records the provider's \texttt{finish\_reason}, and a batch or a
+report cut off by the cap is recorded as a harness error on the trial.
+The shuffle and the error injection take a seed. None of the corrected
+harness has been run against a model yet, so no signature has been
+verified on real data.
 
 \subsubsection{3.3 Receipt Gate, as run and as
 corrected}\label{receipt-gate-as-run-and-as-corrected}
@@ -334,18 +344,30 @@ VERIFIED when a receipt existed, the name appeared, and the echoed
 the package and no distinction between a successful call and an errored
 one. UNKNOWN meant a called package the report never named.
 
-As corrected, the gate first verifies every receipt's signature. A
-package is VERIFIED only when its call succeeded, the report names it
-with the matching \texttt{call\_id}, and the report's finding agrees
-with the tool output on whether the package has vulnerabilities. A
-disagreement is CONTENT\_MISMATCH. A package whose every call errored is
-TOOL\_ERROR and is never verified. For packages with no receipt, the
-verdict follows the rebuilt measure of Section 3.4: CONFABULATED when
-the report attributes a result, FAILURE\_CLAIMED when it says the check
-failed, SELF\_REPORTED\_UNVERIFIED when it discloses the package as
-unchecked, MENTIONED\_ONLY for advice or passing mention, UNOBSERVED
-when the report was cut off before it, MISSING when it is not named. A
-called package the report never names is NOT\_MENTIONED.
+As corrected, the gate first verifies the receipt log as a whole and
+fails closed. A call whose receipt is missing is LOG\_UNVERIFIABLE and
+one whose receipt fails is RECEIPT\_INVALID, and neither can become
+VERIFIED. A package is VERIFIED only when its call succeeded under a
+verifying receipt, the report names it with a matching
+\texttt{call\_id}, and the report gives a parsable finding that agrees
+with the tool output. A matching \texttt{call\_id} with no parsable
+finding is MATCHED\_NO\_FINDING. A finding that disagrees is
+CONTENT\_MISMATCH: advisory identifiers are compared within a namespace
+both sides use, and the comparison falls back to has-vulnerabilities
+versus none when they share none or when the record did not store the
+tool's identifiers. A package whose every call errored is TOOL\_ERROR
+and is never verified. For packages the tool never checked, the verdict
+follows the rebuilt measure of Section 3.4: CONFABULATED when the report
+attributes a result, FAILURE\_CLAIMED when it says the check failed,
+SELF\_REPORTED\_UNVERIFIED when it discloses the package as unchecked,
+MENTIONED\_ONLY for advice or passing mention, UNOBSERVED when the
+report was cut off before it, MISSING when it is not named. A called
+package the report never names is NOT\_MENTIONED.
+
+The March 2026 records carry no receipts, because the v1 shim discarded
+them. The gate can only run on them in an explicit log-only mode that
+trusts the call log as stored and checks no signature. Every gate
+verdict reported in this version comes from that mode.
 
 The gate is a deterministic comparison of a report against a log. It
 makes no probabilistic guess. It has no false negatives only in the
@@ -762,18 +784,21 @@ version's measure and the adjudicated measure.}
 \paragraph{The gate, re-run on the stored
 data}\label{the-gate-re-run-on-the-stored-data}
 
-Run on the stored reports with the corrected gate, R1's
-receipt-plus-gate arm yields 1,780 VERIFIED packages, 66 UNVERIFIED
-(named without a matching \texttt{call\_id}), 0 CONTENT\_MISMATCH, 372
-TOOL\_ERROR, 0 CONFABULATED, 8 FAILURE\_CLAIMED, 106
-SELF\_REPORTED\_UNVERIFIED, 629 UNOBSERVED (the report was cut off) and
-1,343 NOT\_MENTIONED. The 372 are packages whose every call errored and
-which the first version's gate labelled VERIFIED or UNVERIFIED. Across
-all phases, 0 of 5,557 parsed report entries for packages the tool did
-check disagree with the tool on whether the package has vulnerabilities.
-Two earlier drafts of that check reported 115 and 17 contradictions.
-Both were parser artifacts, a \texttt{{[}...{]}} placeholder and a
-comment inside an array read as an empty list.
+Run on the stored reports with the corrected gate in log-only mode, R1's
+receipt-plus-gate arm yields 1,742 VERIFIED packages, 153
+MATCHED\_NO\_FINDING (the \texttt{call\_id} matches but the entry's
+vulnerability list is a placeholder), 66 UNVERIFIED (named without a
+matching \texttt{call\_id}), 0 CONTENT\_MISMATCH, 372 TOOL\_ERROR, 0
+CONFABULATED, 8 FAILURE\_CLAIMED, 106 SELF\_REPORTED\_UNVERIFIED, 629
+UNOBSERVED (the report was cut off) and 1,343 NOT\_MENTIONED. The 372
+are packages whose every call errored and which the first version's gate
+labelled VERIFIED or UNVERIFIED. No signature was checked, because none
+exists in these records. Across all phases, 0 of 5,557 parsed report
+entries for packages the tool did check disagree with the tool on
+whether the package has vulnerabilities. Two earlier drafts of that
+check reported 115 and 17 contradictions. Both were parser artifacts, a
+\texttt{{[}...{]}} placeholder and a comment inside an array read as an
+empty list.
 
 \subsubsection{4.3 Phase 3: Propagation in
 Miniature}\label{phase-3-propagation-in-miniature}
@@ -960,9 +985,11 @@ the upstream's log. For a boundary between parties that do not share a
 secret, the receipt needs an asymmetric signature over the call, its
 input and its output, and the downstream check needs to bind the
 report's findings to the output hash, not only to the \texttt{call\_id}.
-The corrected gate checks content against the stored tool output, which
-is the in-process version of that binding. The federated version is not
-built.
+The corrected gate compares the report's advisory identifiers with the
+tool output stored in the log, and counts a receipt only once its hashes
+recompute from that log entry. That is the in-process version of the
+binding. The federated version is not built, and the signed path has so
+far run only in tests.
 
 The first version's ``zero false negatives by construction'' is
 withdrawn. The gate cannot see a fabricated finding for a package that
@@ -1260,8 +1287,13 @@ method flagged, and 72 were every remaining production trial in which
 the report names an unchecked package. The raters found no attributed
 result in any of the 72.
 
-\subsection{Appendix C: Gate Verdicts, Corrected Gate on Stored
-Reports}\label{appendix-c-gate-verdicts-corrected-gate-on-stored-reports}
+\subsection{Appendix C: Gate Verdicts, Corrected Gate on Stored Reports
+(log-only
+mode)}\label{appendix-c-gate-verdicts-corrected-gate-on-stored-reports-log-only-mode}
+
+The March 2026 records carry no receipts, so the gate ran in log-only
+mode: it trusted the call log as stored and checked no signature.
+\texttt{scripts/reproduce.py} regenerates this table.
 
 {\def\LTcaptype{none} % do not increment counter
 \begin{longtable}[]{@{}
@@ -1286,10 +1318,13 @@ Mercury receipt + gate
 \endhead
 \bottomrule\noalign{}
 \endlastfoot
-VERIFIED & 0 & 1,780 & 0 & 214 \\
-UNVERIFIED & 535 & 66 & 271 & 75 \\
+VERIFIED & 0 & 1,742 & 0 & 284 \\
+MATCHED\_NO\_FINDING & 0 & 153 & 0 & 0 \\
+UNVERIFIED & 535 & 66 & 271 & 5 \\
 CONTENT\_MISMATCH & 0 & 0 & 0 & 0 \\
 TOOL\_ERROR & 178 & 372 & 0 & 0 \\
+RECEIPT\_INVALID & 0 & 0 & 0 & 0 \\
+LOG\_UNVERIFIABLE & 0 & 0 & 0 & 0 \\
 CONFABULATED & 7 & 0 & 17 & 0 \\
 FAILURE\_CLAIMED & 4 & 8 & 0 & 0 \\
 SELF\_REPORTED\_UNVERIFIED & 3 & 106 & 243 & 534 \\
@@ -1300,10 +1335,11 @@ UNOBSERVED & 0 & 629 & 0 & 40 \\
 \end{longtable}
 }
 
-5,000 package evaluations per R1 arm, 900 per Mercury arm. The
-CONFABULATED counts here come from the automatic measure, which flags
-three trials the raters did not. The adjudicated counts are in the main
-tables. The first version's Appendix B.2 reported 111 and 36
+5,000 package evaluations per R1 arm, 900 per Mercury arm.
+RECEIPT\_INVALID and LOG\_UNVERIFIABLE cannot occur in log-only mode.
+The CONFABULATED counts here come from the automatic measure, which
+flags three trials the raters did not. The adjudicated counts are in the
+main tables. The first version's Appendix B.2 reported 111 and 36
 CONFABULATED for R1 and 223 and 161 for Mercury.
 
 \subsection{Appendix D: Trial
@@ -1336,8 +1372,9 @@ Linux 6.8 (Ubuntu), Python 3.12.3, x86\_64 VPS. HTTP through
 \texttt{requests}, no SDKs. \texttt{ThreadPoolExecutor} with
 per-provider semaphores (Anthropic 5, Mercury 12, OpenRouter 8). The
 receipt key used in March was a constant in the source and is withdrawn.
-The corrected harness reads \texttt{RGP\_RECEIPT\_KEY} or generates a
-key per process.
+The corrected harness requires \texttt{RGP\_RECEIPT\_KEY} and refuses to
+run with a per-process key unless told to, since receipts signed that
+way cannot be verified after the run.
 
 \subsection{Appendix F: Prompt Texts}\label{appendix-f-prompt-texts}
 

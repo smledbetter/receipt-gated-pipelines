@@ -18,7 +18,7 @@ sys.path.insert(0, str(ROOT / "scripts"))
 sys.path.insert(0, str(ROOT))
 
 from rgp import jsonrecover  # noqa: E402
-from rgp.loaders import DEPS_100, load_phase, tool_condition, deps_for as deps_for_record  # noqa: E402
+from rgp.loaders import DEPS_100, DEPS_30, load_phase, tool_condition, deps_for as deps_for_record  # noqa: E402
 from rgp.measure import classify  # noqa: E402
 from rgp.names import DepIndex, called_packages, attempted_packages  # noqa: E402
 from rgp.stats import fisher, mannwhitney, mcnemar_exact, rate, wilson  # noqa: E402
@@ -565,6 +565,44 @@ def content_check():
     NUMBERS["content_check"] = dict(tot)
 
 
+def gate_appendix():
+    """Appendix C: the corrected gate run over the stored Phase 2 reports.
+
+    Every March 2026 record carries no receipts (the v1 shim discarded them),
+    so the gate runs in log-only mode: it trusts the call log as stored and
+    checks no signatures. The table says so in its title."""
+    from scripts.phase2 import GATE_VERDICTS, gate_report, summarise_gate  # noqa: E402
+    from scripts.phase3 import RecordShim  # noqa: E402
+    cols = [("deepseek-r1", "gate_only", DEPS_100), ("deepseek-r1", "receipt_gate", DEPS_100),
+            ("mercury", "gate_only", DEPS_30),
+            ("mercury", "receipt_gate", DEPS_30)]
+    totals = {}
+    receipts_present = 0
+    trials = 0
+    modes = Counter()
+    for model, arm, deps in cols:
+        tot = Counter()
+        for r in load_phase(2):
+            if r["_model"] != model or r["condition_key"] != arm:
+                continue
+            shim = RecordShim(r)
+            out = gate_report(r["final_text"], shim, deps, key=shim.key, mode=shim.gate_mode)
+            s, _ = summarise_gate(out["verdicts"])
+            tot.update(s)
+            receipts_present += out["log"]["receipts_present"]
+            modes[out["log"]["status"]] += 1
+            trials += 1
+        totals[(model, arm)] = tot
+    rows = [[v] + [totals[k][v.lower()] for k in [(m, a) for m, a, _ in cols]] for v in GATE_VERDICTS]
+    NUMBERS["gate_verdicts"] = {"mode": dict(modes), "receipts_present": receipts_present, "trials": trials,
+                                "table": {f"{m}/{a}": dict(totals[(m, a)]) for m, a, _ in cols}}
+    write_table("tableC_gate_verdicts", "Appendix C. Corrected gate on the stored Phase 2 reports, log-only mode (no receipts exist in the March 2026 records, so no signature was checked)",
+                ["Verdict", "R1 gate only", "R1 receipt + gate", "Mercury gate only", "Mercury receipt + gate"], rows,
+                f"Trials gated: {trials}. Receipts present in the records: {receipts_present}. Gate modes: {dict(modes)}. "
+                "5,000 package evaluations per R1 arm, 900 per Mercury arm. CONFABULATED here comes from the automatic measure, "
+                "which flags three trials the raters did not; adjudicated counts are in Tables 2 and 3.")
+
+
 def main():
     OUT.mkdir(exist_ok=True)
     phase1()
@@ -573,6 +611,7 @@ def main():
     phase3()
     phase4()
     content_check()
+    gate_appendix()
     figures()
     slim = json.loads(json.dumps(NUMBERS, default=str))
     for k in ("phase1", "phase2", "phase3", "phase4"):

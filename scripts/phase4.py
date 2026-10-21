@@ -37,11 +37,11 @@ if env_path.exists():
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from scripts.phase1 import (
-    ToolShim, PROMPTS, VULN_CHECK_TOOL, MAX_TOKENS,
+    ToolShim, PROMPTS, VULN_CHECK_TOOL, MAX_TOKENS, RECEIPT_KEY_IS_EPHEMERAL, require_receipt_key,
     _extract_json, DATA_DIR, RESULTS_DIR, LOGS_DIR, render_prompt, trial_rng,
 )
 from scripts.phase2 import (
-    parse_call_ids_from_report, parse_unverified_from_report, verify_report, summarise_gate,
+    parse_call_ids_from_report, parse_unverified_from_report, gate_report, summarise_gate,
     MODELS, OPENROUTER_ENDPOINT, MERCURY_ENDPOINT, OPENROUTER_PROVIDER,
 )
 from rgp.loop import agent_loop, final_text_of, transcript_of
@@ -254,7 +254,8 @@ def run_trial(deps, condition_key, trial_id, clutter_set=0, seed=None, call_api=
     rng = trial_rng(seed, trial_id)
 
     osv_name_map = {d["name"].lower(): d["osv_name"] for d in deps if "osv_name" in d}
-    shim = ToolShim(error_rate=ERROR_RATE, osv_name_map=osv_name_map, deps=deps, rng=rng)
+    shim = ToolShim(error_rate=ERROR_RATE, osv_name_map=osv_name_map, deps=deps, rng=rng,
+                    run_id=run_id, trial_uid=(f"{run_id}:{trial_id}" if run_id else trial_id))
 
     deps = copy.deepcopy(deps)
     rng.shuffle(deps)
@@ -302,8 +303,8 @@ def run_trial(deps, condition_key, trial_id, clutter_set=0, seed=None, call_api=
     receipt_echo_rate = correct_echoes / max(len(called_success), 1)
     self_unverified = parse_unverified_from_report(final_text)
 
-    gate_results = verify_report(final_text, shim, deps)
-    gate_summary, gate_packages = summarise_gate(gate_results)
+    gate = gate_report(final_text, shim, deps)
+    gate_summary, gate_packages = summarise_gate(gate["verdicts"])
 
     record = {
         "trial_id": trial_id,
@@ -311,6 +312,8 @@ def run_trial(deps, condition_key, trial_id, clutter_set=0, seed=None, call_api=
         "trial_uid": f"{run_id}:{trial_id}" if run_id else trial_id,
         "seed": seed,
         "max_tokens": MAX_TOKENS,
+        "receipt_key_id": shim.key_id,
+        "receipt_key_ephemeral": RECEIPT_KEY_IS_EPHEMERAL,
         "harness_errors": loop["harness_errors"],
         "phase": 4,
         "condition_key": condition_key,
@@ -347,6 +350,7 @@ def run_trial(deps, condition_key, trial_id, clutter_set=0, seed=None, call_api=
         "self_reported_unverified_count": len(self_unverified),
         "gate_summary": gate_summary,
         "gate_packages": gate_packages,
+        "gate_log": gate["log"],
         "receipts_count": len(shim.receipts),
         "receipts": shim.receipts,
         "final_text": final_text,
@@ -383,7 +387,10 @@ def main():
                         help="Smoke test: 1 trial per condition")
     parser.add_argument("--seed", type=int, default=None,
                         help="Seed for dependency shuffling and error injection")
+    parser.add_argument("--allow-ephemeral-key", action="store_true",
+                        help="Run without RGP_RECEIPT_KEY (receipts will not be verifiable after the run)")
     args = parser.parse_args()
+    require_receipt_key(args.allow_ephemeral_key)
 
     ACTIVE_MODEL = args.model
     model_info = MODELS[ACTIVE_MODEL]

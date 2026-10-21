@@ -28,7 +28,7 @@ For this version, two blind raters coded every production trial in which the rep
 
 ## Abstract
 
-Large language models equipped with tools sometimes skip the tool and write a result anyway. I measured this on a vulnerability-audit task where the model has a real tool that queries the OSV.dev API and a list of 30 or 100 dependencies to check. Across 589 production trials and nine models, 19 trials contain a scan result for a package the tool never checked. Seventeen of the 19 are DeepSeek R1, which does it in about 8% of loose-prompt trials and also, in nine trials, invents a tool failure for a package it never asked the tool about. DeepSeek V3 and GPT-4o Mini each did it once in 20 trials. Mercury 2 never did it in 172 trials. It stops after about ten calls, lists what it has not checked, and asks whether to continue. The six other models are clean. A structured receipt prompt stops R1 from quitting early (low-mode trials fall from 52 of 100 to 2 of 100, p = 3e-17) and is associated with fewer fabricated results (8 of 100 to 1 of 100, p = 0.035). The association is suggestive only, because the receipt arms are censored by the harness's token cap. In a two-rig federated test, a fabricated upstream finding was asserted by the downstream agent in all four genuine cases when passed through untagged and in none when tagged as unverified. Four pairs give an exact McNemar p of 0.125. The first version of this paper reported rates near 50% for three models because its detector counted honest disclosure as fabrication. The measurement lesson is the main result: a detector that reads for names rather than claims will find confabulation wherever a model is candid. The receipt gate is a deterministic name match against the tool log with a content check. It needs no cryptography to do that. The signature makes the log attributable to a party, which is what a federated boundary needs, and that is all it does.
+Large language models equipped with tools sometimes skip the tool and write a result anyway. I measured this on a vulnerability-audit task where the model has a real tool that queries the OSV.dev API and a list of 30 or 100 dependencies to check. Across 589 production trials and nine models, 19 trials contain a scan result for a package the tool never checked. Seventeen of the 19 are DeepSeek R1, which does it in about 8% of loose-prompt trials and also, in nine trials, invents a tool failure for a package it never asked the tool about. DeepSeek V3 and GPT-4o Mini each did it once in 20 trials. Mercury 2 never did it in 172 trials. It stops after about ten calls, lists what it has not checked, and asks whether to continue. The six other models are clean. A structured receipt prompt stops R1 from quitting early (low-mode trials fall from 52 of 100 to 2 of 100, p = 3e-17) and is associated with fewer fabricated results (8 of 100 to 1 of 100, p = 0.035). The association is suggestive only, because the receipt arms are censored by the harness's token cap. In a two-rig federated test, a fabricated upstream finding was asserted by the downstream agent in all four genuine cases when passed through untagged and in none when tagged as unverified. Four pairs give an exact McNemar p of 0.125. The first version of this paper reported rates near 50% for three models because its detector counted honest disclosure as fabrication. The measurement lesson is the main result: a detector that reads for names rather than claims will find confabulation wherever a model is candid. The receipt gate is a deterministic comparison of the report against the tool log, with a content check. It needs no cryptography to do that. A signature makes a receipt attributable to whoever holds the key, which is what a federated boundary would need, and it is all a signature does. No signature has yet been checked on real data, because the March records carry none.
 
 ---
 
@@ -64,7 +64,7 @@ Cemri et al. (2025) taxonomise multi-agent failures, including task verification
 
 ### 2.4 Cryptographic Verification of AI Outputs
 
-Balan et al. (2025) and Kao (2025) describe cryptographic attestation across an AI pipeline. C2PA (2024) signs media provenance. Kirchenbauer et al. (2023) watermark model output. The receipt in this study is a lightweight inference-time attestation of one tool call. The first version claimed it made fabrication detectable. It does not. Detection is a comparison of the report against the log. A signature makes the log attributable to the party that holds the key. Section 5.1 draws the line.
+Balan et al. (2025) and Kao (2025) describe cryptographic attestation across an AI pipeline. C2PA (2024) signs media provenance. Kirchenbauer et al. (2023) watermark model output. The receipt in this study is a per-call log entry with a keyed checksum that only the key holder can check. The first version claimed it made fabrication detectable. It does not. Detection is a comparison of the report against the log. A signature makes the log attributable to the party that holds the key. Section 5.1 draws the line.
 
 ### 2.5 Prompt Structure and Model Effort
 
@@ -82,13 +82,15 @@ Every trial presents a model with a list of software dependencies (package name,
 
 As run in March 2026, the ToolShim queried OSV.dev, gave each call a UUID4 `call_id`, computed an HMAC over a JSON blob that included a monotonic timestamp, discarded the HMAC, and returned the result with the `call_id` attached. The key was a constant in the source. Nothing verified a signature. Calls whose arguments the model wrote as malformed JSON raised an exception, which the runner caught and answered with an error message, with no log entry. A missing ecosystem defaulted to npm, which sent three Maven packages to OSV as npm packages. Errored calls received receipts and the gate treated them as checks.
 
-As corrected, the shim signs `call_id:input_hash:output_hash` with a key read from the environment or generated per process, stores the signature and both hashes in the call log with the full tool result, and `verify_receipt` checks a receipt in constant time. Every attempted call gets a receipt, including calls whose arguments do not parse or lack a package name or ecosystem, which become errored receipts. A missing ecosystem is filled from the dependency list. The output cap is 16,384 tokens. Each turn records the provider's `finish_reason`, and a batch or a report cut off by the cap is recorded as a harness error on the trial. The shuffle and the error injection take a seed. None of the corrected harness has been run against a model yet.
+As corrected, the shim signs a message that binds each call to its run, its trial, its tool and its position in the log: `rgp-receipt-v2|run_id|trial_uid|tool_name|seq|call_id|input_hash|output_hash`. The call log stores the request, the full tool result without the `_call_id` tag, both hashes, the signature and a key identifier. A verifier recomputes both hashes from the stored request and result before it checks the signature, so a tampered log entry under an intact receipt fails, and a receipt copied into another trial's record fails. Verification of a log fails closed: every entry needs exactly one verifying receipt, and an entry without one is not a call the gate may use. The key comes from the environment, and the runners refuse to start with a per-process key unless told to, because receipts signed that way are unverifiable afterwards. Every attempted call gets a receipt, including calls whose arguments do not parse or lack a package name or ecosystem, which become errored receipts. A missing ecosystem is filled from the dependency list. The output cap is 16,384 tokens. Each turn records the provider's `finish_reason`, and a batch or a report cut off by the cap is recorded as a harness error on the trial. The shuffle and the error injection take a seed. None of the corrected harness has been run against a model yet, so no signature has been verified on real data.
 
 ### 3.3 Receipt Gate, as run and as corrected
 
 As run, the gate marked a package CONFABULATED when its name appeared anywhere in the report and no receipt existed for it, unless the name was inside a parsed JSON `unverified` field. It marked a package VERIFIED when a receipt existed, the name appeared, and the echoed `call_id` matched, with no check of what the report said about the package and no distinction between a successful call and an errored one. UNKNOWN meant a called package the report never named.
 
-As corrected, the gate first verifies every receipt's signature. A package is VERIFIED only when its call succeeded, the report names it with the matching `call_id`, and the report's finding agrees with the tool output on whether the package has vulnerabilities. A disagreement is CONTENT_MISMATCH. A package whose every call errored is TOOL_ERROR and is never verified. For packages with no receipt, the verdict follows the rebuilt measure of Section 3.4: CONFABULATED when the report attributes a result, FAILURE_CLAIMED when it says the check failed, SELF_REPORTED_UNVERIFIED when it discloses the package as unchecked, MENTIONED_ONLY for advice or passing mention, UNOBSERVED when the report was cut off before it, MISSING when it is not named. A called package the report never names is NOT_MENTIONED.
+As corrected, the gate first verifies the receipt log as a whole and fails closed. A call whose receipt is missing is LOG_UNVERIFIABLE and one whose receipt fails is RECEIPT_INVALID, and neither can become VERIFIED. A package is VERIFIED only when its call succeeded under a verifying receipt, the report names it with a matching `call_id`, and the report gives a parsable finding that agrees with the tool output. A matching `call_id` with no parsable finding is MATCHED_NO_FINDING. A finding that disagrees is CONTENT_MISMATCH: advisory identifiers are compared within a namespace both sides use, and the comparison falls back to has-vulnerabilities versus none when they share none or when the record did not store the tool's identifiers. A package whose every call errored is TOOL_ERROR and is never verified. For packages the tool never checked, the verdict follows the rebuilt measure of Section 3.4: CONFABULATED when the report attributes a result, FAILURE_CLAIMED when it says the check failed, SELF_REPORTED_UNVERIFIED when it discloses the package as unchecked, MENTIONED_ONLY for advice or passing mention, UNOBSERVED when the report was cut off before it, MISSING when it is not named. A called package the report never names is NOT_MENTIONED.
+
+The March 2026 records carry no receipts, because the v1 shim discarded them. The gate can only run on them in an explicit log-only mode that trusts the call log as stored and checks no signature. Every gate verdict reported in this version comes from that mode.
 
 The gate is a deterministic comparison of a report against a log. It makes no probabilistic guess. It has no false negatives only in the trivial sense that any rule has none against itself. Section 5.1 says what it cannot see.
 
@@ -210,7 +212,7 @@ The first version reported 80% to 13%. Both numbers were the detector reading Me
 
 #### The gate, re-run on the stored data
 
-Run on the stored reports with the corrected gate, R1's receipt-plus-gate arm yields 1,780 VERIFIED packages, 66 UNVERIFIED (named without a matching `call_id`), 0 CONTENT_MISMATCH, 372 TOOL_ERROR, 0 CONFABULATED, 8 FAILURE_CLAIMED, 106 SELF_REPORTED_UNVERIFIED, 629 UNOBSERVED (the report was cut off) and 1,343 NOT_MENTIONED. The 372 are packages whose every call errored and which the first version's gate labelled VERIFIED or UNVERIFIED. Across all phases, 0 of 5,557 parsed report entries for packages the tool did check disagree with the tool on whether the package has vulnerabilities. Two earlier drafts of that check reported 115 and 17 contradictions. Both were parser artifacts, a `[...]` placeholder and a comment inside an array read as an empty list.
+Run on the stored reports with the corrected gate in log-only mode, R1's receipt-plus-gate arm yields 1,742 VERIFIED packages, 153 MATCHED_NO_FINDING (the `call_id` matches but the entry's vulnerability list is a placeholder), 66 UNVERIFIED (named without a matching `call_id`), 0 CONTENT_MISMATCH, 372 TOOL_ERROR, 0 CONFABULATED, 8 FAILURE_CLAIMED, 106 SELF_REPORTED_UNVERIFIED, 629 UNOBSERVED (the report was cut off) and 1,343 NOT_MENTIONED. The 372 are packages whose every call errored and which the first version's gate labelled VERIFIED or UNVERIFIED. No signature was checked, because none exists in these records. Across all phases, 0 of 5,557 parsed report entries for packages the tool did check disagree with the tool on whether the package has vulnerabilities. Two earlier drafts of that check reported 115 and 17 contradictions. Both were parser artifacts, a `[...]` placeholder and a comment inside an array read as an empty list.
 
 ### 4.3 Phase 3: Propagation in Miniature
 
@@ -270,7 +272,7 @@ Nineteen of 589 production trials contain a result attributed to an unchecked pa
 
 The first version said the HMAC "prevents forgery of call_ids" and makes confabulation "deterministically detectable". Neither is a property of a signature. Confabulation is detected by comparing what the report claims against what the log records. That comparison needs the log and a reading of the report. It needs no key. In the shipped code the signature was computed and thrown away, and the verdicts were identical to what a plain call log would give.
 
-What a signature adds is attribution. A party that holds the key can show that a receipt came from its shim and not from the model or from another rig. With a symmetric key, anyone who can verify can also mint, so a downstream rig in a federation would need the upstream's secret or the upstream's log. For a boundary between parties that do not share a secret, the receipt needs an asymmetric signature over the call, its input and its output, and the downstream check needs to bind the report's findings to the output hash, not only to the `call_id`. The corrected gate checks content against the stored tool output, which is the in-process version of that binding. The federated version is not built.
+What a signature adds is attribution. A party that holds the key can show that a receipt came from its shim and not from the model or from another rig. With a symmetric key, anyone who can verify can also mint, so a downstream rig in a federation would need the upstream's secret or the upstream's log. For a boundary between parties that do not share a secret, the receipt needs an asymmetric signature over the call, its input and its output, and the downstream check needs to bind the report's findings to the output hash, not only to the `call_id`. The corrected gate compares the report's advisory identifiers with the tool output stored in the log, and counts a receipt only once its hashes recompute from that log entry. That is the in-process version of the binding. The federated version is not built, and the signed path has so far run only in tests.
 
 The first version's "zero false negatives by construction" is withdrawn. The gate cannot see a fabricated finding for a package that was called, a finding written under an alias such as "Log4Shell" with no package name, or anything about a package not on the list. The corrected gate catches the first of those three.
 
@@ -418,14 +420,19 @@ Nine R1 trials invent a tool failure for a package never attempted: Phase 1 mod_
 
 Of the 190 trials, 118 were every trial the first version's corrected method flagged, and 72 were every remaining production trial in which the report names an unchecked package. The raters found no attributed result in any of the 72.
 
-## Appendix C: Gate Verdicts, Corrected Gate on Stored Reports
+## Appendix C: Gate Verdicts, Corrected Gate on Stored Reports (log-only mode)
+
+The March 2026 records carry no receipts, so the gate ran in log-only mode: it trusted the call log as stored and checked no signature. `scripts/reproduce.py` regenerates this table.
 
 | Verdict | R1 gate only | R1 receipt + gate | Mercury gate only | Mercury receipt + gate |
 |---|---|---|---|---|
-| VERIFIED | 0 | 1,780 | 0 | 214 |
-| UNVERIFIED | 535 | 66 | 271 | 75 |
+| VERIFIED | 0 | 1,742 | 0 | 284 |
+| MATCHED_NO_FINDING | 0 | 153 | 0 | 0 |
+| UNVERIFIED | 535 | 66 | 271 | 5 |
 | CONTENT_MISMATCH | 0 | 0 | 0 | 0 |
 | TOOL_ERROR | 178 | 372 | 0 | 0 |
+| RECEIPT_INVALID | 0 | 0 | 0 | 0 |
+| LOG_UNVERIFIABLE | 0 | 0 | 0 | 0 |
 | CONFABULATED | 7 | 0 | 17 | 0 |
 | FAILURE_CLAIMED | 4 | 8 | 0 | 0 |
 | SELF_REPORTED_UNVERIFIED | 3 | 106 | 243 | 534 |
@@ -434,7 +441,7 @@ Of the 190 trials, 118 were every trial the first version's corrected method fla
 | MISSING | 3,210 | 580 | 365 | 31 |
 | UNOBSERVED | 0 | 629 | 0 | 40 |
 
-5,000 package evaluations per R1 arm, 900 per Mercury arm. The CONFABULATED counts here come from the automatic measure, which flags three trials the raters did not. The adjudicated counts are in the main tables. The first version's Appendix B.2 reported 111 and 36 CONFABULATED for R1 and 223 and 161 for Mercury.
+5,000 package evaluations per R1 arm, 900 per Mercury arm. RECEIPT_INVALID and LOG_UNVERIFIABLE cannot occur in log-only mode. The CONFABULATED counts here come from the automatic measure, which flags three trials the raters did not. The adjudicated counts are in the main tables. The first version's Appendix B.2 reported 111 and 36 CONFABULATED for R1 and 223 and 161 for Mercury.
 
 ## Appendix D: Trial Inventory
 
@@ -449,7 +456,7 @@ Phase 1 trial IDs C6_T001 to C6_T005 and others repeat across files. Phase 2 tri
 
 ## Appendix E: Execution Environment
 
-Linux 6.8 (Ubuntu), Python 3.12.3, x86_64 VPS. HTTP through `requests`, no SDKs. `ThreadPoolExecutor` with per-provider semaphores (Anthropic 5, Mercury 12, OpenRouter 8). The receipt key used in March was a constant in the source and is withdrawn. The corrected harness reads `RGP_RECEIPT_KEY` or generates a key per process.
+Linux 6.8 (Ubuntu), Python 3.12.3, x86_64 VPS. HTTP through `requests`, no SDKs. `ThreadPoolExecutor` with per-provider semaphores (Anthropic 5, Mercury 12, OpenRouter 8). The receipt key used in March was a constant in the source and is withdrawn. The corrected harness requires `RGP_RECEIPT_KEY` and refuses to run with a per-process key unless told to, since receipts signed that way cannot be verified after the run.
 
 ## Appendix F: Prompt Texts
 

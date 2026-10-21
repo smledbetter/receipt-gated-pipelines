@@ -39,14 +39,30 @@ LOGS_DIR.mkdir(exist_ok=True)
 # generated per process when none is set. The v1 release hard-coded the key
 # and printed it in the paper, which made the signature decorative.
 def _load_receipt_key():
+    """RGP_RECEIPT_KEY, or a random key for this process only.
+
+    A random key signs receipts that nobody, including the author, can verify
+    after the process exits. The runners refuse to start that way unless
+    --allow-ephemeral-key is passed; tests and one-off analysis may use it."""
     k = os.environ.get("RGP_RECEIPT_KEY")
     if k:
-        return k.encode()
+        kb = k.encode()
+        if len(kb) < 16:
+            raise RuntimeError("RGP_RECEIPT_KEY must be at least 16 bytes")
+        return kb
     import secrets
     return secrets.token_bytes(32)
 
 
 RECEIPT_SECRET = _load_receipt_key()
+RECEIPT_KEY_IS_EPHEMERAL = "RGP_RECEIPT_KEY" not in os.environ
+
+
+def require_receipt_key(allow_ephemeral=False):
+    """Runners call this before any trial. See _load_receipt_key."""
+    if RECEIPT_KEY_IS_EPHEMERAL and not allow_ephemeral:
+        raise SystemExit("RGP_RECEIPT_KEY is not set. Receipts signed with a per-process key cannot be verified "
+                         "after the run. Set the key, or pass --allow-ephemeral-key to proceed anyway.")
 
 # Output-token cap. The v1 release used 4,096, which cut R1 and V3's first
 # tool-call batch off at ~76 calls and cut many receipt-format reports off
@@ -137,6 +153,7 @@ def call_vuln_api(package_name, version, ecosystem, error_rate=0.0, rng=None):
         for v in data.get("vulns", []):
             vulns.append({
                 "id": v.get("id", ""),
+                "aliases": [a for a in v.get("aliases", []) if isinstance(a, str)],
                 "severity": _extract_severity(v),
                 "summary": v.get("summary", "")[:200],
             })
@@ -177,20 +194,129 @@ def _extract_severity(vuln_entry):
 
 # --- RECEIPT SYSTEM (the shim) ---
 
-def receipt_message(call_id, input_hash, output_hash):
-    """The signed message, exactly as the paper documents it."""
-    return f"{call_id}:{input_hash}:{output_hash}".encode()
+RECEIPT_VERSION = "rgp-receipt-v2"
 
 
-def sign_receipt(call_id, input_hash, output_hash, key=None):
-    return hmac.new(key or RECEIPT_SECRET, receipt_message(call_id, input_hash, output_hash), hashlib.sha256).hexdigest()
+def key_id_of(key):
+    """Short public identifier of a key, stored with every receipt so a
+    verifier can tell whether it holds the right key before it concludes
+    anything from a failed check."""
+    return hashlib.sha256(key).hexdigest()[:16]
 
 
-def verify_receipt(receipt, key=None):
-    """True when the receipt's signature matches its call_id, input_hash and
-    output_hash under `key`. Constant-time comparison."""
-    expected = sign_receipt(receipt["call_id"], receipt["input_hash"], receipt["output_hash"], key)
-    return hmac.compare_digest(expected, receipt.get("hmac", ""))
+def canonical_input(request_args):
+    return json.dumps({"package_name": request_args.get("package_name"), "version": request_args.get("version"),
+                       "ecosystem": request_args.get("ecosystem")}, sort_keys=True)
+
+
+def canonical_output(result):
+    """The tool result without the `_call_id` tag the shim adds for the model."""
+    return json.dumps({k: v for k, v in result.items() if k != "_call_id"}, sort_keys=True)
+
+
+def receipt_message(run_id, trial_uid, tool_name, seq, call_id, input_hash, output_hash):
+    """The signed message. It binds the call to its run, trial, tool and
+    position in the log, so a receipt copied into another trial's record
+    does not verify there."""
+    return "|".join([RECEIPT_VERSION, str(run_id or ""), str(trial_uid or ""), tool_name, str(seq),
+                     call_id, input_hash, output_hash]).encode()
+
+
+def sign_receipt(receipt, key=None):
+    key = key or RECEIPT_SECRET
+    msg = receipt_message(receipt.get("run_id"), receipt.get("trial_uid"), receipt["tool_name"], receipt["seq"],
+                          receipt["call_id"], receipt["input_hash"], receipt["output_hash"])
+    return hmac.new(key, msg, hashlib.sha256).hexdigest()
+
+
+def verify_receipt(receipt, key=None, entry=None):
+    """True when the receipt's signature verifies under `key` and, when the
+    call-log `entry` is given, the receipt's hashes equal hashes recomputed
+    from the entry's stored request and result. A receipt whose hashes are
+    not recomputed only proves that three strings were not altered; with the
+    entry it proves the stored call is the one that was signed."""
+    key = key or RECEIPT_SECRET
+    if key_id_of(key) != receipt.get("key_id", key_id_of(key)):
+        return False
+    if entry is not None:
+        if entry.get("call_id") != receipt.get("call_id"):
+            return False
+        if hashlib.sha256(canonical_input(entry.get("request_args") or {}).encode()).hexdigest() != receipt.get("input_hash"):
+            return False
+        res = entry.get("result")
+        if not isinstance(res, dict):
+            return False
+        if hashlib.sha256(canonical_output(res).encode()).hexdigest() != receipt.get("output_hash"):
+            return False
+        for f in ("run_id", "trial_uid", "seq"):
+            if entry.get(f) != receipt.get(f):
+                return False
+    try:
+        expected = sign_receipt(receipt, key)
+    except KeyError:
+        return False
+    return hmac.compare_digest(expected, str(receipt.get("hmac", "")))
+
+
+def verify_log(receipts, call_log, key=None, run_id=None, trial_uid=None):
+    """Check a whole call log against its receipts. Fails closed.
+
+    Returns a dict:
+      status      "verified" | "unverifiable" | "invalid" | "empty"
+      verified    set of call_ids whose entry has exactly one verifying receipt
+      problems    list of (call_id or None, reason)
+
+    "unverifiable" means no receipt exists for one or more entries (for
+    example a record from a run that discarded its receipts, or a key the
+    verifier does not hold). "invalid" means a receipt exists and fails.
+    Either way, nothing in that log may be treated as verified.
+    """
+    key = key or RECEIPT_SECRET
+    problems = []
+    verified = set()
+    if not call_log and not receipts:
+        return {"status": "empty", "verified": verified, "problems": problems, "key_id": key_id_of(key)}
+    by_id = {}
+    for r in receipts:
+        if r.get("call_id") in by_id:
+            problems.append((r.get("call_id"), "duplicate receipt"))
+        by_id.setdefault(r.get("call_id"), []).append(r)
+    entries = {}
+    for e in call_log:
+        if e.get("call_id") in entries:
+            problems.append((e.get("call_id"), "duplicate call-log entry"))
+        entries[e.get("call_id")] = e
+    for cid, e in entries.items():
+        rs = by_id.get(cid, [])
+        if not rs:
+            problems.append((cid, "no receipt for call-log entry"))
+            continue
+        if len(rs) > 1:
+            continue
+        r = rs[0]
+        if run_id is not None and r.get("run_id") != run_id:
+            problems.append((cid, "receipt from another run"))
+            continue
+        if trial_uid is not None and r.get("trial_uid") != trial_uid:
+            problems.append((cid, "receipt from another trial"))
+            continue
+        if r.get("key_id") and r.get("key_id") != key_id_of(key):
+            problems.append((cid, "signed under a key the verifier does not hold"))
+            continue
+        if verify_receipt(r, key, e):
+            verified.add(cid)
+        else:
+            problems.append((cid, "signature or hash mismatch"))
+    for cid in by_id:
+        if cid not in entries:
+            problems.append((cid, "receipt with no call-log entry"))
+    if any(reason == "signature or hash mismatch" for _, reason in problems):
+        status = "invalid"
+    elif problems:
+        status = "unverifiable"
+    else:
+        status = "verified"
+    return {"status": status, "verified": verified, "problems": problems, "key_id": key_id_of(key)}
 
 
 class ToolShim:
@@ -199,9 +325,14 @@ class ToolShim:
     Every attempted call gets a receipt, including calls whose arguments the
     harness cannot parse. Those are logged as errors so that a report which
     says "the check for X failed" can be matched against an attempt.
+
+    The call log stores the request, the full result (without the `_call_id`
+    tag), the hashes and the signature. `verify_log` recomputes the hashes
+    from the stored request and result, so a tampered log entry with an
+    intact receipt does not verify.
     """
 
-    def __init__(self, error_rate=0.0, osv_name_map=None, deps=None, rng=None, key=None):
+    def __init__(self, error_rate=0.0, osv_name_map=None, deps=None, rng=None, key=None, run_id=None, trial_uid=None):
         self.receipts = []  # All receipts for this run
         self.call_log = []  # Raw log: dict per call with full request/response detail
         self.error_rate = error_rate
@@ -209,6 +340,9 @@ class ToolShim:
         self.deps_by_name = {d["name"].lower(): d for d in (deps or [])}
         self.rng = rng or random
         self.key = key or RECEIPT_SECRET
+        self.key_id = key_id_of(self.key)
+        self.run_id = run_id
+        self.trial_uid = trial_uid
         self._lock = threading.Lock()
 
     def _parse_args(self, tool_call):
@@ -245,8 +379,8 @@ class ToolShim:
         elif not ecosystem:
             error = error or "missing ecosystem and package not in the dependency list"
 
-        input_canonical = json.dumps({"package_name": pkg_name, "version": version, "ecosystem": ecosystem}, sort_keys=True)
-        input_hash = hashlib.sha256(input_canonical.encode()).hexdigest()
+        request_args = {"package_name": pkg_name, "version": version, "ecosystem": ecosystem}
+        input_hash = hashlib.sha256(canonical_input(request_args).encode()).hexdigest()
 
         if error:
             result, is_error = {"error": error, "status": 400}, True
@@ -256,38 +390,49 @@ class ToolShim:
             if not is_error:
                 result["package"] = pkg_name
 
-        output_canonical = json.dumps(result, sort_keys=True)
-        output_hash = hashlib.sha256(output_canonical.encode()).hexdigest()
-
-        receipt_data = {
-            "call_id": call_id,
-            "tool_name": "check_vulnerability",
-            "input_hash": input_hash,
-            "output_hash": output_hash,
-            "timestamp": time.time(),
-            "package_name": pkg_name,
-            "version": version,
-            "is_error": is_error,
-            "hmac": sign_receipt(call_id, input_hash, output_hash, self.key),
-        }
+        stored_result = copy.deepcopy(result)  # what the log keeps; never carries _call_id
+        output_hash = hashlib.sha256(canonical_output(stored_result).encode()).hexdigest()
 
         with self._lock:
+            seq = len(self.call_log)
+            receipt_data = {
+                "version": RECEIPT_VERSION,
+                "call_id": call_id,
+                "tool_name": "check_vulnerability",
+                "run_id": self.run_id,
+                "trial_uid": self.trial_uid,
+                "seq": seq,
+                "input_hash": input_hash,
+                "output_hash": output_hash,
+                "timestamp": time.time(),
+                "package_name": pkg_name,
+                "version": version,
+                "is_error": is_error,
+                "key_id": self.key_id,
+            }
+            receipt_data["hmac"] = sign_receipt(receipt_data, self.key)
             self.receipts.append(receipt_data)
             self.call_log.append({
                 "call_id": call_id,
-                "request_args": {"package_name": pkg_name, "version": version, "ecosystem": ecosystem},
+                "run_id": self.run_id,
+                "trial_uid": self.trial_uid,
+                "seq": seq,
+                "request_args": request_args,
                 "raw_args": args,
                 "osv_name_used": None if error else self.osv_name_map.get(pkg_name.lower(), pkg_name),
                 "is_error": is_error,
                 "input_hash": input_hash,
                 "output_hash": output_hash,
                 "hmac": receipt_data["hmac"],
+                "key_id": self.key_id,
                 "result_summary": {
                     "vulnerability_count": result.get("vulnerability_count", None),
-                    "vulnerability_ids": [v.get("id") for v in result.get("vulnerabilities", [])],
+                    "vulnerability_ids": [v.get("id") for v in result.get("vulnerabilities", []) if isinstance(v, dict)],
+                    "vulnerability_aliases": [a for v in result.get("vulnerabilities", []) if isinstance(v, dict)
+                                              for a in (v.get("aliases") or [])],
                     "error": result.get("error", None),
                 },
-                "result": result,  # full tool output, so downstream rigs never depend on a truncated transcript
+                "result": stored_result,  # full tool output, so downstream rigs never depend on a truncated transcript
             })
 
         # Return tool result with call_id tag
@@ -635,7 +780,9 @@ def run_trial(deps, prompt_tier, cluttered, error_rate, trial_id, clutter_set=0,
         if "osv_name" in d:
             osv_name_map[d["name"].lower()] = d["osv_name"]
 
-    shim = ToolShim(error_rate=error_rate, osv_name_map=osv_name_map, deps=deps, rng=rng)
+    trial_uid = f"{run_id}:{trial_id}" if run_id else trial_id
+    shim = ToolShim(error_rate=error_rate, osv_name_map=osv_name_map, deps=deps, rng=rng,
+                    run_id=run_id, trial_uid=trial_uid)
 
     # Shuffle dep order per trial to distinguish systematic position effects from random
     deps = copy.deepcopy(deps)
@@ -812,9 +959,11 @@ def run_trial(deps, prompt_tier, cluttered, error_rate, trial_id, clutter_set=0,
     record = {
         "trial_id": trial_id,
         "run_id": run_id,
-        "trial_uid": f"{run_id}:{trial_id}" if run_id else trial_id,
+        "trial_uid": trial_uid,
         "seed": seed,
         "max_tokens": MAX_TOKENS,
+        "receipt_key_id": shim.key_id,
+        "receipt_key_ephemeral": RECEIPT_KEY_IS_EPHEMERAL,
         "harness_errors": harness_errors,
         "condition": {
             "list_size": len(deps),
@@ -939,7 +1088,10 @@ def main():
                         help="Model to test (default: mercury-2)")
     parser.add_argument("--seed", type=int, default=None,
                         help="Seed for dependency shuffling and error injection (recorded per trial)")
+    parser.add_argument("--allow-ephemeral-key", action="store_true",
+                        help="Run without RGP_RECEIPT_KEY (receipts will not be verifiable after the run)")
     args = parser.parse_args()
+    require_receipt_key(args.allow_ephemeral_key)
 
     # Resolve model name
     model_map = {"mercury-2": MERCURY_MODEL, "sonnet": SONNET_MODEL, "haiku": HAIKU_MODEL}

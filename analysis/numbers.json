@@ -1468,5 +1468,78 @@
  },
  "content_check": {
   "entries": 5557
+ },
+ "gate_verdicts": {
+  "mode": {
+   "log-only": 160
+  },
+  "receipts_present": 0,
+  "trials": 160,
+  "table": {
+   "deepseek-r1/gate_only": {
+    "verified": 0,
+    "matched_no_finding": 0,
+    "unverified": 535,
+    "content_mismatch": 0,
+    "tool_error": 178,
+    "receipt_invalid": 0,
+    "log_unverifiable": 0,
+    "confabulated": 7,
+    "failure_claimed": 4,
+    "self_reported_unverified": 3,
+    "mentioned_only": 4,
+    "not_mentioned": 1059,
+    "missing": 3210,
+    "unobserved": 0
+   },
+   "deepseek-r1/receipt_gate": {
+    "verified": 1742,
+    "matched_no_finding": 153,
+    "unverified": 66,
+    "content_mismatch": 0,
+    "tool_error": 372,
+    "receipt_invalid": 0,
+    "log_unverifiable": 0,
+    "confabulated": 0,
+    "failure_claimed": 8,
+    "self_reported_unverified": 106,
+    "mentioned_only": 1,
+    "not_mentioned": 1343,
+    "missing": 580,
+    "unobserved": 629
+   },
+   "mercury/gate_only": {
+    "verified": 0,
+    "matched_no_finding": 0,
+    "unverified": 271,
+    "content_mismatch": 0,
+    "tool_error": 0,
+    "receipt_invalid": 0,
+    "log_unverifiable": 0,
+    "confabulated": 17,
+    "failure_claimed": 0,
+    "self_reported_unverified": 243,
+    "mentioned_only": 3,
+    "not_mentioned": 1,
+    "missing": 365,
+    "unobserved": 0
+   },
+   "mercury/receipt_gate": {
+    "verified": 284,
+    "matched_no_finding": 0,
+    "unverified": 5,
+    "content_mismatch": 0,
+    "tool_error": 0,
+    "receipt_invalid": 0,
+    "log_unverifiable": 0,
+    "confabulated": 0,
+    "failure_claimed": 0,
+    "self_reported_unverified": 534,
+    "mentioned_only": 0,
+    "not_mentioned": 6,
+    "missing": 31,
+    "unobserved": 40
+   }
+  }
  }
 }

@@ -8,7 +8,7 @@ Steven M. Ledbetter (Independent Researcher). First release March 2026. Correcte
 
 ## What changed
 
-The March 2026 release reported that three of eight models fabricate tool results at rates near 50%, that a receipt prompt cut Mercury 2's rate from 80% to 13%, and that fabricated findings propagate across an agent boundary 82% of the time. An external audit in October 2026 showed that the measurement code counted honest disclosure as fabrication, that the harness's 4,096-token output cap set the "76-call ceiling" the paper attributed to the model, that the HMAC receipts were never verified, and that the Phase 3 gated condition never ran the gate. [CORRECTIONS.md](CORRECTIONS.md) has the full list.
+The March 2026 release reported that three of eight models fabricate tool results at rates near 50%. It reported that a receipt prompt cut Mercury 2's rate from 80% to 13%, and that fabricated findings propagate across an agent boundary 82% of the time. An external audit in October 2026 showed that the measurement code counted honest disclosure as fabrication. The harness's 4,096-token output cap set the "76-call ceiling" the paper attributed to the model. The HMAC receipts were never verified. The Phase 3 gated condition never ran the gate. [CORRECTIONS.md](CORRECTIONS.md) has the full list.
 
 Every trial that names an unchecked package was re-coded by two blind raters. The corrected numbers:
 
@@ -23,7 +23,7 @@ Every trial that names an unchecked package was re-coded by two blind raters. Th
 | Propagation, ungated vs annotated (Phase 3, genuine inputs) | 82% vs 18% | 4/4 vs 0/4 |
 | Trials with a fabricated result, all phases | 118 of 589 | 19 of 589 |
 
-What survives: R1 sometimes writes a scan result for a package it never checked, and sometimes invents a tool failure for one. A structured output format stops R1 from quitting early. In the few genuine cases, a fabricated finding propagated to a downstream agent every time it was passed through untagged and never when it was tagged. What does not survive: the headline rates, Mercury's confabulation, the "diligent receipt-keeper" claim, and "zero false negatives by construction".
+What survives: R1 sometimes writes a scan result for a package it never checked, and sometimes invents a tool failure for one. A structured output format stops R1 from quitting early. In the few genuine cases, a downstream agent repeated a fabricated finding every time it arrived untagged and never when it arrived tagged. What does not survive: the headline rates, Mercury's confabulation, the "diligent receipt-keeper" claim, and "zero false negatives by construction".
 
 ## Reproduce
 
@@ -31,7 +31,7 @@ What survives: R1 sometimes writes a scan result for a package it never checked,
 uv venv --python 3.13 .venv && uv pip install -r requirements.txt
 .venv/bin/python scripts/reproduce.py       # every table, test and figure -> analysis/
 .venv/bin/python scripts/audit_checks.py    # the audit's own checks, from the shipped data
-.venv/bin/python -m pytest tests            # 62 offline tests
+.venv/bin/python -m pytest tests            # offline tests, including log tampering and replay
 ```
 
 No step above calls an API. The raw trial records are in `data/phase1/` to `data/phase4/` (28 JSONL files, 589 production trials plus smoke tests). The adjudication is in `analysis/adjudication/`: the codebook, the packets both raters saw, both raters' codes, the consensus, the disputes and the agreement report.
@@ -54,13 +54,13 @@ No step above calls an API. The raw trial records are in `data/phase1/` to `data
 
 ## Running new trials
 
-The runners need `OPENROUTER_API_KEY`, `INCEPTION_API_KEY` and `ANTHROPIC_API_KEY` in a `.env` file at the repo root (`.env` is git-ignored). Set `RGP_RECEIPT_KEY` to sign receipts with a fixed key, `RGP_MAX_TOKENS` to change the output cap (default 16,384), and `RGP_OPENROUTER_PROVIDER` to pin OpenRouter routing. Pass `--seed` to make the dependency shuffle and the error injection reproducible.
+The runners need `OPENROUTER_API_KEY`, `INCEPTION_API_KEY` and `ANTHROPIC_API_KEY` in a `.env` file at the repo root (`.env` is git-ignored). They also need `RGP_RECEIPT_KEY` (16 bytes or more). Receipts signed with it can be verified later. The runners refuse to start without it unless you pass `--allow-ephemeral-key`, and then nobody can verify the receipts after the run. Set `RGP_MAX_TOKENS` to change the output cap (default 16,384) and `RGP_OPENROUTER_PROVIDER` to pin OpenRouter routing. Pass `--seed` to make the dependency shuffle and the error injection reproducible.
 
 ```bash
-.venv/bin/python scripts/phase2.py --model deepseek-r1 --trials 25 --seed 1
+RGP_RECEIPT_KEY=$(openssl rand -hex 32) .venv/bin/python scripts/phase2.py --model deepseek-r1 --trials 25 --seed 1
 ```
 
-Every record now carries `run_id`, `seed`, `max_tokens`, `harness_errors`, the receipts with their signatures, the full tool results, `finish_reason` and provider per turn, and the rebuilt measure's verdict under `measure`.
+Every record now carries `run_id`, `trial_uid`, `seed`, `max_tokens`, `receipt_key_id` and `harness_errors`. It carries the receipts with their context-bound signatures and the full tool results with the hashes they recompute to. It carries `finish_reason` and provider per turn, the gate's log status, and the rebuilt measure's verdict under `measure`. The March 2026 records carry none of the receipt fields, so the gate runs on them in log-only mode.
 
 ## License
 
