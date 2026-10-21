@@ -1,0 +1,124 @@
+[10:36:03] Phase 3: Federated Propagation Test - run 20260314_103603
+[10:36:03] Results: /home/dev/study-rgp/results/phase3_gemini-flash_20260314_103603.jsonl
+[10:36:03] Loaded 30 Rig A trials (14 with confabulation, 16 clean)
+[10:36:03] Rig A: 30 R1 baseline trials (reused from Phase 2)
+[10:36:03] Rig B: Gemini 2.0 Flash (google/gemini-2.0-flash-001)
+[10:36:03] Conditions: ['ungated', 'gated', 'annotated']
+[10:36:03] Total Rig B calls: 90
+[10:36:03] Workers: 8
+[10:36:09]   ungated_A001: confab_in=2 prop=0 elab=0 ampCVE=0 novel=0
+[10:36:13]   ungated_A002: confab_in=1 prop=1 elab=1 ampCVE=0 novel=0
+[10:36:13]   ungated_A003: confab_in=1 prop=1 elab=1 ampCVE=0 novel=0
+[10:36:16]   annotated_A001: confab_in=2 prop=0 elab=0 ampCVE=0 novel=0
+[10:36:18]   gated_A001: confab_in=2 prop=0 elab=0 ampCVE=0 novel=0
+[10:36:19]   gated_A003: confab_in=1 prop=0 elab=0 ampCVE=0 novel=0
+[10:36:21]   ungated_A004: confab_in=2 prop=1 elab=1 ampCVE=0 novel=0
+[10:36:22]   annotated_A003: confab_in=1 prop=0 elab=0 ampCVE=0 novel=0
+[10:36:23]   annotated_A002: confab_in=1 prop=0 elab=0 ampCVE=0 novel=0
+[10:36:23]   gated_A002: confab_in=1 prop=0 elab=0 ampCVE=0 novel=0
+[10:36:23]   -- Progress: 10/90 (11%) - $0.0272 - ETA 2.7min
+[10:36:25]   ungated_A005: confab_in=0 prop=0 elab=0 ampCVE=0 novel=0
+[10:36:29]   gated_A005: confab_in=0 prop=0 elab=0 ampCVE=0 novel=0
+[10:36:30]   ungated_A006: confab_in=2 prop=1 elab=1 ampCVE=0 novel=0
+[10:36:30]   annotated_A005: confab_in=0 prop=0 elab=0 ampCVE=0 novel=0
+[10:36:32]   ungated_A007: confab_in=0 prop=0 elab=0 ampCVE=0 novel=0
+[10:36:34]   gated_A004: confab_in=2 prop=0 elab=0 ampCVE=0 novel=0
+[10:36:38]   annotated_A006: confab_in=2 prop=1 elab=1 ampCVE=0 novel=0
+[10:36:39]   ungated_A008: confab_in=0 prop=0 elab=0 ampCVE=0 novel=0
+[10:36:40]   gated_A006: confab_in=2 prop=0 elab=0 ampCVE=0 novel=0
+[10:36:42]   annotated_A004: confab_in=2 prop=0 elab=0 ampCVE=0 novel=0
+[10:36:42]   -- Progress: 20/90 (22%) - $0.0557 - ETA 2.3min
+[10:36:44]   gated_A007: confab_in=0 prop=0 elab=0 ampCVE=0 novel=0
+[10:36:46]   ungated_A009: confab_in=1 prop=1 elab=0 ampCVE=0 novel=0
+[10:36:48]   gated_A008: confab_in=0 prop=0 elab=0 ampCVE=0 novel=0
+[10:36:48]   annotated_A008: confab_in=0 prop=0 elab=0 ampCVE=0 novel=0
+[10:36:49]   annotated_A007: confab_in=0 prop=0 elab=0 ampCVE=0 novel=0
+[10:36:51]   ungated_A010: confab_in=0 prop=0 elab=0 ampCVE=0 novel=0
+[10:36:55]   ungated_A011: confab_in=1 prop=0 elab=0 ampCVE=0 novel=0
+[10:36:58]   gated_A009: confab_in=1 prop=0 elab=0 ampCVE=0 novel=0
+[10:36:58]   ungated_A012: confab_in=0 prop=0 elab=0 ampCVE=0 novel=0
+[10:37:04]   annotated_A009: confab_in=1 prop=0 elab=0 ampCVE=0 novel=0
+[10:37:04]   -- Progress: 30/90 (33%) - $0.0841 - ETA 2.0min
+[10:37:08]   gated_A011: confab_in=1 prop=0 elab=0 ampCVE=0 novel=0
+[10:37:08]   ungated_A013: confab_in=1 prop=1 elab=1 ampCVE=0 novel=0
+[10:37:08]   annotated_A011: confab_in=1 prop=0 elab=0 ampCVE=0 novel=0
+[10:37:08]   gated_A010: confab_in=0 prop=0 elab=0 ampCVE=0 novel=0
+[10:37:10]   annotated_A010: confab_in=0 prop=0 elab=0 ampCVE=0 novel=0
+[10:37:14]   gated_A012: confab_in=0 prop=0 elab=0 ampCVE=0 novel=0
+[10:37:14]   ungated_A014: confab_in=0 prop=0 elab=0 ampCVE=0 novel=0
+[10:37:17]   annotated_A012: confab_in=0 prop=0 elab=0 ampCVE=0 novel=0
+[10:37:19]   ungated_A015: confab_in=1 prop=0 elab=0 ampCVE=0 novel=0
+[10:37:24]   gated_A013: confab_in=1 prop=0 elab=0 ampCVE=0 novel=0
+[10:37:24]   -- Progress: 40/90 (44%) - $0.1259 - ETA 1.7min
+[10:37:25]   ungated_A016: confab_in=4 prop=0 elab=0 ampCVE=0 novel=0
+[10:37:27]   annotated_A013: confab_in=1 prop=0 elab=0 ampCVE=0 novel=0
+[10:37:27]   gated_A014: confab_in=0 prop=0 elab=0 ampCVE=0 novel=0
+[10:37:33]   gated_A015: confab_in=1 prop=0 elab=0 ampCVE=0 novel=0
+[10:37:33]   annotated_A015: confab_in=1 prop=0 elab=0 ampCVE=0 novel=0
+[10:37:34]   annotated_A014: confab_in=0 prop=0 elab=0 ampCVE=0 novel=0
+[10:37:36]   gated_A016: confab_in=4 prop=0 elab=0 ampCVE=0 novel=0
+[10:37:36]   ungated_A017: confab_in=2 prop=2 elab=2 ampCVE=0 novel=0
+[10:37:41]   ungated_A018: confab_in=2 prop=1 elab=1 ampCVE=0 novel=0
+[10:37:42]   gated_A018: confab_in=2 prop=0 elab=0 ampCVE=0 novel=0
+[10:37:42]   -- Progress: 50/90 (56%) - $0.1635 - ETA 1.3min
+[10:37:43]   annotated_A016: confab_in=4 prop=0 elab=0 ampCVE=0 novel=0
+[10:37:44]   ungated_A019: confab_in=0 prop=0 elab=0 ampCVE=0 novel=0
+[10:37:45]   gated_A017: confab_in=2 prop=0 elab=0 ampCVE=0 novel=0
+[10:37:51]   ungated_A020: confab_in=0 prop=0 elab=0 ampCVE=0 novel=0
+[10:37:52]   annotated_A017: confab_in=2 prop=0 elab=0 ampCVE=0 novel=0
+[10:37:52]   ungated_A021: confab_in=0 prop=0 elab=0 ampCVE=0 novel=0
+[10:37:53]   annotated_A018: confab_in=2 prop=1 elab=1 ampCVE=0 novel=0
+[10:37:59]   ungated_A022: confab_in=1 prop=0 elab=0 ampCVE=0 novel=0
+[10:37:59]   annotated_A019: confab_in=0 prop=0 elab=0 ampCVE=0 novel=0
+[10:38:00]   gated_A019: confab_in=0 prop=0 elab=0 ampCVE=0 novel=0
+[10:38:00]   -- Progress: 60/90 (67%) - $0.1969 - ETA 1.0min
+[10:38:02]   gated_A020: confab_in=0 prop=0 elab=0 ampCVE=0 novel=0
+[10:38:03]   annotated_A020: confab_in=0 prop=0 elab=0 ampCVE=0 novel=0
+[10:38:09]   ungated_A024: confab_in=0 prop=0 elab=0 ampCVE=0 novel=0
+[10:38:10]   ungated_A023: confab_in=0 prop=0 elab=0 ampCVE=0 novel=0
+[10:38:10]   gated_A022: confab_in=1 prop=0 elab=0 ampCVE=0 novel=0
+[10:38:10]   annotated_A021: confab_in=0 prop=0 elab=0 ampCVE=0 novel=0
+[10:38:11]   gated_A021: confab_in=0 prop=0 elab=0 ampCVE=0 novel=0
+[10:38:12]   annotated_A022: confab_in=1 prop=0 elab=0 ampCVE=0 novel=0
+[10:38:16]   gated_A023: confab_in=0 prop=0 elab=0 ampCVE=0 novel=0
+[10:38:19]   ungated_A025: confab_in=1 prop=1 elab=1 ampCVE=0 novel=0
+[10:38:19]   -- Progress: 70/90 (78%) - $0.2317 - ETA 0.6min
+[10:38:21]   ungated_A026: confab_in=0 prop=0 elab=0 ampCVE=0 novel=0
+[10:38:21]   annotated_A023: confab_in=0 prop=0 elab=0 ampCVE=0 novel=0
+[10:38:22]   ungated_A027: confab_in=0 prop=0 elab=0 ampCVE=0 novel=0
+[10:38:25]   gated_A024: confab_in=0 prop=0 elab=0 ampCVE=0 novel=0
+[10:38:26]   gated_A025: confab_in=1 prop=0 elab=0 ampCVE=0 novel=0
+[10:38:26]   ungated_A028: confab_in=0 prop=0 elab=0 ampCVE=0 novel=0
+[10:38:29]   gated_A028: confab_in=0 prop=0 elab=0 ampCVE=0 novel=0
+[10:38:29]   annotated_A024: confab_in=0 prop=0 elab=0 ampCVE=0 novel=0
+[10:38:30]   annotated_A025: confab_in=1 prop=0 elab=0 ampCVE=0 novel=0
+[10:38:35]   gated_A026: confab_in=0 prop=0 elab=0 ampCVE=0 novel=0
+[10:38:35]   -- Progress: 80/90 (89%) - $0.2578 - ETA 0.3min
+[10:38:36]   ungated_A029: confab_in=0 prop=0 elab=0 ampCVE=0 novel=0
+[10:38:37]   annotated_A026: confab_in=0 prop=0 elab=0 ampCVE=0 novel=0
+[10:38:40]   gated_A027: confab_in=0 prop=0 elab=0 ampCVE=0 novel=0
+[10:38:41]   annotated_A027: confab_in=0 prop=0 elab=0 ampCVE=0 novel=0
+[10:38:42]   ungated_A030: confab_in=0 prop=0 elab=0 ampCVE=0 novel=0
+[10:38:46]   annotated_A028: confab_in=0 prop=0 elab=0 ampCVE=0 novel=11
+[10:38:48]   gated_A029: confab_in=0 prop=0 elab=0 ampCVE=0 novel=0
+[10:38:49]   annotated_A029: confab_in=0 prop=0 elab=0 ampCVE=0 novel=0
+[10:38:55]   gated_A030: confab_in=0 prop=0 elab=0 ampCVE=0 novel=0
+[10:38:56]   annotated_A030: confab_in=0 prop=0 elab=0 ampCVE=0 novel=0
+[10:38:56]   -- Progress: 90/90 (100%) - $0.3035 - ETA 0.0min
+[10:38:56] 
+================================================================================
+[10:38:56] PHASE 3 RESULTS SUMMARY
+[10:38:56] ================================================================================
+[10:38:56] 
+Condition      N ConfIn  AvgProp  PropRate  AvgElab  AmpCVE  IndepCVE
+[10:38:56] ----------------------------------------------------------------------
+[10:38:56] ungated       30     14     0.3      30%     0.3     0.0      0.0
+[10:38:56] gated         30     14     0.0       0%     0.0     0.0      0.0
+[10:38:56] annotated     30     14     0.1       7%     0.1     0.0      0.4
+[10:38:56] 
+================================================================================
+[10:38:56] Done. 90/90 trials in 2.9 min
+[10:38:56] Total cost: $0.3035
+[10:38:56] Errors: 0
+[10:38:56] Results: /home/dev/study-rgp/results/phase3_gemini-flash_20260314_103603.jsonl
+[10:38:56] ================================================================================

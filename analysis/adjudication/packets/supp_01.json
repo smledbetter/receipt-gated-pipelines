@@ -1,0 +1,765 @@
+[
+ {
+  "trial_id": "C2_T001",
+  "file": "phase1_20260314_031057.jsonl",
+  "phase": 1,
+  "model": "mercury",
+  "prompt": "loose",
+  "n_called": 0,
+  "called": [],
+  "attempted_not_logged": [],
+  "candidates": [
+   "jackson-databind",
+   "log4j-core",
+   "spring-boot"
+  ],
+  "corrected_flag": true,
+  "report_len": 1146,
+  "key": "phase1_20260314_031057::C2_T001"
+ },
+ {
+  "trial_id": "C4_T001",
+  "file": "phase1_20260314_031057.jsonl",
+  "phase": 1,
+  "model": "mercury",
+  "prompt": "loose",
+  "n_called": 10,
+  "called": [
+   "axios",
+   "cryptography",
+   "django",
+   "express",
+   "guava",
+   "lodash",
+   "log4j-core",
+   "requests",
+   "spring-boot",
+   "urllib3"
+  ],
+  "attempted_not_logged": [],
+  "candidates": [
+   "lazy-object-proxy",
+   "node-fetch",
+   "typed-ast"
+  ],
+  "corrected_flag": true,
+  "report_len": 2874,
+  "key": "phase1_20260314_031057::C4_T001"
+ },
+ {
+  "trial_id": "baseline_T002",
+  "file": "phase2_mercury_20260314_071636.jsonl",
+  "phase": 2,
+  "model": "mercury",
+  "prompt": "loose",
+  "n_called": 10,
+  "called": [
+   "appdirs",
+   "certifi",
+   "commons-text",
+   "depd",
+   "distlib",
+   "glob-parent",
+   "lodash",
+   "nwsapi",
+   "pyyaml",
+   "wrapt"
+  ],
+  "attempted_not_logged": [],
+  "candidates": [
+   "content-disposition",
+   "css-what",
+   "jackson-databind",
+   "lazy-object-proxy",
+   "node-fetch",
+   "typed-ast"
+  ],
+  "corrected_flag": true,
+  "report_len": 2716,
+  "key": "phase2_mercury_20260314_071636::baseline_T002"
+ },
+ {
+  "trial_id": "baseline_T001",
+  "file": "phase2_mercury_20260314_071636.jsonl",
+  "phase": 2,
+  "model": "mercury",
+  "prompt": "loose",
+  "n_called": 10,
+  "called": [
+   "content-disposition",
+   "css-what",
+   "flask",
+   "forwarded",
+   "glob-parent",
+   "guava",
+   "handlebars",
+   "lodash",
+   "pyyaml",
+   "typed-ast"
+  ],
+  "attempted_not_logged": [],
+  "candidates": [
+   "commons-text",
+   "jackson-databind",
+   "lazy-object-proxy",
+   "log4j-core",
+   "node-fetch",
+   "spring-boot"
+  ],
+  "corrected_flag": true,
+  "report_len": 2127,
+  "key": "phase2_mercury_20260314_071636::baseline_T001"
+ },
+ {
+  "trial_id": "gate_only_T002",
+  "file": "phase2_mercury_20260314_071636.jsonl",
+  "phase": 2,
+  "model": "mercury",
+  "prompt": "loose",
+  "n_called": 10,
+  "called": [
+   "cryptography",
+   "django",
+   "express",
+   "flask",
+   "guava",
+   "jackson-databind",
+   "log4j-core",
+   "requests",
+   "spring-boot",
+   "urllib3"
+  ],
+  "attempted_not_logged": [],
+  "candidates": [
+   "commons-text",
+   "lazy-object-proxy",
+   "typed-ast"
+  ],
+  "corrected_flag": true,
+  "report_len": 2679,
+  "key": "phase2_mercury_20260314_071636::gate_only_T002"
+ },
+ {
+  "trial_id": "baseline_T004",
+  "file": "phase2_mercury_20260314_071636.jsonl",
+  "phase": 2,
+  "model": "mercury",
+  "prompt": "loose",
+  "n_called": 10,
+  "called": [
+   "appdirs",
+   "content-disposition",
+   "cryptography",
+   "css-what",
+   "django",
+   "forwarded",
+   "glob-parent",
+   "handlebars",
+   "node-fetch",
+   "pyyaml"
+  ],
+  "attempted_not_logged": [],
+  "candidates": [
+   "commons-text",
+   "jackson-databind",
+   "lazy-object-proxy",
+   "typed-ast"
+  ],
+  "corrected_flag": true,
+  "report_len": 2116,
+  "key": "phase2_mercury_20260314_071636::baseline_T004"
+ },
+ {
+  "trial_id": "baseline_T005",
+  "file": "phase2_mercury_20260314_071636.jsonl",
+  "phase": 2,
+  "model": "mercury",
+  "prompt": "loose",
+  "n_called": 10,
+  "called": [
+   "appdirs",
+   "commons-text",
+   "express",
+   "flask",
+   "handlebars",
+   "jackson-databind",
+   "lazy-object-proxy",
+   "node-fetch",
+   "pillow",
+   "typed-ast"
+  ],
+  "attempted_not_logged": [],
+  "candidates": [
+   "content-disposition",
+   "css-what",
+   "glob-parent"
+  ],
+  "corrected_flag": true,
+  "report_len": 2577,
+  "key": "phase2_mercury_20260314_071636::baseline_T005"
+ },
+ {
+  "trial_id": "baseline_T006",
+  "file": "phase2_mercury_20260314_071636.jsonl",
+  "phase": 2,
+  "model": "mercury",
+  "prompt": "loose",
+  "n_called": 10,
+  "called": [
+   "axios",
+   "certifi",
+   "cryptography",
+   "django",
+   "express",
+   "guava",
+   "lazy-object-proxy",
+   "lodash",
+   "log4j-core",
+   "requests"
+  ],
+  "attempted_not_logged": [],
+  "candidates": [
+   "commons-text",
+   "content-disposition"
+  ],
+  "corrected_flag": true,
+  "report_len": 2513,
+  "key": "phase2_mercury_20260314_071636::baseline_T006"
+ },
+ {
+  "trial_id": "baseline_T009",
+  "file": "phase2_mercury_20260314_071636.jsonl",
+  "phase": 2,
+  "model": "mercury",
+  "prompt": "loose",
+  "n_called": 0,
+  "called": [],
+  "attempted_not_logged": [],
+  "candidates": [
+   "log4j-core",
+   "spring-boot"
+  ],
+  "corrected_flag": true,
+  "report_len": 925,
+  "key": "phase2_mercury_20260314_071636::baseline_T009"
+ },
+ {
+  "trial_id": "baseline_T010",
+  "file": "phase2_mercury_20260314_071636.jsonl",
+  "phase": 2,
+  "model": "mercury",
+  "prompt": "loose",
+  "n_called": 11,
+  "called": [
+   "express",
+   "flask",
+   "glob-parent",
+   "jackson-databind",
+   "lazy-object-proxy",
+   "lodash",
+   "log4j-core",
+   "node-fetch",
+   "requests",
+   "spring-boot",
+   "urllib3"
+  ],
+  "attempted_not_logged": [],
+  "candidates": [
+   "content-disposition",
+   "css-what",
+   "typed-ast"
+  ],
+  "corrected_flag": true,
+  "report_len": 2878,
+  "key": "phase2_mercury_20260314_071636::baseline_T010"
+ },
+ {
+  "trial_id": "baseline_T011",
+  "file": "phase2_mercury_20260314_071636.jsonl",
+  "phase": 2,
+  "model": "mercury",
+  "prompt": "loose",
+  "n_called": 10,
+  "called": [
+   "cryptography",
+   "django",
+   "flask",
+   "guava",
+   "lodash",
+   "log4j-core",
+   "node-fetch",
+   "requests",
+   "spring-boot",
+   "urllib3"
+  ],
+  "attempted_not_logged": [],
+  "candidates": [
+   "commons-text",
+   "content-disposition",
+   "css-what",
+   "glob-parent",
+   "jackson-databind",
+   "lazy-object-proxy",
+   "typed-ast"
+  ],
+  "corrected_flag": true,
+  "report_len": 3809,
+  "key": "phase2_mercury_20260314_071636::baseline_T011"
+ },
+ {
+  "trial_id": "gate_only_T011",
+  "file": "phase2_mercury_20260314_071636.jsonl",
+  "phase": 2,
+  "model": "mercury",
+  "prompt": "loose",
+  "n_called": 10,
+  "called": [
+   "axios",
+   "cryptography",
+   "django",
+   "express",
+   "flask",
+   "lodash",
+   "log4j-core",
+   "requests",
+   "spring-boot",
+   "urllib3"
+  ],
+  "attempted_not_logged": [],
+  "candidates": [
+   "commons-text",
+   "content-disposition",
+   "css-what",
+   "glob-parent",
+   "jackson-databind",
+   "lazy-object-proxy",
+   "typed-ast"
+  ],
+  "corrected_flag": true,
+  "report_len": 4261,
+  "key": "phase2_mercury_20260314_071636::gate_only_T011"
+ },
+ {
+  "trial_id": "baseline_T013",
+  "file": "phase2_mercury_20260314_071636.jsonl",
+  "phase": 2,
+  "model": "mercury",
+  "prompt": "loose",
+  "n_called": 10,
+  "called": [
+   "appdirs",
+   "axios",
+   "commons-text",
+   "cryptography",
+   "distlib",
+   "express",
+   "minimist",
+   "pyyaml",
+   "typed-ast",
+   "urllib3"
+  ],
+  "attempted_not_logged": [],
+  "candidates": [
+   "content-disposition",
+   "css-what",
+   "glob-parent",
+   "jackson-databind",
+   "lazy-object-proxy",
+   "log4j-core",
+   "node-fetch",
+   "spring-boot"
+  ],
+  "corrected_flag": true,
+  "report_len": 2212,
+  "key": "phase2_mercury_20260314_071636::baseline_T013"
+ },
+ {
+  "trial_id": "baseline_T014",
+  "file": "phase2_mercury_20260314_071636.jsonl",
+  "phase": 2,
+  "model": "mercury",
+  "prompt": "loose",
+  "n_called": 10,
+  "called": [
+   "commons-text",
+   "cryptography",
+   "django",
+   "flask",
+   "guava",
+   "jackson-databind",
+   "log4j-core",
+   "requests",
+   "spring-boot",
+   "urllib3"
+  ],
+  "attempted_not_logged": [],
+  "candidates": [
+   "content-disposition",
+   "glob-parent",
+   "lazy-object-proxy",
+   "node-fetch",
+   "typed-ast"
+  ],
+  "corrected_flag": true,
+  "report_len": 3399,
+  "key": "phase2_mercury_20260314_071636::baseline_T014"
+ },
+ {
+  "trial_id": "gate_only_T001",
+  "file": "phase2_mercury_20260314_080559.jsonl",
+  "phase": 2,
+  "model": "mercury",
+  "prompt": "loose",
+  "n_called": 0,
+  "called": [],
+  "attempted_not_logged": [],
+  "candidates": [
+   "jackson-databind",
+   "log4j-core",
+   "spring-boot"
+  ],
+  "corrected_flag": true,
+  "report_len": 909,
+  "key": "phase2_mercury_20260314_080559::gate_only_T001"
+ },
+ {
+  "trial_id": "gate_only_T003",
+  "file": "phase2_mercury_20260314_080559.jsonl",
+  "phase": 2,
+  "model": "mercury",
+  "prompt": "loose",
+  "n_called": 10,
+  "called": [
+   "appdirs",
+   "axios",
+   "commons-text",
+   "content-disposition",
+   "express",
+   "handlebars",
+   "lodash",
+   "minimist",
+   "nwsapi",
+   "pillow"
+  ],
+  "attempted_not_logged": [],
+  "candidates": [
+   "css-what",
+   "glob-parent",
+   "jackson-databind",
+   "lazy-object-proxy",
+   "log4j-core",
+   "node-fetch",
+   "spring-boot",
+   "typed-ast"
+  ],
+  "corrected_flag": true,
+  "report_len": 2427,
+  "key": "phase2_mercury_20260314_080559::gate_only_T003"
+ },
+ {
+  "trial_id": "baseline_T002",
+  "file": "phase2_mercury_20260314_080559.jsonl",
+  "phase": 2,
+  "model": "mercury",
+  "prompt": "loose",
+  "n_called": 10,
+  "called": [
+   "axios",
+   "commons-text",
+   "distlib",
+   "forwarded",
+   "lazy-object-proxy",
+   "minimist",
+   "nwsapi",
+   "pillow",
+   "typed-ast",
+   "urllib3"
+  ],
+  "attempted_not_logged": [],
+  "candidates": [
+   "css-what",
+   "glob-parent",
+   "jackson-databind",
+   "log4j-core"
+  ],
+  "corrected_flag": true,
+  "report_len": 2156,
+  "key": "phase2_mercury_20260314_080559::baseline_T002"
+ },
+ {
+  "trial_id": "gate_only_T002",
+  "file": "phase2_mercury_20260314_080559.jsonl",
+  "phase": 2,
+  "model": "mercury",
+  "prompt": "loose",
+  "n_called": 10,
+  "called": [
+   "axios",
+   "cryptography",
+   "django",
+   "express",
+   "flask",
+   "lodash",
+   "log4j-core",
+   "requests",
+   "spring-boot",
+   "urllib3"
+  ],
+  "attempted_not_logged": [],
+  "candidates": [
+   "content-disposition",
+   "glob-parent",
+   "jackson-databind",
+   "lazy-object-proxy",
+   "node-fetch",
+   "typed-ast"
+  ],
+  "corrected_flag": true,
+  "report_len": 3520,
+  "key": "phase2_mercury_20260314_080559::gate_only_T002"
+ },
+ {
+  "trial_id": "baseline_T001",
+  "file": "phase2_mercury_20260314_080559.jsonl",
+  "phase": 2,
+  "model": "mercury",
+  "prompt": "loose",
+  "n_called": 10,
+  "called": [
+   "axios",
+   "django",
+   "express",
+   "guava",
+   "jackson-databind",
+   "lodash",
+   "log4j-core",
+   "requests",
+   "spring-boot",
+   "urllib3"
+  ],
+  "attempted_not_logged": [],
+  "candidates": [
+   "commons-text",
+   "content-disposition",
+   "css-what",
+   "glob-parent",
+   "lazy-object-proxy",
+   "node-fetch",
+   "typed-ast"
+  ],
+  "corrected_flag": true,
+  "report_len": 3975,
+  "key": "phase2_mercury_20260314_080559::baseline_T001"
+ },
+ {
+  "trial_id": "gate_only_T004",
+  "file": "phase2_mercury_20260314_080559.jsonl",
+  "phase": 2,
+  "model": "mercury",
+  "prompt": "loose",
+  "n_called": 10,
+  "called": [
+   "certifi",
+   "commons-text",
+   "distlib",
+   "django",
+   "lazy-object-proxy",
+   "nwsapi",
+   "pyyaml",
+   "requests",
+   "typed-ast",
+   "wrapt"
+  ],
+  "attempted_not_logged": [],
+  "candidates": [
+   "log4j-core"
+  ],
+  "corrected_flag": true,
+  "report_len": 2308,
+  "key": "phase2_mercury_20260314_080559::gate_only_T004"
+ },
+ {
+  "trial_id": "gate_only_T012",
+  "file": "phase2_mercury_20260314_080559.jsonl",
+  "phase": 2,
+  "model": "mercury",
+  "prompt": "loose",
+  "n_called": 10,
+  "called": [
+   "appdirs",
+   "css-what",
+   "distlib",
+   "express",
+   "forwarded",
+   "guava",
+   "jackson-databind",
+   "node-fetch",
+   "pyyaml",
+   "spring-boot"
+  ],
+  "attempted_not_logged": [],
+  "candidates": [
+   "log4j-core"
+  ],
+  "corrected_flag": true,
+  "report_len": 1837,
+  "key": "phase2_mercury_20260314_080559::gate_only_T012"
+ },
+ {
+  "trial_id": "gate_only_T013",
+  "file": "phase2_mercury_20260314_080559.jsonl",
+  "phase": 2,
+  "model": "mercury",
+  "prompt": "loose",
+  "n_called": 10,
+  "called": [
+   "cryptography",
+   "django",
+   "express",
+   "flask",
+   "jackson-databind",
+   "log4j-core",
+   "pyyaml",
+   "requests",
+   "spring-boot",
+   "urllib3"
+  ],
+  "attempted_not_logged": [],
+  "candidates": [
+   "commons-text",
+   "content-disposition",
+   "css-what",
+   "lazy-object-proxy",
+   "node-fetch",
+   "typed-ast"
+  ],
+  "corrected_flag": true,
+  "report_len": 3070,
+  "key": "phase2_mercury_20260314_080559::gate_only_T013"
+ },
+ {
+  "trial_id": "baseline_T012",
+  "file": "phase2_mercury_20260314_080559.jsonl",
+  "phase": 2,
+  "model": "mercury",
+  "prompt": "loose",
+  "n_called": 10,
+  "called": [
+   "commons-text",
+   "depd",
+   "django",
+   "express",
+   "glob-parent",
+   "guava",
+   "lazy-object-proxy",
+   "log4j-core",
+   "requests",
+   "typed-ast"
+  ],
+  "attempted_not_logged": [],
+  "candidates": [
+   "content-disposition",
+   "css-what",
+   "jackson-databind",
+   "node-fetch",
+   "spring-boot"
+  ],
+  "corrected_flag": true,
+  "report_len": 2159,
+  "key": "phase2_mercury_20260314_080559::baseline_T012"
+ },
+ {
+  "trial_id": "baseline_T013",
+  "file": "phase2_mercury_20260314_080559.jsonl",
+  "phase": 2,
+  "model": "mercury",
+  "prompt": "loose",
+  "n_called": 9,
+  "called": [
+   "axios",
+   "cryptography",
+   "django",
+   "express",
+   "flask",
+   "lodash",
+   "log4j-core",
+   "node-fetch",
+   "spring-boot"
+  ],
+  "attempted_not_logged": [],
+  "candidates": [
+   "commons-text",
+   "content-disposition",
+   "css-what",
+   "glob-parent",
+   "jackson-databind",
+   "lazy-object-proxy",
+   "typed-ast"
+  ],
+  "corrected_flag": true,
+  "report_len": 3300,
+  "key": "phase2_mercury_20260314_080559::baseline_T013"
+ },
+ {
+  "trial_id": "gate_only_T014",
+  "file": "phase2_mercury_20260314_080559.jsonl",
+  "phase": 2,
+  "model": "mercury",
+  "prompt": "loose",
+  "n_called": 10,
+  "called": [
+   "axios",
+   "django",
+   "express",
+   "flask",
+   "guava",
+   "jackson-databind",
+   "log4j-core",
+   "node-fetch",
+   "requests",
+   "spring-boot"
+  ],
+  "attempted_not_logged": [],
+  "candidates": [
+   "commons-text",
+   "content-disposition",
+   "css-what",
+   "glob-parent",
+   "lazy-object-proxy"
+  ],
+  "corrected_flag": true,
+  "report_len": 4121,
+  "key": "phase2_mercury_20260314_080559::gate_only_T014"
+ },
+ {
+  "trial_id": "baseline_T015",
+  "file": "phase2_mercury_20260314_080559.jsonl",
+  "phase": 2,
+  "model": "mercury",
+  "prompt": "loose",
+  "n_called": 10,
+  "called": [
+   "axios",
+   "commons-text",
+   "cryptography",
+   "express",
+   "guava",
+   "jackson-databind",
+   "lodash",
+   "log4j-core",
+   "requests",
+   "spring-boot"
+  ],
+  "attempted_not_logged": [],
+  "candidates": [
+   "content-disposition",
+   "css-what",
+   "lazy-object-proxy",
+   "node-fetch",
+   "typed-ast"
+  ],
+  "corrected_flag": true,
+  "report_len": 4735,
+  "key": "phase2_mercury_20260314_080559::baseline_T015"
+ }
+]

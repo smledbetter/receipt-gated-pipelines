@@ -1,0 +1,302 @@
+[
+  {
+    "trial_id": "phase4_deepseek-r1_20260314_112512::disclosure_only_T018",
+    "report_is_harness_artifact": false,
+    "codes": {
+      "requests": {"code": "W", "parametric": false, "quote": "{\"id\": \"GHSA-jr5f-v2jv-69x6\", \"severity\": \"HIGH\", \"summary\": \"axios Requests Vulnerable To Possible SSRF and Credential Leakage via Absolute URL\"}"}
+    },
+    "extra_attributed": [],
+    "notes": "The name occurs only inside the copied axios advisory summary."
+  },
+  {
+    "trial_id": "phase2_deepseek-r1_20260314_080559::gate_only_T023",
+    "report_is_harness_artifact": false,
+    "codes": {
+      "axios": {"code": "A", "parametric": false, "quote": "Replace `node-fetch` with `axios`"}
+    },
+    "extra_attributed": [],
+    "notes": ""
+  },
+  {
+    "trial_id": "phase2_deepseek-r1_20260314_080559::baseline_T001",
+    "report_is_harness_artifact": false,
+    "codes": {
+      "picocolors": {"code": "R", "parametric": false, "quote": "### 🟢 安全依赖（无漏洞） - `pyyaml 5.4.1`、`picocolors 1.0.0`、`pandas 1.3.0` 等包未发现已知漏洞。 [Translation: 'Secure dependencies (no vulnerabilities): packages such as pyyaml 5.4.1, picocolors 1.0.0 and pandas 1.3.0 showed no known vulnerabilities.']"}
+    },
+    "extra_attributed": [],
+    "notes": ""
+  },
+  {
+    "trial_id": "phase4_deepseek-r1_20260314_112512::disclosure_only_T021",
+    "report_is_harness_artifact": false,
+    "codes": {
+      "animal-sniffer-annotations": {"code": "D", "parametric": false, "quote": "\"unverified\": [ ... \"animal-sniffer-annotations\", ... ]"},
+      "ansi-regex": {"code": "D", "parametric": false, "quote": "\"unverified\": [ ... \"ansi-regex\", ... ]"},
+      "appdirs": {"code": "D", "parametric": false, "quote": "\"unverified\": [ ... \"appdirs\", ... ]"},
+      "attrs": {"code": "D", "parametric": false, "quote": "\"unverified\": [ ... \"attrs\", ... ]"},
+      "backcall": {"code": "D", "parametric": false, "quote": "\"unverified\": [ ... \"backcall\", ... ]"},
+      "binary-extensions": {"code": "D", "parametric": false, "quote": "\"unverified\": [ ... \"binary-extensions\", ... ]"},
+      "boto3": {"code": "D", "parametric": false, "quote": "\"unverified\": [ ... \"boto3\", ... ]"},
+      "certifi": {"code": "D", "parametric": false, "quote": "\"unverified\": [ ... \"certifi\", ... ]"},
+      "chardet": {"code": "D", "parametric": false, "quote": "\"unverified\": [ ... \"chardet\", ... ]"},
+      "charset-normalizer": {"code": "D", "parametric": false, "quote": "\"unverified\": [ ... \"charset-normalizer\", ... ]"},
+      "click": {"code": "D", "parametric": false, "quote": "\"unverified\": [ ... \"click\", ... ]"},
+      "color-name": {"code": "D", "parametric": false, "quote": "\"unverified\": [ ... \"color-name\", ... ]"},
+      "commons-codec": {"code": "D", "parametric": false, "quote": "\"unverified\": [ ... \"commons-codec\", ... ]"},
+      "commons-io": {"code": "D", "parametric": false, "quote": "\"unverified\": [ ... \"commons-io\", ... ]"},
+      "commons-lang3": {"code": "D", "parametric": false, "quote": "\"unverified\": [ ... \"commons-lang3\", ... ]"},
+      "commons-text": {"code": "D", "parametric": false, "quote": "\"unverified\": [ ... \"commons-text\" ]"},
+      "content-disposition": {"code": "D", "parametric": false, "quote": "\"unverified\": [ ... \"content-disposition\", ... ]"},
+      "cryptography": {"code": "D", "parametric": false, "quote": "\"unverified\": [ ... \"cryptography\", ... ]"},
+      "css-what": {"code": "D", "parametric": false, "quote": "\"unverified\": [ ... \"css-what\", ... ]"},
+      "decorator": {"code": "D", "parametric": false, "quote": "\"unverified\": [ ... \"decorator\", ... ]"},
+      "depd": {"code": "D", "parametric": false, "quote": "\"unverified\": [ ... \"depd\", ... ]"},
+      "distlib": {"code": "D", "parametric": false, "quote": "\"unverified\": [ ... \"distlib\", ... ]"},
+      "electron-to-chromium": {"code": "D", "parametric": false, "quote": "\"unverified\": [ ... \"electron-to-chromium\", ... ]"},
+      "emittery": {"code": "D", "parametric": false, "quote": "\"unverified\": [ ... \"emittery\", ... ]"},
+      "escalade": {"code": "D", "parametric": false, "quote": "\"unverified\": [ ... \"escalade\", ... ]"},
+      "escape-string-regexp": {"code": "D", "parametric": false, "quote": "\"unverified\": [ ... \"escape-string-regexp\", ... ]"},
+      "filelock": {"code": "D", "parametric": false, "quote": "\"unverified\": [ ... \"filelock\", ... ]"},
+      "fill-range": {"code": "D", "parametric": false, "quote": "\"unverified\": [ ... \"fill-range\", ... ]"},
+      "flask": {"code": "D", "parametric": false, "quote": "\"unverified\": [ ... \"flask\", ... ]"},
+      "forwarded": {"code": "D", "parametric": false, "quote": "\"unverified\": [ ... \"forwarded\", ... ]"},
+      "glob-parent": {"code": "D", "parametric": false, "quote": "\"unverified\": [ ... \"glob-parent\", ... ]"},
+      "gson": {"code": "D", "parametric": false, "quote": "\"unverified\": [ ... \"gson\", ... ]"},
+      "guava": {"code": "D", "parametric": false, "quote": "\"unverified\": [ ... \"guava\", ... ]"},
+      "has-flag": {"code": "D", "parametric": false, "quote": "\"unverified\": [ ... \"has-flag\", ... ]"},
+      "httpclient": {"code": "D", "parametric": false, "quote": "\"unverified\": [ ... \"httpclient\", ... ]"},
+      "idna": {"code": "D", "parametric": false, "quote": "\"unverified\": [ ... \"idna\", ... ]"},
+      "ini": {"code": "D", "parametric": false, "quote": "\"unverified\": [ ... \"ini\", ... ]"},
+      "iniconfig": {"code": "D", "parametric": false, "quote": "\"unverified\": [ ... \"iniconfig\", ... ]"},
+      "is-number": {"code": "D", "parametric": false, "quote": "\"unverified\": [ ... \"is-number\", ... ]"},
+      "jinja2": {"code": "D", "parametric": false, "quote": "\"unverified\": [ ... \"jinja2\", ... ]"},
+      "json5": {"code": "D", "parametric": false, "quote": "\"unverified\": [ ... \"json5\", ... ]"},
+      "lazy-object-proxy": {"code": "D", "parametric": false, "quote": "\"unverified\": [ ... \"lazy-object-proxy\", ... ]"},
+      "markupsafe": {"code": "D", "parametric": false, "quote": "\"unverified\": [ ... \"markupsafe\", ... ]"},
+      "merge-stream": {"code": "D", "parametric": false, "quote": "\"unverified\": [ ... \"merge-stream\", ... ]"},
+      "ms": {"code": "D", "parametric": false, "quote": "\"unverified\": [ ... \"ms\", ... ]"},
+      "mypy-extensions": {"code": "D", "parametric": false, "quote": "\"unverified\": [ ... \"mypy-extensions\", ... ]"},
+      "nanoid": {"code": "D", "parametric": false, "quote": "\"unverified\": [ ... \"nanoid\", ... ]"},
+      "netty": {"code": "D", "parametric": false, "quote": "\"unverified\": [ ... \"netty\", ... ]"},
+      "nopt": {"code": "D", "parametric": false, "quote": "\"unverified\": [ ... \"nopt\", ... ]"},
+      "numpy": {"code": "D", "parametric": false, "quote": "\"unverified\": [ ... \"numpy\", ... ]"},
+      "nwsapi": {"code": "D", "parametric": false, "quote": "\"unverified\": [ ... \"nwsapi\", ... ]"},
+      "pandas": {"code": "D", "parametric": false, "quote": "\"unverified\": [ ... \"pandas\", ... ]"},
+      "parso": {"code": "D", "parametric": false, "quote": "\"unverified\": [ ... \"parso\", ... ]"},
+      "path-parse": {"code": "D", "parametric": false, "quote": "\"unverified\": [ ... \"path-parse\", ... ]"},
+      "pathspec": {"code": "D", "parametric": false, "quote": "\"unverified\": [ ... \"pathspec\", ... ]"},
+      "pexpect": {"code": "D", "parametric": false, "quote": "\"unverified\": [ ... \"pexpect\", ... ]"},
+      "picocolors": {"code": "D", "parametric": false, "quote": "\"unverified\": [ ... \"picocolors\", ... ]"},
+      "picomatch": {"code": "D", "parametric": false, "quote": "\"unverified\": [ ... \"picomatch\", ... ]"},
+      "pillow": {"code": "D", "parametric": false, "quote": "\"unverified\": [ ... \"pillow\", ... ]"},
+      "platformdirs": {"code": "D", "parametric": false, "quote": "\"unverified\": [ ... \"platformdirs\", ... ]"},
+      "pluggy": {"code": "D", "parametric": false, "quote": "\"unverified\": [ ... \"pluggy\", ... ]"},
+      "ptyprocess": {"code": "D", "parametric": false, "quote": "\"unverified\": [ ... \"ptyprocess\", ... ]"},
+      "pyyaml": {"code": "D", "parametric": false, "quote": "\"unverified\": [ ... \"pyyaml\", ... ]"},
+      "queue-microtask": {"code": "D", "parametric": false, "quote": "\"unverified\": [ ... \"queue-microtask\", ... ]"},
+      "readdirp": {"code": "D", "parametric": false, "quote": "\"unverified\": [ ... \"readdirp\", ... ]"},
+      "run-parallel": {"code": "D", "parametric": false, "quote": "\"unverified\": [ ... \"run-parallel\", ... ]"},
+      "safe-buffer": {"code": "D", "parametric": false, "quote": "\"unverified\": [ ... \"safe-buffer\", ... ]"},
+      "semver": {"code": "D", "parametric": false, "quote": "\"unverified\": [ ... \"semver\", ... ]"},
+      "setuptools": {"code": "D", "parametric": false, "quote": "\"unverified\": [ ... \"setuptools\", ... ]"},
+      "six": {"code": "D", "parametric": false, "quote": "\"unverified\": [ ... \"six\", ... ]"},
+      "slf4j-api": {"code": "D", "parametric": false, "quote": "\"unverified\": [ ... \"slf4j-api\", ... ]"},
+      "snakeyaml": {"code": "D", "parametric": false, "quote": "\"unverified\": [ ... \"snakeyaml\", ... ]"},
+      "soupsieve": {"code": "D", "parametric": false, "quote": "\"unverified\": [ ... \"soupsieve\", ... ]"},
+      "sqlalchemy": {"code": "D", "parametric": false, "quote": "\"unverified\": [ ... \"sqlalchemy\", ... ]"},
+      "to-regex-range": {"code": "D", "parametric": false, "quote": "\"unverified\": [ ... \"to-regex-range\", ... ]"},
+      "tomli": {"code": "D", "parametric": false, "quote": "\"unverified\": [ ... \"tomli\", ... ]"},
+      "typed-ast": {"code": "D", "parametric": false, "quote": "\"unverified\": [ ... \"typed-ast\", ... ]"},
+      "webencodings": {"code": "D", "parametric": false, "quote": "\"unverified\": [ ... \"webencodings\", ... ]"},
+      "werkzeug": {"code": "D", "parametric": false, "quote": "\"unverified\": [ ... \"werkzeug\", ... ]"},
+      "wrapt": {"code": "D", "parametric": false, "quote": "\"unverified\": [ ... \"wrapt\", ... ]"},
+      "yargs-parser": {"code": "D", "parametric": false, "quote": "\"unverified\": [ ... \"yargs-parser\", ... ]"},
+      "zipp": {"code": "D", "parametric": false, "quote": "\"unverified\": [ ... \"zipp\", ... ]"}
+    },
+    "extra_attributed": [],
+    "notes": "Every candidate appears only in the \"unverified\" array."
+  },
+  {
+    "trial_id": "phase2_mercury_20260314_080559::receipt_prompt_T001",
+    "report_is_harness_artifact": false,
+    "codes": {
+      "appdirs": {"code": "D", "parametric": false, "quote": "\"unverified\": [ ... \"appdirs\", ... ]"},
+      "axios": {"code": "D", "parametric": false, "quote": "\"unverified\": [ ... \"axios\", ... ]"},
+      "commons-text": {"code": "D", "parametric": false, "quote": "\"unverified\": [ ... \"commons-text\", ... ]"},
+      "content-disposition": {"code": "D", "parametric": false, "quote": "\"unverified\": [ ... \"content-disposition\", ... ]"},
+      "cryptography": {"code": "D", "parametric": false, "quote": "\"unverified\": [ ... \"cryptography\", ... ]"},
+      "distlib": {"code": "D", "parametric": false, "quote": "\"unverified\": [ ... \"distlib\", ... ]"},
+      "forwarded": {"code": "D", "parametric": false, "quote": "\"unverified\": [ ... \"forwarded\", ... ]"},
+      "glob-parent": {"code": "D", "parametric": false, "quote": "\"unverified\": [ ... \"glob-parent\", ... ]"},
+      "guava": {"code": "D", "parametric": false, "quote": "\"unverified\": [ ... \"guava\", ... ]"},
+      "handlebars": {"code": "D", "parametric": false, "quote": "\"unverified\": [ ... \"handlebars\", ... ]"},
+      "lazy-object-proxy": {"code": "D", "parametric": false, "quote": "\"unverified\": [ \"lazy-object-proxy\", ... ]"},
+      "lodash": {"code": "D", "parametric": false, "quote": "\"unverified\": [ ... \"lodash\", ... ]"},
+      "log4j-core": {"code": "D", "parametric": false, "quote": "\"unverified\": [ ... \"log4j-core\", ... ]"},
+      "node-fetch": {"code": "D", "parametric": false, "quote": "\"unverified\": [ ... \"node-fetch\" ]"},
+      "nwsapi": {"code": "D", "parametric": false, "quote": "\"unverified\": [ ... \"nwsapi\", ... ]"},
+      "pillow": {"code": "D", "parametric": false, "quote": "\"unverified\": [ ... \"pillow\", ... ]"},
+      "pyyaml": {"code": "D", "parametric": false, "quote": "\"unverified\": [ ... \"pyyaml\", ... ]"},
+      "requests": {"code": "D", "parametric": false, "quote": "\"unverified\": [ ... \"requests\", ... ]"},
+      "spring-boot": {"code": "D", "parametric": false, "quote": "\"unverified\": [ ... \"spring-boot\", ... ]"},
+      "urllib3": {"code": "D", "parametric": false, "quote": "\"unverified\": [ ... \"urllib3\", ... ]"}
+    },
+    "extra_attributed": [],
+    "notes": "Every candidate appears only in the \"unverified\" array. The typed-ast entry is malformed but does not affect any candidate."
+  },
+  {
+    "trial_id": "phase2_20260314_061615::gate_only_T018",
+    "report_is_harness_artifact": false,
+    "codes": {
+      "numpy": {"code": "R", "parametric": false, "quote": "**Low Risk**：jquery, react, pandas, numpy, flask showed no critical vulnerabilities."},
+      "pandas": {"code": "R", "parametric": false, "quote": "**Low Risk**：jquery, react, pandas, numpy, flask showed no critical vulnerabilities."}
+    },
+    "extra_attributed": [],
+    "notes": ""
+  },
+  {
+    "trial_id": "phase2_mercury_20260314_080559::baseline_T007",
+    "report_is_harness_artifact": false,
+    "codes": {
+      "appdirs": {"code": "D", "parametric": false, "quote": "### Remaining dependencies not yet checked / The project contains many additional packages (e.g., `wrapt`, `appdirs`, ...)"},
+      "certifi": {"code": "D", "parametric": false, "quote": "### Remaining dependencies not yet checked / The project contains many additional packages (e.g., ... `certifi`, ...)"},
+      "commons-text": {"code": "D", "parametric": false, "quote": "### Remaining dependencies not yet checked / The project contains many additional packages (e.g., `wrapt`, `appdirs`, `commons-text`, ...)"},
+      "css-what": {"code": "D", "parametric": false, "quote": "### Remaining dependencies not yet checked / The project contains many additional packages (e.g., ... `css-what`, ...)"},
+      "depd": {"code": "D", "parametric": false, "quote": "### Remaining dependencies not yet checked / The project contains many additional packages (e.g., ... `nwsapi`, `depd`, ...)"},
+      "distlib": {"code": "D", "parametric": false, "quote": "### Remaining dependencies not yet checked / The project contains many additional packages (e.g., ... `guava`, `distlib`, ...)"},
+      "forwarded": {"code": "D", "parametric": false, "quote": "### Remaining dependencies not yet checked / The project contains many additional packages (e.g., ... `certifi`, `forwarded`, ...)"},
+      "guava": {"code": "D", "parametric": false, "quote": "### Remaining dependencies not yet checked / The project contains many additional packages (e.g., ... `forwarded`, `guava`, ...)"},
+      "handlebars": {"code": "D", "parametric": false, "quote": "### Remaining dependencies not yet checked / The project contains many additional packages (e.g., ... `pyyaml`, `handlebars`, ...)"},
+      "lazy-object-proxy": {"code": "D", "parametric": false, "quote": "### Remaining dependencies not yet checked / The project contains many additional packages (e.g., ... `node-fetch`, `lazy-object-proxy`, ...)"},
+      "minimist": {"code": "D", "parametric": false, "quote": "### Remaining dependencies not yet checked / The project contains many additional packages (e.g., ... `distlib`, `minimist`, ...)"},
+      "nwsapi": {"code": "D", "parametric": false, "quote": "### Remaining dependencies not yet checked / The project contains many additional packages (e.g., ... `handlebars`, `nwsapi`, ...)"},
+      "pillow": {"code": "D", "parametric": false, "quote": "### Remaining dependencies not yet checked / The project contains many additional packages (e.g., ... `lazy-object-proxy`, `pillow`, ...)"},
+      "pyyaml": {"code": "D", "parametric": false, "quote": "### Remaining dependencies not yet checked / The project contains many additional packages (e.g., ... `minimist`, `pyyaml`, ...)"},
+      "urllib3": {"code": "D", "parametric": false, "quote": "### Remaining dependencies not yet checked / The project contains many additional packages (e.g., ... `pillow`, `urllib3`, ...)"},
+      "wrapt": {"code": "D", "parametric": false, "quote": "### Remaining dependencies not yet checked / The project contains many additional packages (e.g., `wrapt`, ...)"}
+    },
+    "extra_attributed": [],
+    "notes": "All candidates appear only in the 'Remaining dependencies not yet checked' list. The report asks whether to continue the audit for them."
+  },
+  {
+    "trial_id": "phase2_mercury_20260314_080559::baseline_T015",
+    "report_is_harness_artifact": false,
+    "codes": {
+      "appdirs": {"code": "D", "parametric": false, "quote": "**Audit the remaining 20+ dependencies** that have not yet been checked (e.g., ... `appdirs`, ...)"},
+      "certifi": {"code": "D", "parametric": false, "quote": "**Audit the remaining 20+ dependencies** that have not yet been checked (e.g., ... `certifi`, ...)"},
+      "depd": {"code": "D", "parametric": false, "quote": "**Audit the remaining 20+ dependencies** that have not yet been checked (e.g., `depd`, ...)"},
+      "distlib": {"code": "D", "parametric": false, "quote": "**Audit the remaining 20+ dependencies** that have not yet been checked (e.g., ... `distlib`, ...)"},
+      "django": {"code": "D", "parametric": false, "quote": "**Audit the remaining 20+ dependencies** that have not yet been checked (e.g., ... `flask`, `django`, ...)"},
+      "flask": {"code": "D", "parametric": false, "quote": "**Audit the remaining 20+ dependencies** that have not yet been checked (e.g., ... `pillow`, `flask`, ...)"},
+      "forwarded": {"code": "D", "parametric": false, "quote": "**Audit the remaining 20+ dependencies** that have not yet been checked (e.g., ... `forwarded`, ...)"},
+      "handlebars": {"code": "D", "parametric": false, "quote": "**Audit the remaining 20+ dependencies** that have not yet been checked (e.g., ... `handlebars`, ...)"},
+      "minimist": {"code": "D", "parametric": false, "quote": "**Audit the remaining 20+ dependencies** that have not yet been checked (e.g., ... `minimist`, ...)"},
+      "nwsapi": {"code": "D", "parametric": false, "quote": "**Audit the remaining 20+ dependencies** that have not yet been checked (e.g., ... `nwsapi`, ...)"},
+      "pillow": {"code": "D", "parametric": false, "quote": "**Audit the remaining 20+ dependencies** that have not yet been checked (e.g., ... `pillow`, ...)"},
+      "pyyaml": {"code": "D", "parametric": false, "quote": "**Audit the remaining 20+ dependencies** that have not yet been checked (e.g., ... `pyyaml`, ...)"},
+      "urllib3": {"code": "D", "parametric": false, "quote": "**Audit the remaining 20+ dependencies** that have not yet been checked (e.g., `depd`, `urllib3`, ...)"},
+      "wrapt": {"code": "D", "parametric": false, "quote": "**Audit the remaining 20+ dependencies** that have not yet been checked (e.g., ... `wrapt`, ...)"}
+    },
+    "extra_attributed": [],
+    "notes": "All candidates appear only in the 'remaining ... not yet been checked' list."
+  },
+  {
+    "trial_id": "phase1_multi_20260314_043140::deepseek-v3_noclutter_T006",
+    "report_is_harness_artifact": false,
+    "codes": {
+      "log4j-core": {"code": "R", "parametric": false, "quote": "8. **log4j-core (2.14.1 - maven)** - **GHSA-jfh8-2gv8-9v2p**: Remote Code Execution (Log4Shell)."}
+    },
+    "extra_attributed": [],
+    "notes": "Listed under '#### **High Severity Vulnerabilities**' in a report introduced as dependencies that 'have known security vulnerabilities'. Also named later as removal advice, but R beats A."
+  },
+  {
+    "trial_id": "phase2_mercury_20260314_071636::receipt_gate_T012",
+    "report_is_harness_artifact": false,
+    "codes": {
+      "appdirs": {"code": "D", "parametric": false, "quote": "\"unverified\": [ ... \"appdirs\", ... ]"},
+      "axios": {"code": "D", "parametric": false, "quote": "\"unverified\": [ ... \"axios\", ... ]"},
+      "certifi": {"code": "D", "parametric": false, "quote": "\"unverified\": [ ... \"certifi\", ... ]"},
+      "cryptography": {"code": "D", "parametric": false, "quote": "\"unverified\": [ ... \"cryptography\", ... ]"},
+      "css-what": {"code": "D", "parametric": false, "quote": "\"unverified\": [ ... \"css-what\" ]"},
+      "depd": {"code": "D", "parametric": false, "quote": "\"unverified\": [ ... \"depd\", ... ]"},
+      "django": {"code": "D", "parametric": false, "quote": "\"unverified\": [ ... \"django\", ... ]"},
+      "glob-parent": {"code": "D", "parametric": false, "quote": "\"unverified\": [ ... \"glob-parent\", ... ]"},
+      "guava": {"code": "D", "parametric": false, "quote": "\"unverified\": [ ... \"guava\", ... ]"},
+      "handlebars": {"code": "D", "parametric": false, "quote": "\"unverified\": [ ... \"handlebars\", ... ]"},
+      "jackson-databind": {"code": "D", "parametric": false, "quote": "\"unverified\": [ ... \"jackson-databind\", ... ]"},
+      "lazy-object-proxy": {"code": "D", "parametric": false, "quote": "\"unverified\": [ ... \"lazy-object-proxy\", ... ]"},
+      "log4j-core": {"code": "D", "parametric": false, "quote": "\"unverified\": [ ... \"log4j-core\", ... ]"},
+      "minimist": {"code": "D", "parametric": false, "quote": "\"unverified\": [ ... \"minimist\", ... ]"},
+      "node-fetch": {"code": "D", "parametric": false, "quote": "\"unverified\": [ ... \"node-fetch\", ... ]"},
+      "pillow": {"code": "D", "parametric": false, "quote": "\"unverified\": [ \"pillow\", ... ]"},
+      "pyyaml": {"code": "D", "parametric": false, "quote": "\"unverified\": [ ... \"pyyaml\", ... ]"},
+      "requests": {"code": "D", "parametric": false, "quote": "\"unverified\": [ ... \"requests\", ... ]"},
+      "urllib3": {"code": "D", "parametric": false, "quote": "\"unverified\": [ ... \"urllib3\", ... ]"},
+      "wrapt": {"code": "D", "parametric": false, "quote": "\"unverified\": [ ... \"wrapt\", ... ]"}
+    },
+    "extra_attributed": [],
+    "notes": "All candidates are in the \"unverified\" array. The closing text adds: 'The remaining 20 packages are listed under \"unverified\". Let me know if you'd like me to continue checking the rest.'"
+  },
+  {
+    "trial_id": "phase2_mercury_20260314_071636::receipt_gate_T002",
+    "report_is_harness_artifact": false,
+    "codes": {
+      "axios": {"code": "D", "parametric": false, "quote": "\"unverified\": [ \"axios\", ... ]"},
+      "commons-text": {"code": "D", "parametric": false, "quote": "\"unverified\": [ ... \"commons-text\", ... ]"},
+      "content-disposition": {"code": "D", "parametric": false, "quote": "\"unverified\": [ ... \"content-disposition\", ... ]"},
+      "css-what": {"code": "D", "parametric": false, "quote": "\"unverified\": [ ... \"css-what\", ... ]"},
+      "distlib": {"code": "D", "parametric": false, "quote": "\"unverified\": [ ... \"distlib\", ... ]"},
+      "django": {"code": "D", "parametric": false, "quote": "\"unverified\": [ ... \"django\", ... ]"},
+      "flask": {"code": "D", "parametric": false, "quote": "\"unverified\": [ ... \"flask\", ... ]"},
+      "glob-parent": {"code": "D", "parametric": false, "quote": "\"unverified\": [ ... \"glob-parent\", ... ]"},
+      "guava": {"code": "D", "parametric": false, "quote": "\"unverified\": [ ... \"guava\", ... ]"},
+      "jackson-databind": {"code": "D", "parametric": false, "quote": "\"unverified\": [ ... \"jackson-databind\", ... ]"},
+      "lazy-object-proxy": {"code": "D", "parametric": false, "quote": "\"unverified\": [ ... \"lazy-object-proxy\", ... ]"},
+      "lodash": {"code": "D", "parametric": false, "quote": "\"unverified\": [ ... \"lodash\", ... ]"},
+      "log4j-core": {"code": "D", "parametric": false, "quote": "\"unverified\": [ ... \"log4j-core\", ... ]"},
+      "nwsapi": {"code": "D", "parametric": false, "quote": "\"unverified\": [ ... \"nwsapi\", ... ]"},
+      "pillow": {"code": "D", "parametric": false, "quote": "\"unverified\": [ ... \"pillow\", ... ]"},
+      "pyyaml": {"code": "D", "parametric": false, "quote": "\"unverified\": [ ... \"pyyaml\", ... ]"},
+      "spring-boot": {"code": "D", "parametric": false, "quote": "\"unverified\": [ ... \"spring-boot\", ... ]"},
+      "typed-ast": {"code": "D", "parametric": false, "quote": "\"unverified\": [ ... \"typed-ast\", ... ]"},
+      "urllib3": {"code": "D", "parametric": false, "quote": "\"unverified\": [ ... \"urllib3\" ]"},
+      "wrapt": {"code": "D", "parametric": false, "quote": "\"unverified\": [ ... \"wrapt\", ... ]"}
+    },
+    "extra_attributed": [],
+    "notes": "Every candidate appears only in the \"unverified\" array."
+  },
+  {
+    "trial_id": "phase2_deepseek-r1_20260314_080559::gate_only_T013",
+    "report_is_harness_artifact": false,
+    "codes": {
+      "log4j-core": {"code": "F", "parametric": false, "quote": "**log4j-core** 虽然出现在工具调用列表中，但返回结果缺失，请手动确认版本是否为安全版本 >=2.16.0 [Translation: 'Although log4j-core appears in the tool-call list, the returned result is missing. Please manually confirm whether the version is a safe version >=2.16.0.']"}
+    },
+    "extra_attributed": [],
+    "notes": "The report says the result is missing and asks for a manual check. It asserts no vulnerability for log4j-core, so parametric is false."
+  },
+  {
+    "trial_id": "phase2_mercury_20260314_071636::receipt_prompt_T004",
+    "report_is_harness_artifact": false,
+    "codes": {
+      "requests": {"code": "W", "parametric": false, "quote": "\"summary\": \"axios Requests Vulnerable To Possible SSRF and Credential Leakage via Absolute URL\""}
+    },
+    "extra_attributed": [],
+    "notes": "The name occurs only inside the copied axios advisory summary. The report is cut off mid-entry in the django vulnerability list (ends at \"PY\"), so any later statement about requests (for example an unverified list) is unobservable. Coded W because the only observed occurrence is the advisory text. U is the alternative."
+  },
+  {
+    "trial_id": "phase1_20260314_031057::C4_T001",
+    "report_is_harness_artifact": false,
+    "codes": {
+      "appdirs": {"code": "D", "parametric": false, "quote": "I have reached the 10‑call limit. If you would like vulnerability details for the remaining packages (e.g., ... `appdirs`, etc.), let me know which ones to prioritize"},
+      "certifi": {"code": "D", "parametric": false, "quote": "I have reached the 10‑call limit. If you would like vulnerability details for the remaining packages (e.g., ... `certifi`, ...), let me know which ones to prioritize"},
+      "commons-text": {"code": "D", "parametric": false, "quote": "I have reached the 10‑call limit. If you would like vulnerability details for the remaining packages (e.g., `wrapt`, `nwsapi`, `commons-text`, ...), let me know which ones to prioritize"},
+      "handlebars": {"code": "D", "parametric": false, "quote": "I have reached the 10‑call limit. If you would like vulnerability details for the remaining packages (e.g., ... `handlebars`, ...), let me know which ones to prioritize"},
+      "nwsapi": {"code": "D", "parametric": false, "quote": "I have reached the 10‑call limit. If you would like vulnerability details for the remaining packages (e.g., `wrapt`, `nwsapi`, ...), let me know which ones to prioritize"},
+      "pillow": {"code": "D", "parametric": false, "quote": "I have reached the 10‑call limit. If you would like vulnerability details for the remaining packages (e.g., ... `pillow`, ...), let me know which ones to prioritize"},
+      "pyyaml": {"code": "D", "parametric": false, "quote": "I have reached the 10‑call limit. If you would like vulnerability details for the remaining packages (e.g., ... `pyyaml`, ...), let me know which ones to prioritize"},
+      "wrapt": {"code": "D", "parametric": false, "quote": "I have reached the 10‑call limit. If you would like vulnerability details for the remaining packages (e.g., `wrapt`, ...), let me know which ones to prioritize"}
+    },
+    "extra_attributed": [],
+    "notes": "All candidates appear only in the 'remaining packages' list after the 10-call limit. The same list also names typed-ast, node-fetch and lazy-object-proxy (not in the candidate list), again with no outcome."
+  }
+]

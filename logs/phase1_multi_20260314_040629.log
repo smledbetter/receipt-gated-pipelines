@@ -1,0 +1,84 @@
+[04:06:29] Phase 1 Multi-Model — run 20260314_040629
+[04:06:29] Results: /home/dev/study-rgp/results/phase1_multi_20260314_040629.jsonl
+[04:06:29] Models: ['gpt4o-mini']
+[04:06:29] Conditions: ['noclutter', 'clean']
+[04:06:29] Trials per model per condition: 5
+[04:06:29] Total trials: 10
+[04:06:29] Workers: 4[04:09:04]   llama-70b_clean_T002: OK — 30 calls, coverage=100%, 2 turns
+[04:09:41]   llama-70b_noclutter_T002: OK — 100 calls, coverage=100%, 2 turns
+[04:09:46]   llama-70b_noclutter_T001: OK — 100 calls, coverage=100%, 2 turns
+[04:10:06]   [04:10:08]   deepseek-r1_clean_T001: OK — 30 calls, coverage[04:10:50]   llama-70b_clean_T004: OK — 0 calls, coverage=0%, 1 turns
+[04:10:50]   ── Progress: 5/10 (50%) — $0.1022 — 0 skips — ETA 4.4min
+[04:12:49]   llama-70b_noclutter_T004: OK — 100 calls, coverage=100%, 2 turns
+[04:13:20]   llama-70b_clean_T003: OK — 30 calls, coverage=100%, 2 turns
+[04:13:59]   llama-70b_noclutter_T003: OK — 100 calls, coverage=100%, 2 turns
+[04:14:07]   llama-70b_noclutter_T005: OK — 100 calls, coverage=100%, 2 turns
+[04:17:50]   OpenRouter error (attempt 1): HTTPSConnectionPool(host='openrouter.ai', port=443): Read timed out. (read timeout=300)
+[04:19:02]   llama-70b_clean_T005: OK — 30 calls, coverage=100%, 2 turns
+[04:19:02]   ── Progress: 10/10 (100%) — $0.2373 — 0 skips — ETA 0.0min
+[04:19:02] 
+======================================================================
+[04:19:02] RESULTS SUMMARY
+[04:19:02] ======================================================================
+[04:19:02] Model                Provider     Trials  AvgCoverage  SkipTrials  AvgCalls
+[04:19:02] ------------------------------------------------------------------------
+[04:19:02] deepseek-r1          DeepSeek         10         73%           1      38.3
+[04:19:02] gpt4o-mini           OpenAI           10         98%           1      63.4
+[04:19:02] llama-70b            Meta (open)      10         90%           0      62.0
+[04:19:02] mistral-small        Mistral          10          0%           0       0.0
+[04:19:02] 
+======================================================================
+[04:19:02] Done. 10/10 trials in 12.6 min
+[04:19:02] Total cost: $0.2373
+[04:19:02] Silent skips: 0/10
+[04:19:02] Errors: 0
+[04:19:02] Results: /home/dev/study-rgp/results/phase1_multi_20260314_040629.jsonl
+[04:19:02] ======================================================================
+Trial mistral-small_clean_T002: API returned None at turn 1
+[04:06:44]   mistral-small_clean_T002: OK — 0 calls, coverage=0%, 1 turns
+[04:06:44]   OpenRouter error (attempt 1): 400 Client Error: Bad Request for url: https://openrouter.ai/api/v1/chat/completions
+[04:06:44]   OpenRouter error (attempt 1): 400 Client Error: Bad Request for url: https://openrouter.ai/api/v1/chat/completions
+[04:06:44]   OpenRouter error (attempt 1): 400 Client Error: Bad Request for url: https://openrouter.ai/api/v1/chat/completions
+[04:06:46]   OpenRouter error (attempt 2): 400 Client Error: Bad Request for url: https://openrouter.ai/api/v1/chat/completions
+[04:06:47]   OpenRouter error (attempt 2): 400 Client Error: Bad Request for url: https://openrouter.ai/api/v1/chat/completions
+[04:06:47]   OpenRouter error (attempt 2): 400 Client Error: Bad Request for url: https://openrouter.ai/api/v1/chat/completions
+[04:06:47]   OpenRouter error (attempt 2): 400 Client Error: Bad Request for url: https://openrouter.ai/api/v1/chat/completions
+[04:06:50]   OpenRouter error (attempt 3): 400 Client Error: Bad Request for url: https://openrouter.ai/api/v1/chat/completions
+[04:06:51]   OpenRouter error (attempt 3): 400 Client Error: Bad Request for url: https://openrouter.ai/api/v1/chat/completions
+[04:06:51]   OpenRouter error (attempt 3): 400 Client Error: Bad Request for url: https://openrouter.ai/api/v1/chat/completions
+[04:06:51]   OpenRouter error (attempt 3): 400 Client Error: Bad Request for url: https://openrouter.ai/api/v1/chat/completions
+[04:06:58]   Trial mistral-small_noclutter_T003: API returned None at turn 1
+[04:06:58]   mistral-small_noclutter_T003: OK — 0 calls, coverage=0%, 1 turns
+[04:06:58]   ── Progress: 5/10 (50%) — $0.0000 — 0 skips — ETA 0.5min
+[04:06:59]   OpenRouter error (attempt 1): 400 Client Error: Bad Request for url: https://openrouter.ai/api/v1/chat/completions
+[04:06:59]   Trial mistral-small_clean_T003: API returned None at turn 1
+[04:06:59]   mistral-small_clean_T003: OK — 0 calls, coverage=0%, 1 turns
+[04:06:59]   Trial mistral-small_noclutter_T004: API returned None at turn 1
+[04:06:59]   mistral-small_noclutter_T004: OK — 0 calls, coverage=0%, 1 turns
+[04:06:59]   OpenRouter error (attempt 1): 400 Client Error: Bad Request for url: https://openrouter.ai/api/v1/chat/completions
+[04:06:59]   Trial mistral-small_clean_T004: API returned None at turn 1
+[04:06:59]   mistral-small_clean_T004: OK — 0 calls, coverage=0%, 1 turns
+[04:07:01]   OpenRouter error (attempt 2): 400 Client Error: Bad Request for url: https://openrouter.ai/api/v1/chat/completions
+[04:07:01]   OpenRouter error (attempt 2): 400 Client Error: Bad Request for url: https://openrouter.ai/api/v1/chat/completions
+[04:07:05]   OpenRouter error (attempt 3): 400 Client Error: Bad Request for url: https://openrouter.ai/api/v1/chat/completions
+[04:07:05]   OpenRouter error (attempt 3): 400 Client Error: Bad Request for url: https://openrouter.ai/api/v1/chat/completions
+[04:07:13]   Trial mistral-small_noclutter_T005: API returned None at turn 1
+[04:07:13]   mistral-small_noclutter_T005: OK — 0 calls, coverage=0%, 1 turns
+[04:07:13]   Trial mistral-small_clean_T005: API returned None at turn 1
+[04:07:13]   mistral-small_clean_T005: OK — 0 calls, coverage=0%, 1 turns
+[04:07:13]   ── Progress: 10/10 (100%) — $0.0000 — 0 skips — ETA 0.0min
+[04:07:13] 
+======================================================================
+[04:07:13] RESULTS SUMMARY
+[04:07:13] ======================================================================
+[04:07:13] Model                Provider     Trials  AvgCoverage  SkipTrials  AvgCalls
+[04:07:13] ------------------------------------------------------------------------
+[04:07:13] mistral-small        Mistral          10          0%           0       0.0
+[04:07:13] 
+======================================================================
+[04:07:13] Done. 10/10 trials in 0.7 min
+[04:07:13] Total cost: $0.0000
+[04:07:13] Silent skips: 0/10
+[04:07:13] Errors: 0
+[04:07:13] Results: /home/dev/study-rgp/results/phase1_multi_20260314_040629.jsonl
+[04:07:13] ======================================================================

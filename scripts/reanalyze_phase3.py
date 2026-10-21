@@ -14,9 +14,11 @@ Other trials have ini/ms removed but retain real confab packages.
 import json, re
 from pathlib import Path
 from collections import defaultdict
-from scipy.stats import fisher_exact, mannwhitneyu
+from scipy.stats import fisher_exact, mannwhitneyu, binomtest
 
-RESULTS_DIR = Path(__file__).resolve().parent.parent / "results"
+DATA_DIR = Path(__file__).resolve().parent.parent / "data"
+RESULTS_DIR = DATA_DIR  # v1 pointed at a results/ directory that does not exist
+OUT_DIR = Path(__file__).resolve().parent.parent / "analysis" / "reanalysis"
 
 # --- Load corrected Phase 2 Rig A data ---
 
@@ -26,7 +28,7 @@ def load_corrected_rig_a():
 
     for fname in ("phase2_20260314_061615_corrected.jsonl",
                   "phase2_deepseek-r1_20260314_080559_corrected.jsonl"):
-        for line in (RESULTS_DIR / fname).read_text().strip().split("\n"):
+        for line in (RESULTS_DIR / "phase2" / fname).read_text().strip().split("\n"):
             rec = json.loads(line)
             if rec["condition_key"] != "baseline":
                 continue
@@ -59,7 +61,7 @@ def main():
     lookup = load_corrected_rig_a()
 
     # Load Phase 3 data
-    p3_file = RESULTS_DIR / "phase3_gemini-flash_20260314_103603.jsonl"
+    p3_file = RESULTS_DIR / "phase3" / "phase3_gemini-flash_20260314_103603.jsonl"
     trials = [json.loads(l) for l in p3_file.read_text().strip().split("\n")]
 
     # --- Step 1: Reclassify and add corrected fields ---
@@ -70,7 +72,8 @@ def main():
         t["is_confab_input_corrected"] = len(corr_pkgs) > 0
 
     # --- Step 2: Write corrected file ---
-    out_file = RESULTS_DIR / "phase3_gemini-flash_20260314_103603_corrected.jsonl"
+    OUT_DIR.mkdir(parents=True, exist_ok=True)
+    out_file = OUT_DIR / "phase3_gemini-flash_20260314_103603_corrected.jsonl"
     with open(out_file, "w") as f:
         for t in trials:
             f.write(json.dumps(t) + "\n")
@@ -167,6 +170,23 @@ def main():
     print(f"\n  Fisher exact: ungated vs annotated propagation")
     print(f"    Ungated: {u['prop_trials']}/{u['n_confab']}, Annotated: {a['prop_trials']}/{a['n_confab']}")
     print(f"    OR = {or_ua:.3f}, p = {p_ua:.4f}")
+
+    # Paired: the same 11 inputs feed every condition, so an exact McNemar test
+    # on discordant pairs is the right test; Fisher treats them as independent.
+    def mcnemar(c1, c2):
+        b = c = 0
+        by_idx = {}
+        for t in trials:
+            if t["is_confab_input_corrected"]:
+                by_idx.setdefault(t["trial_id"].split("_A")[1], {})[t["condition_key"]] = t["propagation_count"] > 0
+        for idx, d in by_idx.items():
+            if c1 in d and c2 in d:
+                b += d[c1] and not d[c2]
+                c += d[c2] and not d[c1]
+        return b, c, (binomtest(min(b, c), b + c, 0.5).pvalue if b + c else 1.0)
+    for c1, c2 in (("ungated", "gated"), ("ungated", "annotated")):
+        b, c, p = mcnemar(c1, c2)
+        print(f"\n  Exact McNemar: {c1} vs {c2} propagation: discordant {b}/{c}, p = {p:.4f}")
 
     # Mann-Whitney: ungated vs annotated propagation counts (two-sided)
     u_counts = u["prop_pkg_counts"]

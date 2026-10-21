@@ -1,0 +1,34 @@
+[07:57:37] Phase 2: Receipt-Gated Verification — run 20260314_075737
+[07:57:37] Results: /home/dev/study-rgp/results/phase2_deepseek-r1_20260314_075737.jsonl
+[07:57:37] Model: DeepSeek R1 (deepseek/deepseek-r1)
+[07:57:37] List size: 100, Error rate: 0.1
+[07:57:37] Conditions: ['baseline', 'receipt_prompt', 'gate_only', 'receipt_gate']
+[07:57:37] Trials per condition: 1
+[07:57:37] Total trials: 4
+[07:57:37] Workers: 8
+[07:59:18]   baseline_T001: cov=15% | calls=15
+[08:00:34]   receipt_gate_T001: Tool call error: Unterminated string starting at: line 1 column 18 (char 17)
+[08:02:38]   OpenRouter error (attempt 1): HTTPSConnectionPool(host='openrouter.ai', port=443): Read timed out. (read timeout=300)
+[08:04:02]   receipt_gate_T001: cov=76% | calls=76 | gate:V=35/C=0 | echoes=35
+[08:04:17]   gate_only_T001: cov=13% | calls=13 | gate:V=0/C=0
+[08:05:35]   receipt_prompt_T001: cov=88% | calls=88 | echoes=7
+[08:05:35] 
+===========================================================================
+[08:05:35] PHASE 2 RESULTS SUMMARY
+[08:05:35] ===========================================================================
+[08:05:35] 
+Condition            N   AvgCov  SkipTrials  ConfabRate  GateVerified  GateCaught  EchoRate
+[08:05:35] ------------------------------------------------------------------------------------------------
+[08:05:35] baseline             1     15%           0         0%             0           0       0%
+[08:05:35] receipt_prompt       1     88%           0         0%             0           0       8%
+[08:05:35] gate_only            1     13%           0         0%             0           0       0%
+[08:05:35] receipt_gate         1     76%           0         0%            35           0      46%
+[08:05:35] 
+===========================================================================
+[08:05:35] Done. 4/4 trials in 8.0 min
+[08:05:35] Total cost: $0.1706
+[08:05:35] Silent skips: 0/4
+[08:05:35] Gate catches: 0
+[08:05:35] Errors: 0
+[08:05:35] Results: /home/dev/study-rgp/results/phase2_deepseek-r1_20260314_075737.jsonl
+[08:05:35] ===========================================================================

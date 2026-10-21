@@ -1,0 +1,46 @@
+[04:31:40] Phase 1 Multi-Model — run 20260314_043140
+[04:31:40] Results: /home/dev/study-rgp/results/phase1_multi_20260314_043140.jsonl
+[04:31:40] Models: ['deepseek-v3']
+[04:31:40] Conditions: ['noclutter']
+[04:31:40] Trials per model per condition: 10
+[04:31:40] Total trials: 10
+[04:31:40] Workers: 4
+[04:33:01]   deepseek-r1_noclutter_T001: SKIP — 4 confabulated, coverage=15%, 15 calls
+[04:33:42]   Trial deepseek-v3_noclutter_T002: Tool call error: Expecting property name enclosed in double quotes: line 1 column 22 (char 21)
+[04:33:47]   Trial deepseek-v3_noclu[04:34:31]   deepseek-r1_noclutter_T009: SKIP — 1 confabulated, coverage=10%, 10 calls
+[04:34:47]   deepseek-r1_noclutter_T003: OK — 76 calls, coverage=76%, 2 turns
+[04:34:47]   ── Progress: 5/20 (25%) — $0.1478 — 4 skips — ETA 9.4min
+[04:34:54]   deepseek-r1_noclutter_T002: OK — 76 calls, coverage=76%, 2 turns
+[04:34:55]   deepseek-r1_noclutter_T005: SKIP — 1 confabulated, coverage=76%, 76 calls
+[04:35:34]   deepseek-r1_noclutter_T007: SKIP — 1 confabulated, coverage=76%, 76 calls
+[04:36:04]   deepseek-r1_noclutter_T011: SKIP — 1 confabulated, coverage=10%, 10 calls
+[04:36:10]   deepseek-r1_noclutter_T008: OK — 76 calls, coverage=76%, 2 turns
+[04:36:10]   ── Progress: 10/20 (50%) — $0.2931 — 7 skips — ETA 4.5min
+[04:36:26]   deepseek-r1_noclutter_T012: SKIP — 1 confabulated, coverage=14%, 14 calls
+[04:36:28]   Trial deepseek-r1_noclutter_T010: Tool call error: Expecting property name enclosed in double quotes: line[04:36:52]   Trial deep[04:37:03]   deepseek-r1_noclutter_T014: SKIP — 1 confabulated, coverage=15%, 15 calls
+[04:37:18]   deepseek-r1_noclutter_T010: SKIP — 2 confabulated, coverage=77%, 77 calls
+[04:37:27]   Trial deepseek-r1_noclutter_T013: Tool call error: Unterminated string starting at: line 1 column 2 (char 1)
+[04:37:42]   deepseek-r1_noclutter_T017: SKIP — 1 confabu[04:37:44]   Trial deepseek-v3[04:38:13]   deepseek-r1_noclutter_T015: SKIP — 1 confabulated, coverage=28%, 28 calls
+[04:38:13]   ── Progress: 15/20 (75%) — $0.4363 — 12 skips — ETA 2.2min
+[04:38:16]   deepseek-r1_noclutter_T016: SKIP — 1 confabulated, coverage=15%, 16 calls
+[04:38:22]   deepseek-r1_noclutter_T013: OK — 76 calls, coverage=76%, 2 turns
+[04:38:54]   deepseek-r1_noclutter_T018: OK — 10 calls, coverage=10%, 2 turns
+[04:39:07]   deepseek-r1_noclutter_T019: OK — 16 calls, coverage=16%, 2 turns
+[04:40:29]   deepseek-r1_noclutter_T020: SKIP — 2 confabulated, coverage=76%, 76 calls
+[04:40:29]   ── Progress: 20/20 (100%) — $0.5521 — 14 skips — ETA 0.0min
+[04:40:29] 
+======================================================================
+[04:40:29] RESULTS SUMMARY
+[04:40:29] ======================================================================
+[04:40:29] Model                Provider     Trials  AvgCoverage  SkipTrials  AvgCalls
+[04:40:29] ------------------------------------------------------------------------
+[04:40:29] deepseek-r1          DeepSeek         20         39%          14      38.9
+[04:40:29] deepseek-v3          DeepSeek         10         62%           7      62.3
+[04:40:29] 
+======================================================================
+[04:40:29] Done. 20/20 trials in 8.8 min
+[04:40:29] Total cost: $0.5521
+[04:40:29] Silent skips: 14/20
+[04:40:29] Errors: 0
+[04:40:29] Results: /home/dev/study-rgp/results/phase1_multi_20260314_043140.jsonl
+[04:40:29] ======================================================================

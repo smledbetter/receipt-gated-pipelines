@@ -1,0 +1,27 @@
+[11:19:58] Phase 4: Prompt Component Disentanglement - run 20260314_111958
+[11:19:58] Results: /home/dev/study-rgp/results/phase4_deepseek-r1_20260314_111958.jsonl
+[11:19:58] Model: DeepSeek R1 (deepseek/deepseek-r1)
+[11:19:58] List size: 100, Error rate: 0.1
+[11:19:58] Conditions: ['echo_only', 'disclosure_only']
+[11:19:58] Trials per condition: 1
+[11:19:58] Total trials: 2
+[11:19:58] Workers: 8
+[11:24:43]   echo_only_T001: cov=76% | calls=76 | echoes=31
+[11:24:44]   disclosure_only_T001: cov=76% | calls=76 | unverif=70
+[11:24:44] 
+================================================================================
+[11:24:44] PHASE 4 RESULTS SUMMARY
+[11:24:44] ================================================================================
+[11:24:44] 
+Condition            N   AvgCov ConfabTrials ConfabRate  LowMode  EchoRate  SelfUnverif
+[11:24:44] ----------------------------------------------------------------------------------------------------
+[11:24:44] echo_only            1     76%            0        0%        0      41%         0.0
+[11:24:44] disclosure_only      1     76%            0        0%        0       0%        70.0
+[11:24:44] 
+================================================================================
+[11:24:44] Done. 2/2 trials in 4.8 min
+[11:24:44] Total cost: $0.0667
+[11:24:44] Silent skips: 0/2
+[11:24:44] Errors: 0
+[11:24:44] Results: /home/dev/study-rgp/results/phase4_deepseek-r1_20260314_111958.jsonl
+[11:24:44] ================================================================================
